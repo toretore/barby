@@ -1,0 +1,384 @@
+module Barby
+
+
+  #Code 128 barcodes
+  class Code128 < Barcode1D
+
+    ENCODINGS = {
+      0 => "11011001100", 1 => "11001101100", 2 => "11001100110",
+      3 => "10010011000", 4 => "10010001100", 5 => "10001001100",
+      6 => "10011001000", 7 => "10011000100", 8 => "10001100100",
+      9 => "11001001000", 10 => "11001000100", 11 => "11000100100",
+      12 => "10110011100", 13 => "10011011100", 14 => "10011001110",
+      15 => "10111001100", 16 => "10011101100", 17 => "10011100110",
+      18 => "11001110010", 19 => "11001011100", 20 => "11001001110",
+      21 => "11011100100", 22 => "11001110100", 23 => "11101101110",
+      24 => "11101001100", 25 => "11100101100", 26 => "11100100110",
+      27 => "11101100100", 28 => "11100110100", 29 => "11100110010",
+      30 => "11011011000", 31 => "11011000110", 32 => "11000110110",
+      33 => "10100011000", 34 => "10001011000", 35 => "10001000110",
+      36 => "10110001000", 37 => "10001101000", 38 => "10001100010",
+      39 => "11010001000", 40 => "11000101000", 41 => "11000100010",
+      42 => "10110111000", 43 => "10110001110", 44 => "10001101110",
+      45 => "10111011000", 46 => "10111000110", 47 => "10001110110",
+      48 => "11101110110", 49 => "11010001110", 50 => "11000101110",
+      51 => "11011101000", 52 => "11011100010", 53 => "11011101110",
+      54 => "11101011000", 55 => "11101000110", 56 => "11100010110",
+      57 => "11101101000", 58 => "11101100010", 59 => "11100011010",
+      60 => "11101111010", 61 => "11001000010", 62 => "11110001010",
+      63 => "10100110000", 64 => "10100001100", 65 => "10010110000",
+      66 => "10010000110", 67 => "10000101100", 68 => "10000100110",
+      69 => "10110010000", 70 => "10110000100", 71 => "10011010000",
+      72 => "10011000010", 73 => "10000110100", 74 => "10000110010",
+      75 => "11000010010", 76 => "11001010000", 77 => "11110111010",
+      78 => "11000010100", 79 => "10001111010", 80 => "10100111100",
+      81 => "10010111100", 82 => "10010011110", 83 => "10111100100",
+      84 => "10011110100", 85 => "10011110010", 86 => "11110100100",
+      87 => "11110010100", 88 => "11110010010", 89 => "11011011110",
+      90 => "11011110110", 91 => "11110110110", 92 => "10101111000",
+      93 => "10100011110", 94 => "10001011110", 95 => "10111101000",
+      96 => "10111100010", 97 => "11110101000", 98 => "11110100010",
+      99 => "10111011110", 100 => "10111101110", 101 => "11101011110",
+      102 => "11110101110", 103 => "11010000100", 104 => "11010010000",
+      105 => "11010011100"
+    }
+
+    STOP = '11000111010'
+    TERMINATE = '11'
+
+    
+    #Not sure how much I like this. It's a hack to allow GS1128 to inherit the Code128 class
+    #while still working for all character sets
+    class << self
+      alias_method :old_new, :new
+      def new(data, type=nil)
+        if type
+          raise ArgumentError, 'Type can only be given for the Code128 class, not its subclasses' unless self == Code128
+          class_for(type).new(data)
+        else
+          old_new(data)
+        end
+      end
+      def class_for(char)
+        case char
+        when 'A' then Code128A
+        when 'B' then Code128B
+        when 'C' then Code128C
+        end
+      end
+    end
+
+    
+    def initialize(data)
+      self.data = "#{data}"
+      raise ArgumentError, 'Data not valid' unless valid?
+    end
+
+
+    def data
+      @data
+    end
+
+    #Set the data for this barcode. If the barcode changes
+    #character set, an extra will be created.
+    def data=(data)
+      data, *extra = data.split(/(€[ABC])/)
+      @data = data
+      self.extra = extra.join unless extra.empty?
+    end
+
+    #An "extra" is present if the barcode changes character set. If
+    #a 128A barcode changes to C, the extra will be an instance of
+    #Code128C. Extras can themselves have an extra if the barcode
+    #changes character set again. It's like a linked list, and when
+    #there are no more extras, the barcode ends with that object.
+    #Most barcodes probably don't change charsets and don't have extras.
+    def extra
+      @extra
+    end
+
+    #Set the extra for this barcode. The argument is a string starting with the
+    #"change character set" symbol. The string may contain several character
+    #sets, in which case the extra will itself have an extra.
+    def extra=(extra)
+      raise ArgumentError, "Extra must begin with €[ABC]" unless extra =~ /^€[ABC]/
+      type = extra[/€([ABC])/, 1]
+      data = extra[/€[ABC](.*)/, 1]
+      @extra = class_for(type).new(data)
+    end
+
+    #Get an array of the individual characters for this barcode. Special
+    #characters like FNC1 will be present. Characters from extras are not
+    #present.
+    def characters
+      data.split(/(€[1234])/).map do |s|
+        if s =~ /€[1234]/
+          "FNC#{s[-1,1]}"
+        else
+          s.split(//)
+        end
+      end.flatten
+    end
+
+    #Return the encoding of this barcode as a string of 1 and 0
+    def encoding
+      start_encoding+data_encoding+extra_encoding+checksum_encoding+stop_encoding
+    end
+
+    #Returns the encoding for the data part of this barcode, without any extras
+    def data_encoding
+      characters.map do |char|
+        encoding_for char
+      end.join
+    end
+
+    #Returns the data encoding of this barcode and extras.
+    def data_encoding_with_extra_encoding
+      data_encoding+extra_encoding
+    end
+
+    #Returns the data encoding of this barcode's extra and its
+    #extra until the barcode ends.
+    def extra_encoding
+      return '' unless extra
+      change_code_encoding_for(extra) + extra.data_encoding + extra.extra_encoding
+    end
+
+
+    #Calculate the checksum for the data in this barcode. The data includes
+    #data from extras.
+    def checksum
+      pos = 0
+      (numbers+extra_numbers).inject(start_num) do |sum,number|
+        pos += 1
+        sum + (number * pos)
+      end % 103
+    end
+
+    #Get the encoding for the checksum
+    def checksum_encoding
+      encodings[checksum]
+    end
+
+
+  protected
+
+    #Returns the numeric values for the characters in the barcode in an array
+    def numbers
+      characters.map do |char|
+        values[char]
+      end
+    end
+
+    #Returns the numeric values for extras
+    def extra_numbers
+      return [] unless extra
+      [change_code_number_for(extra)] + extra.numbers + extra.extra_numbers
+    end
+
+    def encodings
+      ENCODINGS
+    end
+
+    #The start encoding starts the barcode
+    def stop_encoding
+      STOP+TERMINATE
+    end
+
+    #Find the encoding for the specified character for this barcode
+    def encoding_for(char)
+      encodings[values[char]]
+    end
+
+    #Find the numeric value for the character that changes the character
+    #set to the one represented in +barcode+
+    def change_code_number_for(barcode)
+      case barcode
+        when Code128A then values['CODEA']
+        when Code128B then values['CODEB']
+        when Code128C then values['CODEC']
+      end
+    end
+
+    #Find the encoding to change to the character set in +barcode+
+    def change_code_encoding_for(barcode)
+      encodings[change_code_number_for(barcode)]
+    end
+
+    def class_for(character)
+      self.class.class_for(character)
+    end
+
+    #Is the data in this barcode valid? Does a lookup of every character
+    #and checks if it exists in the character set.
+    def valid?
+      characters.all?{|c| values.include?(c) }
+    end
+
+
+  end
+
+
+  class Code128A < Code128
+
+    VALUES = {
+      0 => "SP",      1 => "!",        2 => "\"",
+      3 => "#",       4 => "$",        5 => "%",
+      6 => "&",       7 => "'",        8 => "(",
+      9 => ")",       10 => "*",       11 => "+",
+      12 => ",",      13 => "-",       14 => ".",
+      15 => "/",      16 => "0",       17 => "1",
+      18 => "2",      19 => "3",       20 => "4",
+      21 => "5",      22 => "6",       23 => "7",
+      24 => "8",      25 => "9",       26 => ":",
+      27 => ";",      28 => "<",       29 => "=",
+      30 => ">",      31 => "?",       32 => "@",
+      33 => "A",      34 => "B",       35 => "C",
+      36 => "D",      37 => "E",       38 => "F",
+      39 => "G",      40 => "H",       41 => "I",
+      42 => "J",      43 => "K",       44 => "L",
+      45 => "M",      46 => "N",       47 => "O",
+      48 => "P",      49 => "Q",       50 => "R",
+      51 => "S",      52 => "T",       53 => "U",
+      54 => "V",      55 => "W",       56 => "X",
+      57 => "Y",      58 => "Z",       59 => "[",
+      60 => "\\",     61 => "]",       62 => "^",
+      63 => "_",      64 => "\000",    65 => "\001",
+      66 => "\002",   67 => "\003",    68 => "\004",
+      69 => "\005",   70 => "\006",    71 => "\a",
+      72 => "\b",     73 => "\t",      74 => "\n",
+      75 => "\v",     76 => "\f",      77 => "\r",
+      78 => "\016",   79 => "\017",    80 => "\020",
+      81 => "\021",   82 => "\022",    83 => "\023",
+      84 => "\024",   85 => "\025",    86 => "\026",
+      87 => "\027",   88 => "\030",    89 => "\031",
+      90 => "\032",   91 => "\e",      92 => "\034",
+      93 => "\035",   94 => "\036",    95 => "\037",
+      96 => "FNC3",   97 => "FNC2",    98 => "SHIFT",
+      99 => "CODEC",  100 => "CODEB",  101 => "FNC4",
+      102 => "FNC1",  103 => "STARTA", 104 => "STARTB",
+      105 => "STARTC"
+    }.invert
+
+
+    #private
+
+      def values
+        VALUES
+      end
+
+      def start_num
+        values['STARTA']
+      end
+
+      def start_encoding
+        encodings[values['STARTA']]
+      end
+
+  end
+
+
+  class Code128B < Code128
+
+    VALUES = {
+      0 => "SP", 1 => "!", 2 => "\"", 3 => "#", 4 => "$", 5 => "%",
+      6 => "&", 7 => "'", 8 => "(", 9 => ")", 10 => "*", 11 => "+",
+      12 => ",", 13 => "-", 14 => ".", 15 => "/", 16 => "0", 17 => "1",
+      18 => "2", 19 => "3", 20 => "4", 21 => "5", 22 => "6", 23 => "7",
+      24 => "8", 25 => "9", 26 => ":", 27 => ";", 28 => "<", 29 => "=",
+      30 => ">", 31 => "?", 32 => "@", 33 => "A", 34 => "B", 35 => "C",
+      36 => "D", 37 => "E", 38 => "F", 39 => "G", 40 => "H", 41 => "I",
+      42 => "J", 43 => "K", 44 => "L", 45 => "M", 46 => "N", 47 => "O",
+      48 => "P", 49 => "Q", 50 => "R", 51 => "S", 52 => "T", 53 => "U",
+      54 => "V", 55 => "W", 56 => "X", 57 => "Y", 58 => "Z", 59 => "[",
+      60 => "\\", 61 => "]", 62 => "^", 63 => "_", 64 => "`", 65 => "a",
+      66 => "b", 67 => "c", 68 => "d", 69 => "e", 70 => "f", 71 => "g",
+      72 => "h", 73 => "i", 74 => "j", 75 => "k", 76 => "l", 77 => "m",
+      78 => "n", 79 => "o", 80 => "p", 81 => "q", 82 => "r", 83 => "s",
+      84 => "t", 85 => "u", 86 => "v", 87 => "w", 88 => "x", 89 => "y",
+      90 => "z", 91 => "{", 92 => "|", 93 => "}", 94 => "~", 95 => "\177",
+      96 => "FNC3", 97 => "FNC2", 98 => "SHIFT", 99 => "CODEC", 100 => "FNC4",
+      101 => "CODEA", 102 => "FNC1", 103 => "STARTA", 104 => "STARTB",
+      105 => "STARTC",
+    }.invert
+
+
+    #private
+
+      def start_num
+        values['STARTB']
+      end
+
+      def start_encoding
+        encodings[start_num]
+      end
+
+      def values
+        VALUES
+      end
+
+  end
+
+
+  class Code128C < Code128
+
+    VALUES = {
+      0 => "00", 1 => "01", 2 => "02", 3 => "03", 4 => "04", 5 => "05",
+      6 => "06", 7 => "07", 8 => "08", 9 => "09", 10 => "10", 11 => "11",
+      12 => "12", 13 => "13", 14 => "14", 15 => "15", 16 => "16", 17 => "17",
+      18 => "18", 19 => "19", 20 => "20", 21 => "21", 22 => "22", 23 => "23",
+      24 => "24", 25 => "25", 26 => "26", 27 => "27", 28 => "28", 29 => "29",
+      30 => "30", 31 => "31", 32 => "32", 33 => "33", 34 => "34", 35 => "35",
+      36 => "36", 37 => "37", 38 => "38", 39 => "39", 40 => "40", 41 => "41",
+      42 => "42", 43 => "43", 44 => "44", 45 => "45", 46 => "46", 47 => "47",
+      48 => "48", 49 => "49", 50 => "50", 51 => "51", 52 => "52", 53 => "53",
+      54 => "54", 55 => "55", 56 => "56", 57 => "57", 58 => "58", 59 => "59",
+      60 => "60", 61 => "61", 62 => "62", 63 => "63", 64 => "64", 65 => "65",
+      66 => "66", 67 => "67", 68 => "68", 69 => "69", 70 => "70", 71 => "71",
+      72 => "72", 73 => "73", 74 => "74", 75 => "75", 76 => "76", 77 => "77",
+      78 => "78", 79 => "79", 80 => "80", 81 => "81", 82 => "82", 83 => "83",
+      84 => "84", 85 => "85", 86 => "86", 87 => "87", 88 => "88", 89 => "89",
+      90 => "90", 91 => "91", 92 => "92", 93 => "93", 94 => "94", 95 => "95",
+      96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => "CODEB", 101 => "CODEA",
+      102 => "FNC1", 103 => "STARTA", 104 => "STARTB", 105 => "STARTC"
+    }.invert
+
+
+    #Characters in 128C types are double. That is, each encoded character
+    #represents two digits or a zero-padded number from 00-99
+    def characters
+      chars = super
+      result = []
+      count = 0
+      while count < chars.size
+        if chars[count] =~ /^\d$/
+          result << "#{chars[count]}#{chars[count+1]}"
+          count += 2
+        else
+          result << chars[count]
+          count += 1
+        end
+      end
+      result
+    end
+
+
+  #private
+
+    def values
+      VALUES
+    end
+
+    def start_num
+      values['STARTC']
+    end
+
+    def start_encoding
+      encodings[start_num]
+    end
+
+
+  end
+
+
+end
