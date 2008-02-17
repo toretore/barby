@@ -269,25 +269,29 @@ describe "Function characters" do
 end
 
 
-#Polymorphic instantiation.. sounds like trouble.
-describe "Polymorphic instantiation" do
+describe "Code128 with type" do
 
-  it "should return an instance of the class determined by the type argument" do
-    Code128.new('ABC', 'A').should be_an_instance_of(Code128A)
-    Code128.new('abc', 'B').should be_an_instance_of(Code128B)
-    Code128.new('1234', 'C').should be_an_instance_of(Code128C)
+  it "should raise an exception when not given a type" do
+    lambda{ Code128.new('abc') }.should raise_error(ArgumentError)
   end
 
-  it "should always return an instance of the same class for subclasses of Code128" do
-    Code128A.new('ABC').should be_an_instance_of(Code128A)
-    Code128B.new('abc').should be_an_instance_of(Code128B)
-    Code128C.new('1234').should be_an_instance_of(Code128C)
+  it "should raise an exception when given a non-existent type" do
+    lambda{ Code128.new('abc', 'F') }.should raise_error(ArgumentError)
   end
 
-  it "should not allow type selection in subclasses of Code128" do
-    lambda{ Code128A.new('1234', 'C') }.should raise_error(ArgumentError)
-    lambda{ Code128B.new('1234', 'C') }.should raise_error(ArgumentError)
-    lambda{ Code128C.new('ABC', 'A') }.should raise_error(ArgumentError)
+  it "should give the right encoding for type A" do
+    code = Code128.new('ABC123', 'A')
+    code.encoding.should == '11010000100101000110001000101100010001000110100111001101100111001011001011100100100001101100011101011'
+  end
+
+  it "should give the right encoding for type B" do
+    code = Code128.new('abc123', 'B')
+    code.encoding.should == '11010010000100101100001001000011010000101100100111001101100111001011001011100110111011101100011101011'
+  end
+
+  it "should give the right encoding for type B" do
+    code = Code128.new('123456', 'C')
+    code.encoding.should == '11010011100101100111001000101100011100010110100011011101100011101011'
   end
 
 end
