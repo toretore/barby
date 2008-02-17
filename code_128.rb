@@ -185,14 +185,6 @@ module Barby
     #characters like FNC1 will be present. Characters from extras are not
     #present.
     def characters
-    #  chars = data.split(/(€[1234])/).map do |s|
-    #    if s =~ /€[1234]/
-    #      "FNC#{s[-1,1]}"
-    #    else
-    #      s.split(//)
-    #    end
-    #  end.flatten
-       
       chars = data.split(//)
 
       if type == 'C'
