@@ -58,7 +58,7 @@ end
 describe "Common features for multiple encodings" do
 
   before :each do
-    @data = "ABC123€Bdef€C4567"
+    @data = "ABC123\306def\3074567"
     @code = Code128A.new(@data)
   end
 
@@ -83,20 +83,20 @@ describe "Common features for multiple encodings" do
   end
 
   it "should split extra data from string on data assignment" do
-    @code.data = '123€Babc'
+    @code.data = "123\306abc"
     @code.data.should == '123'
     @code.extra.should be_an_instance_of(Code128B)
     @code.extra.data.should == 'abc'
   end
 
   it "should be be able to change its extra" do
-    @code.extra = '€C1234'
+    @code.extra = "\3071234"
     @code.extra.should be_an_instance_of(Code128C)
     @code.extra.data.should == '1234'
   end
 
   it "should split extra data from string on extra assignment" do
-    @code.extra = '€B123€C4567'
+    @code.extra = "\306123\3074567"
     @code.extra.should be_an_instance_of(Code128B)
     @code.extra.data.should == '123'
     @code.extra.extra.should be_an_instance_of(Code128C)
