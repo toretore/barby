@@ -1,4 +1,4 @@
-require 'pdfwriter_outputter'
+require File.join(File.dirname(__FILE__), '..', 'pdfwriter_outputter')
 require 'pdf/writer'
 include Barby
 
