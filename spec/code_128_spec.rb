@@ -58,7 +58,7 @@ end
 describe "Common features for multiple encodings" do
 
   before :each do
-    @data = 'ABC123€Bdef€C4567'
+    @data = "ABC123€Bdef€C4567"
     @code = Code128A.new(@data)
   end
 
@@ -247,23 +247,29 @@ end
 describe "Function characters" do
 
   it "should retain the special symbols in the data accessor" do
-    Code128A.new('€1ABC€2DEF').data.should == '€1ABC€2DEF'
-    Code128B.new('€1ABC€2DEF').data.should == '€1ABC€2DEF'
-    Code128C.new('€1123456').data.should == '€1123456'
-    Code128C.new('12€134€156').data.should == '12€134€156'
+    Code128A.new("\301ABC\301DEF").data.should == "\301ABC\301DEF"
+    Code128B.new("\301ABC\302DEF").data.should == "\301ABC\302DEF"
+    Code128C.new("\301123456").data.should == "\301123456"
+    Code128C.new("12\30134\30156").data.should == "12\30134\30156"
   end
 
-  it "should replace special string sequences with their FNC characters in the characters accessor" do
-    Code128A.new('€1ABC€2DEF').characters.should == %w(FNC1 A B C FNC2 D E F)
-    Code128B.new('€1ABC€2DEF').characters.should == %w(FNC1 A B C FNC2 D E F)
-    Code128C.new('€1123456').characters.should == %w(FNC1 12 34 56)
-    Code128C.new('12€134€156').characters.should == %w(12 FNC1 34 FNC1 56)
+  it "should keep the special symbols as characters" do
+    Code128A.new("\301ABC\301DEF").characters.should == %W(\301 A B C \301 D E F)
+    Code128B.new("\301ABC\302DEF").characters.should == %W(\301 A B C \302 D E F)
+    Code128C.new("\301123456").characters.should == %W(\301 12 34 56)
+    Code128C.new("12\30134\30156").characters.should == %W(12 \301 34 \301 56)
   end
 
   it "should not allow FNC > 1 for Code C" do
-    lambda{ Code128C.new('12€2') }.should raise_error
-    lambda{ Code128C.new('12€3') }.should raise_error
-    lambda{ Code128C.new('12€4') }.should raise_error
+    lambda{ Code128C.new("12\302") }.should raise_error
+    lambda{ Code128C.new("\30312") }.should raise_error
+    lambda{ Code128C.new("12\304") }.should raise_error
+  end
+
+  it "should be included in the encoding" do
+    a = Code128A.new("\301AB")
+    a.data_encoding.should == '111101011101010001100010001011000'
+    a.encoding.should == '11010000100111101011101010001100010001011000101000011001100011101011'
   end
 
 end

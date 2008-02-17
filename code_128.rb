@@ -1,3 +1,5 @@
+require 'barcode'
+
 module Barby
 
 
@@ -77,9 +79,9 @@ module Barby
         87 => "\027",   88 => "\030",    89 => "\031",
         90 => "\032",   91 => "\e",      92 => "\034",
         93 => "\035",   94 => "\036",    95 => "\037",
-        96 => "FNC3",   97 => "FNC2",    98 => "SHIFT",
-        99 => "CODEC",  100 => "CODEB",  101 => "FNC4",
-        102 => "FNC1",  103 => "STARTA", 104 => "STARTB",
+        96 => "\303",   97 => "\302",    98 => "SHIFT",
+        99 => "CODEC",  100 => "CODEB",  101 => "\304",
+        102 => "\301",  103 => "STARTA", 104 => "STARTB",
         105 => "STARTC"
       }.invert,
 
@@ -100,8 +102,8 @@ module Barby
         78 => "n", 79 => "o", 80 => "p", 81 => "q", 82 => "r", 83 => "s",
         84 => "t", 85 => "u", 86 => "v", 87 => "w", 88 => "x", 89 => "y",
         90 => "z", 91 => "{", 92 => "|", 93 => "}", 94 => "~", 95 => "\177",
-        96 => "FNC3", 97 => "FNC2", 98 => "SHIFT", 99 => "CODEC", 100 => "FNC4",
-        101 => "CODEA", 102 => "FNC1", 103 => "STARTA", 104 => "STARTB",
+        96 => "\303", 97 => "\302", 98 => "SHIFT", 99 => "CODEC", 100 => "\304",
+        101 => "CODEA", 102 => "\301", 103 => "STARTA", 104 => "STARTB",
         105 => "STARTC",
       }.invert,
 
@@ -123,7 +125,7 @@ module Barby
         84 => "84", 85 => "85", 86 => "86", 87 => "87", 88 => "88", 89 => "89",
         90 => "90", 91 => "91", 92 => "92", 93 => "93", 94 => "94", 95 => "95",
         96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => "CODEB", 101 => "CODEA",
-        102 => "FNC1", 103 => "STARTA", 104 => "STARTB", 105 => "STARTC"
+        102 => "\301", 103 => "STARTA", 104 => "STARTB", 105 => "STARTC"
       }.invert
     }
 
@@ -183,13 +185,15 @@ module Barby
     #characters like FNC1 will be present. Characters from extras are not
     #present.
     def characters
-      chars = data.split(/(€[1234])/).map do |s|
-        if s =~ /€[1234]/
-          "FNC#{s[-1,1]}"
-        else
-          s.split(//)
-        end
-      end.flatten
+    #  chars = data.split(/(€[1234])/).map do |s|
+    #    if s =~ /€[1234]/
+    #      "FNC#{s[-1,1]}"
+    #    else
+    #      s.split(//)
+    #    end
+    #  end.flatten
+       
+      chars = data.split(//)
 
       if type == 'C'
         result = []
