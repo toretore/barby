@@ -1,4 +1,3 @@
-require 'barcode'
 require 'code_128'
 include Barby
 
