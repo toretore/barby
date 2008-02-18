@@ -80,7 +80,7 @@ module Barby
         90 => "\032",   91 => "\e",      92 => "\034",
         93 => "\035",   94 => "\036",    95 => "\037",
         96 => "\303",   97 => "\302",    98 => "SHIFT",
-        99 => "CODEC",  100 => "CODEB",  101 => "\304",
+        99 => "\307",  100 => "\306",  101 => "\304",
         102 => "\301",  103 => "STARTA", 104 => "STARTB",
         105 => "STARTC"
       }.invert,
@@ -102,8 +102,8 @@ module Barby
         78 => "n", 79 => "o", 80 => "p", 81 => "q", 82 => "r", 83 => "s",
         84 => "t", 85 => "u", 86 => "v", 87 => "w", 88 => "x", 89 => "y",
         90 => "z", 91 => "{", 92 => "|", 93 => "}", 94 => "~", 95 => "\177",
-        96 => "\303", 97 => "\302", 98 => "SHIFT", 99 => "CODEC", 100 => "\304",
-        101 => "CODEA", 102 => "\301", 103 => "STARTA", 104 => "STARTB",
+        96 => "\303", 97 => "\302", 98 => "SHIFT", 99 => "\307", 100 => "\304",
+        101 => "\305", 102 => "\301", 103 => "STARTA", 104 => "STARTB",
         105 => "STARTC",
       }.invert,
 
@@ -124,10 +124,18 @@ module Barby
         78 => "78", 79 => "79", 80 => "80", 81 => "81", 82 => "82", 83 => "83",
         84 => "84", 85 => "85", 86 => "86", 87 => "87", 88 => "88", 89 => "89",
         90 => "90", 91 => "91", 92 => "92", 93 => "93", 94 => "94", 95 => "95",
-        96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => "CODEB", 101 => "CODEA",
+        96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => "\306", 101 => "\305",
         102 => "\301", 103 => "STARTA", 104 => "STARTB", 105 => "STARTC"
       }.invert
     }
+
+    FNC1 = "\301"
+    FNC2 = "\302"
+    FNC3 = "\303"
+    FNC4 = "\304"
+    CODEA = "\305"
+    CODEB = "\306"
+    CODEC = "\307"
 
     STOP = '11000111010'
     TERMINATE = '11'
@@ -156,7 +164,7 @@ module Barby
     #Set the data for this barcode. If the barcode changes
     #character set, an extra will be created.
     def data=(data)
-      data, *extra = data.split(/(€[ABC])/)
+      data, *extra = data.split(/([#{CODEA+CODEB+CODEC}])/)
       @data = data
       self.extra = extra.join unless extra.empty?
     end
@@ -175,9 +183,9 @@ module Barby
     #"change character set" symbol. The string may contain several character
     #sets, in which case the extra will itself have an extra.
     def extra=(extra)
-      raise ArgumentError, "Extra must begin with €[ABC]" unless extra =~ /^€[ABC]/
-      type = extra[/€([ABC])/, 1]
-      data = extra[/€[ABC](.*)/, 1]
+      raise ArgumentError, "Extra must begin with \\301, \\302 or \\303" unless extra =~ /^[#{CODEA+CODEB+CODEC}]/
+      type = extra[/([#{CODEA+CODEB+CODEC}])/, 1]
+      data = extra[/[#{CODEA+CODEB+CODEC}](.*)/, 1]
       @extra = class_for(type).new(data)
     end
 
@@ -279,9 +287,9 @@ module Barby
     #set to the one represented in +barcode+
     def change_code_number_for(barcode)
       case barcode
-        when Code128A then values['CODEA']
-        when Code128B then values['CODEB']
-        when Code128C then values['CODEC']
+        when Code128A then values[CODEA]
+        when Code128B then values[CODEB]
+        when Code128C then values[CODEC]
       end
     end
 
@@ -295,6 +303,9 @@ module Barby
       when 'A' then Code128A
       when 'B' then Code128B
       when 'C' then Code128C
+      when CODEA then Code128A
+      when CODEB then Code128B
+      when CODEC then Code128C
       end
     end
 
