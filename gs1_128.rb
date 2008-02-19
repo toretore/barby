@@ -3,6 +3,7 @@ require File.join(File.dirname(__FILE__), 'code_128')
 module Barby
 
 
+  #AKA EAN-128, UCC-128
   class GS1128 < Code128
 
     attr_accessor :application_identifier
