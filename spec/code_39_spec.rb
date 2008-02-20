@@ -9,6 +9,12 @@ describe Code39 do
     @code.spacing = 3
   end
 
+  it "should yield self on initialize" do
+    c1 = nil
+    c2 = Code39.new('TEST'){|c| c1 = c }
+    c1.should == c2
+  end
+
   it "should have the expected data" do
     @code.data.should == @data
   end
@@ -88,6 +94,11 @@ describe "Checksumming" do
 
   it "should have the expected encoding_with_checksum" do
     @code.encoding_with_checksum.should == "10010110110101101101001010110101101001010101100101101101011001010110110010101010110010110101100110101010100101101101"
+  end
+
+  it "should return the encoding with checksum when include_checksum == true" do
+    @code.include_checksum = true
+    @code.encoding.should == "10010110110101101101001010110101101001010101100101101101011001010110110010101010110010110101100110101010100101101101"
   end
 
 end

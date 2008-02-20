@@ -82,13 +82,14 @@ module Barby
     START_ENCODING = '100101101101'
     STOP_ENCODING = '100101101101'
 
-    attr_accessor :data, :spacing, :extended
+    attr_accessor :data, :spacing, :extended, :include_checksum
     
 
     def initialize(data, extended=false)
       self.data = data
       self.extended = extended
       raise(ArgumentError, "data is not valid (extended=#{extended?})") unless valid?
+      yield self if block_given?
     end
 
 
@@ -124,6 +125,7 @@ module Barby
 
 
     def encoding
+      return encoding_with_checksum if include_checksum?
       start_encoding+spacing_encoding+data_encoding+spacing_encoding+stop_encoding
     end
 
@@ -144,6 +146,10 @@ module Barby
 
     def checksum_encoding
       ENCODINGS[checksum_character]
+    end
+
+    def include_checksum?
+      include_checksum
     end
 
 
