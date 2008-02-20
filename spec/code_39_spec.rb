@@ -56,6 +56,42 @@ describe Code39 do
 
 end
 
+describe "Checksumming" do
+
+  before :each do
+    @code = Code39.new('CODE39')
+  end
+
+  it "should have the expected checksum" do
+    @code.checksum.should == 32
+  end
+
+  it "should have the expected checksum_character" do
+    @code.checksum_character.should == 'W'
+  end
+
+  it "should have the expected checksum_encoding" do
+    @code.checksum_encoding.should == '110011010101'
+  end
+
+  it "should have the expected characters_with_checksum" do
+    @code.characters_with_checksum.should == %w(C O D E 3 9 W)
+  end
+
+  it "should have the expected encoded_characters_with_checksum" do
+    @code.encoded_characters_with_checksum.should == %w(110110100101 110101101001 101011001011 110101100101 110110010101 101100101101 110011010101)
+  end
+
+  it "should have the expected data_encoding_with_checksum" do
+    @code.data_encoding_with_checksum.should == "110110100101011010110100101010110010110110101100101011011001010101011001011010110011010101"
+  end
+
+  it "should have the expected encoding_with_checksum" do
+    @code.encoding_with_checksum.should == "10010110110101101101001010110101101001010101100101101101011001010110110010101010110010110101100110101010100101101101"
+  end
+
+end
+
 
 describe "Normal encoding" do
 

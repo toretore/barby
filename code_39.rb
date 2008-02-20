@@ -77,7 +77,7 @@ module Barby
       'W' => 32,  'X' => 33,  'Y' => 34,  'Z' => 35,
       '-' => 36,  '.' => 37,  ' ' => 38,  '$' => 39,
       '/' => 40,  '+' => 41,  '%' => 42
-    }.invert
+    }
 
     START_ENCODING = '100101101101'
     STOP_ENCODING = '100101101101'
@@ -101,8 +101,16 @@ module Barby
       extended ? chars.map{|c| EXTENDED_ENCODINGS[c].split(//) }.flatten : chars
     end
 
+    def characters_with_checksum
+      characters + [checksum_character]
+    end
+
     def encoded_characters
       characters.map{|c| ENCODINGS[c] }
+    end
+
+    def encoded_characters_with_checksum
+      encoded_characters + [checksum_encoding]
     end
 
 
@@ -110,9 +118,32 @@ module Barby
       encoded_characters.join(spacing_encoding)
     end
 
+    def data_encoding_with_checksum
+      encoded_characters_with_checksum.join(spacing_encoding)
+    end
+
 
     def encoding
       start_encoding+spacing_encoding+data_encoding+spacing_encoding+stop_encoding
+    end
+
+    def encoding_with_checksum
+      start_encoding+spacing_encoding+data_encoding_with_checksum+spacing_encoding+stop_encoding
+    end
+
+
+    def checksum
+      characters.inject(0) do |sum,char|
+        sum + CHECKSUM_VALUES[char]
+      end % 43
+    end
+
+    def checksum_character
+      CHECKSUM_VALUES.invert[checksum]
+    end
+
+    def checksum_encoding
+      ENCODINGS[checksum_character]
     end
 
 
