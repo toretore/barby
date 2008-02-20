@@ -129,13 +129,13 @@ module Barby
       }.invert
     }
 
-    FNC1 = "\301"
-    FNC2 = "\302"
-    FNC3 = "\303"
-    FNC4 = "\304"
-    CODEA = "\305"
-    CODEB = "\306"
-    CODEC = "\307"
+    FNC1 = "\xc1"
+    FNC2 = "\xc2"
+    FNC3 = "\xc3"
+    FNC4 = "\xc4"
+    CODEA = "\xc5"
+    CODEB = "\xc6"
+    CODEC = "\xc7"
 
     STOP = '11000111010'
     TERMINATE = '11'
@@ -164,7 +164,7 @@ module Barby
     #Set the data for this barcode. If the barcode changes
     #character set, an extra will be created.
     def data=(data)
-      data, *extra = data.split(/([#{CODEA+CODEB+CODEC}])/)
+      data, *extra = data.split(/([#{CODEA+CODEB+CODEC}])/n)
       @data = data
       self.extra = extra.join unless extra.empty?
     end
@@ -183,9 +183,9 @@ module Barby
     #"change character set" symbol. The string may contain several character
     #sets, in which case the extra will itself have an extra.
     def extra=(extra)
-      raise ArgumentError, "Extra must begin with \\301, \\302 or \\303" unless extra =~ /^[#{CODEA+CODEB+CODEC}]/
-      type = extra[/([#{CODEA+CODEB+CODEC}])/, 1]
-      data = extra[/[#{CODEA+CODEB+CODEC}](.*)/, 1]
+      raise ArgumentError, "Extra must begin with \\301, \\302 or \\303" unless extra =~ /^[#{CODEA+CODEB+CODEC}]/n
+      type = extra[/([#{CODEA+CODEB+CODEC}])/n, 1]
+      data = extra[/[#{CODEA+CODEB+CODEC}](.*)/n, 1]
       @extra = class_for(type).new(data)
     end
 
@@ -193,7 +193,7 @@ module Barby
     #characters like FNC1 will be present. Characters from extras are not
     #present.
     def characters
-      chars = data.split(//)
+      chars = data.split(//n)
 
       if type == 'C'
         result = []
