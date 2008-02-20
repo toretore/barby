@@ -12,6 +12,12 @@ module Barby
     end
 
 
+    #Is this barcode valid?
+    def valid?
+      false
+    end
+
+
     def method_missing(name, *args, &b)#:nodoc:
       #See if an outputter has registered this method
       if self.class.outputters.include?(name)
