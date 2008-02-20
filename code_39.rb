@@ -27,7 +27,42 @@ module Barby
       'I' => '101101001101', '/' => '100100101001',
       'J' => '101011001101', '+' => '100101001001',
       'K' => '110101010011', '%' => '101001001001',
-      'L' => '101101010011', '*' => '100101101101'
+      'L' => '101101010011'#, '*' => '100101101101'
+    }
+
+    EXTENDED_ENCODINGS = {
+      "\000" => '%U',    " " => " ",     "@"  => "%V",    "`" =>    "%W",
+      "\001" => '$A',    "!" => "/A",    "A"  => "A",     "a" =>    "+A",
+      "\002" => '$B',    '"' => "/B",    "B"  => "B",     "b" =>    "+B",
+      "\003" => '$C',    "#" => "/C",    "C"  => "C",     "c" =>    "+C",
+      "\004" => '$D',    "$" => "/D",    "D"  => "D",     "d" =>    "+D",
+      "\005" => '$E',    "%" => "/E",    "E"  => "E",     "e" =>    "+E",
+      "\006" => '$F',    "&" => "/F",    "F"  => "F",     "f" =>    "+F",
+      "\007" => '$G',    "'" => "/G",    "G"  => "G",     "g" =>    "+G",
+      "\010" => '$H',    "(" => "/H",    "H"  => "H",     "h" =>    "+H",
+      "\011" => '$I',    ")" => "/I",    "I"  => "I",     "i" =>    "+I",
+      "\012" => '$J',    "*" => "/J",    "J"  => "J",     "j" =>    "+J",
+      "\013" => '$K',    "+" => "/K",    "K"  => "K",     "k" =>    "+K",
+      "\014" => '$L',    "," => "/L",    "L"  => "L",     "l" =>    "+L",
+      "\015" => '$M',    "-" => "-",     "M"  => "M",     "m" =>    "+M",
+      "\016" => '$N',    "." => ".",     "N"  => "N",     "n" =>    "+N",
+      "\017" => '$O',    "/" => "/O",    "O"  => "O",     "o" =>    "+O",
+      "\020" => '$P',    "0" => "0",     "P"  => "P",     "p" =>    "+P",
+      "\021" => '$Q',    "1" => "1",     "Q"  => "Q",     "q" =>    "+Q",
+      "\022" => '$R',    "2" => "2",     "R"  => "R",     "r" =>    "+R",
+      "\023" => '$S',    "3" => "3",     "S"  => "S",     "s" =>    "+S",
+      "\024" => '$T',    "4" => "4",     "T"  => "T",     "t" =>    "+T",
+      "\025" => '$U',    "5" => "5",     "U"  => "U",     "u" =>    "+U",
+      "\026" => '$V',    "6" => "6",     "V"  => "V",     "v" =>    "+V",
+      "\027" => '$W',    "7" => "7",     "W"  => "W",     "w" =>    "+W",
+      "\030" => '$X',    "8" => "8",     "X"  => "X",     "x" =>    "+X",
+      "\031" => '$Y',    "9" => "9",     "Y"  => "Y",     "y" =>    "+Y",
+      "\032" => '$Z',    ":" => "/Z",    "Z"  => "Z",     "z" =>    "+Z",
+      "\033" => '%A',    ";" => "%F",    "["  => "%K",    "{" =>    "%P",
+      "\034" => '%B',    "<" => "%G",    "\\" => "%L",    "|" =>    "%Q",
+      "\035" => '%C',    "=" => "%H",    "]"  => "%M",    "}" =>    "%R",
+      "\036" => '%D',    ">" => "%I",    "^"  => "%N",    "~" =>    "%S",
+      "\037" => '%E',    "?" => "%J",    "_"  => "%O",    "\177" => "%T"
     }
 
     CHECKSUM_VALUES = {
@@ -44,21 +79,26 @@ module Barby
       '/' => 40,  '+' => 41,  '%' => 42
     }.invert
 
-    START_CHARACTER = '*'
-    STOP_CHARACTER = '*'
-    START_ENCODING = ENCODINGS[START_CHARACTER]
-    STOP_ENCODING = ENCODINGS[STOP_CHARACTER]
+    START_ENCODING = '100101101101'
+    STOP_ENCODING = '100101101101'
 
-    attr_accessor :data, :spacing
+    attr_accessor :data, :spacing, :extended
     
 
-    def initialize(data)
+    def initialize(data, extended=false)
       self.data = data
+      self.extended = extended
+      raise(ArgumentError, "data is not valid (extended=#{extended?})") unless valid?
     end
 
 
-    def characters
+    def raw_characters
       data.split(//)
+    end
+
+    def characters
+      chars = raw_characters
+      extended ? chars.map{|c| EXTENDED_ENCODINGS[c].split(//) }.flatten : chars
     end
 
     def encoded_characters
@@ -85,13 +125,10 @@ module Barby
     end
 
 
-    def start_character
-      START_CHARACTER
+    def extended?
+      extended
     end
 
-    def stop_character
-      STOP_CHARACTER
-    end
 
     def start_encoding
       START_ENCODING
@@ -101,9 +138,12 @@ module Barby
       STOP_ENCODING
     end
 
-    #Code29 can encode all ASCII characters
     def valid?
-      characters.all?{|c| c[0] < 128 }
+      if extended?
+        raw_characters.all?{|c| EXTENDED_ENCODINGS.include?(c) }
+      else
+        raw_characters.all?{|c| ENCODINGS.include?(c) }
+      end
     end
 
 
