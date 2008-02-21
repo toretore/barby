@@ -30,6 +30,7 @@ module Barby
       'L' => '101101010011'#, '*' => '100101101101'
     }
 
+    #In extended mode, each character is replaced with two characters from the "normal" encoding
     EXTENDED_ENCODINGS = {
       "\000" => '%U',    " " => " ",     "@"  => "%V",    "`" =>    "%W",
       "\001" => '$A',    "!" => "/A",    "A"  => "A",     "a" =>    "+A",
@@ -79,8 +80,8 @@ module Barby
       '/' => 40,  '+' => 41,  '%' => 42
     }
 
-    START_ENCODING = '100101101101'
-    STOP_ENCODING = '100101101101'
+    START_ENCODING = '100101101101' # *
+    STOP_ENCODING = '100101101101'  # *
 
     attr_accessor :data, :spacing, :extended, :include_checksum
     
@@ -93,10 +94,14 @@ module Barby
     end
 
 
+    #Returns the characters that were passed in, no matter it they're part of
+    #the extended charset or if they're already encodable, "normal" characters
     def raw_characters
       data.split(//)
     end
 
+    #Returns the encodable characters. If extended mode is enabled, each character will
+    #first be replaced by two characters from the encodable charset
     def characters
       chars = raw_characters
       extended ? chars.map{|c| EXTENDED_ENCODINGS[c].split(//) }.flatten : chars
@@ -115,6 +120,7 @@ module Barby
     end
 
 
+    #The data part of the encoding (no start+stop characters)
     def data_encoding
       encoded_characters.join(spacing_encoding)
     end
@@ -134,6 +140,7 @@ module Barby
     end
 
 
+    #Checksum is optional
     def checksum
       characters.inject(0) do |sum,char|
         sum + CHECKSUM_VALUES[char]
@@ -148,11 +155,14 @@ module Barby
       ENCODINGS[checksum_character]
     end
 
+    #Set include_checksum to true to make +encoding+ include the checksum
     def include_checksum?
       include_checksum
     end
 
 
+    #Spacing between the characters in xdims. Spacing will be inserted
+    #between each character in the encoding
     def spacing
       @spacing || 1
     end
