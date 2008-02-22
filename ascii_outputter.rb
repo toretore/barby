@@ -9,8 +9,10 @@ module Barby
 
     def to_ascii(opts={})
       opts = {:height => 10, :xdim => 1}.merge(opts)
-      line = booleans.map{|b| (b ? '#' : ' ') * opts[:xdim] }.join
-      (0..opts[:height]).map{ line }.join("\n")
+      Array.new(
+        opts[:height],
+        booleans.map{|b| (b ? '#' : ' ') * opts[:xdim] }.join
+      ).join("\n")
     end
 
   end
