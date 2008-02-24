@@ -7,6 +7,8 @@ module Barby
   #anything, but is most likely a graphical representation of the barcode.
   #Outputters can register methods on barcodes that will be associated with
   #them.
+  #
+  #Yes, it needs a better name.
   class Outputter
 
     attr_accessor :barcode
