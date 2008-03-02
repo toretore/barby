@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'code_39')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'barcode', 'code_39')
 include Barby
 
 describe Code39 do

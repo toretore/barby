@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'outputter')
+require File.join(File.dirname(__FILE__), '..', 'outputter')
 
 module Barby
 

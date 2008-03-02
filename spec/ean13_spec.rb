@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'ean_13')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'barcode', 'ean_13')
 include Barby
 
 describe EAN13, ' validations' do

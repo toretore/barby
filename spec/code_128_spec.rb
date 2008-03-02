@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'code_128')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'barcode', 'code_128')
 include Barby
 
 

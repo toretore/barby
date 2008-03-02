@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'rmagick_outputter')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'outputter', 'rmagick_outputter')
 include Barby
 
 class TestBarcode < Barcode

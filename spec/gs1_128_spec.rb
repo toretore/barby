@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'gs1_128')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'barcode', 'gs1_128')
 include Barby
 
 describe GS1128 do
