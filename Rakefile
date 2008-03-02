@@ -1,6 +1,8 @@
 require 'rake'
 require 'rake/gempackagetask'
 require 'fileutils'
+require 'rake'
+require 'spec/rake/spectask'
 include FileUtils
 
 spec = Gem::Specification.new do |s|
@@ -25,4 +27,11 @@ end
 
 task :default => "pkg/#{spec.name}-#{spec.version}.gem" do
   puts "generated latest version"
+end
+
+desc "Run all examples"
+Spec::Rake::SpecTask.new('spec') do |t|
+    t.libs << './lib'
+    t.ruby_opts << '-rubygems'
+    t.spec_files = FileList['spec/*.rb']
 end
