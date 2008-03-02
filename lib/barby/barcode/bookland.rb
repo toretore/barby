@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'ean_13')
+require 'barby/barcode/ean_13'
 
 module Barby
 

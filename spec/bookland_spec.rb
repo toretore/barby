@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'lib', 'barcode', 'bookland')
+require 'barby/barcode/bookland'
 include Barby
 
 describe Bookland do
