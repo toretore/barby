@@ -2,6 +2,8 @@ require 'barby/outputter'
 
 module Barby
 
+  #Outputs an ASCII representation of the barcode. This is mostly useful for printing
+  #the barcode directly to the terminal for testing.
   class ASCIIOutputter < Outputter
 
     register :to_ascii

@@ -1,6 +1,29 @@
 module Barby
 
 
+  #The base class for all barcodes. It includes some method_missing magic
+  #that is used to find registered outputters.
+  #
+  #The only interface requirement of a barcode class is that is has an encoding
+  #method that returns a string consisting of 1s and 0s representing the barcode's
+  #"black" and "white" parts. One digit is the width of the "X dimension"; that is,
+  #"101100" represents a single-width bar followed by a single-width space, then
+  #a bar and a space twice that width.
+  #
+  #Example implementation:
+  #
+  # class StaticBarcode < Barby::Barcode1D
+  #  def encoding
+  #   '101100111000111100001'
+  #  end
+  # end
+  # 
+  # require 'barby/outputter/ascii_outputter'
+  # puts StaticBarcode.new.to_ascii(:height => 3)
+  #
+  # # ##  ###   ####    #
+  # # ##  ###   ####    #
+  # # ##  ###   ####    #
   class Barcode
   
     
@@ -58,9 +81,13 @@ module Barby
   end
 
 
+  #Most barcodes are one-dimensional. They have bars.
   class Barcode1D < Barcode
   end
 
+  #There is currently only support for one-dimensional barcodes,
+  #but in the future it should also be possible to support barcodes
+  #with two dimensions.
   class Barcode2D < Barcode
   end
 

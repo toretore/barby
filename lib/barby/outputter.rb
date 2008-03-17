@@ -8,12 +8,22 @@ module Barby
   #Outputters can register methods on barcodes that will be associated with
   #them.
   #
-  #Yes, it needs a better name.
+  #The basic structure of an outputter class:
+  #
+  #  class FooOutputter < Barby::Outputter
+  #    register :to_foo
+  #    def to_too
+  #      do_something_with(barcode.encoding)
+  #    end
+  #  end
+  #
+  #Barcode#to_foo will now be available to all barcodes
   class Outputter
 
     attr_accessor :barcode
 
 
+    #An outputter instance will have access to a Barcode
     def initialize(barcode)
       self.barcode = barcode
     end
@@ -52,7 +62,7 @@ module Barby
 
     #Converts the barcode's encoding (a string containing 1s and 0s)
     #to true and false values (1 == true == "black bar")
-    def booleans
+    def booleans#:doc:
       barcode.encoding.split(//).map{|c| c == '1' }
     end
 
