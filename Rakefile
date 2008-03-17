@@ -13,6 +13,7 @@ spec = Gem::Specification.new do |s|
   s.homepage = "http://tore.darell.no/"
   s.platform = Gem::Platform::RUBY
   s.summary = "A pure-Ruby barcode generator"
+  #s.rubyforge_project = "barby"
   s.files = FileList["lib/**/*"].to_a
   s.require_path = "lib"
   s.autorequire = "barby"
