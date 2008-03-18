@@ -53,8 +53,8 @@ module Barby
       widths = []
       count = nil
       
-      booleans.inject nil do |last,current|
-        if current != last
+      booleans.inject nil do |previous,current|
+        if current != previous
           widths << count if count
           count = [current]
         else
