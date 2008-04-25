@@ -1,4 +1,3 @@
-require 'png'
 require 'barby/outputter/png_outputter'
 include Barby
 
