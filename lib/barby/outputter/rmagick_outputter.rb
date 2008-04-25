@@ -37,7 +37,7 @@ module Barby
       y = margin
       booleans.each do |bar|
         if bar
-          bars.rectangle(x, y, x+(xdim-1), y+height)
+          bars.rectangle(x, y, x+(xdim-1), y+(height-1))
         end
         x += xdim
       end
