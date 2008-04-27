@@ -1,3 +1,7 @@
+* 0.1.2
+
+* Added CairoOutputter [Kouhei Sutou]
+
 * 0.1.1
 
 * Added PngOutputter that uses "png" gem
