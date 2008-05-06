@@ -4,6 +4,19 @@ module Barby
 
 
   #Code 128 barcodes
+  #
+  #Note that you must provide a type for each object, either by passing a string
+  #as a second parameter to Code128.new or by instantiating one of the child classes.
+  #
+  #You can switch type by using the CODEA, CODEB and CODEC characters:
+  #
+  # "\305" => A
+  # "\306" => B
+  # "\307" => C
+  #
+  #As an example, here's one that starts out as type A and then switches to B and then C:
+  #
+  #  Code128A.new("ABC123\306def\3074567")
   class Code128 < Barcode1D
 
     ENCODINGS = {
@@ -80,7 +93,7 @@ module Barby
         90 => "\032",   91 => "\e",      92 => "\034",
         93 => "\035",   94 => "\036",    95 => "\037",
         96 => "\303",   97 => "\302",    98 => "SHIFT",
-        99 => "\307",  100 => "\306",  101 => "\304",
+        99 => "\307",   100 => "\306",   101 => "\304",
         102 => "\301",  103 => "STARTA", 104 => "STARTB",
         105 => "STARTC"
       }.invert,
