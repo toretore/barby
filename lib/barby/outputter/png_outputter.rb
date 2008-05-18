@@ -1,3 +1,4 @@
+require 'barby/outputter'
 require 'png'
 
 module Barby

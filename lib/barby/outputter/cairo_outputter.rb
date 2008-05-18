@@ -1,3 +1,4 @@
+require 'barby/outputter'
 require 'cairo'
 require 'stringio'
 
