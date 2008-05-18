@@ -1,3 +1,4 @@
+require File.join(File.dirname(__FILE__), 'spec_helper')
 require 'barby/outputter/rmagick_outputter'
 include Barby
 

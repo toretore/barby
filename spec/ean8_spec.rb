@@ -1,3 +1,4 @@
+require File.join(File.dirname(__FILE__), 'spec_helper')
 require 'barby/barcode/ean_8'
 include Barby
 
