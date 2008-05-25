@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>annotate_pdf (Barby::PDFWriterOutputter)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/pdfwriter_outputter.rb, line 22</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">annotate_pdf</span>(<span class="ruby-identifier">pdf</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-identifier">previous_options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">k</span>, <span class="ruby-identifier">send</span>(<span class="ruby-identifier">k</span>)] }
+      <span class="ruby-identifier">options</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{k}=&quot;</span>, <span class="ruby-identifier">v</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-node">&quot;#{k}=&quot;</span>) }
+
+      <span class="ruby-identifier">xpos</span>, <span class="ruby-identifier">ypos</span> = <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>
+
+      <span class="ruby-identifier">widths</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">array</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">array</span>.<span class="ruby-identifier">first</span>
+          <span class="ruby-identifier">pdf</span>.<span class="ruby-identifier">move_to</span>(<span class="ruby-identifier">xpos</span>, <span class="ruby-identifier">ypos</span>).
+            <span class="ruby-identifier">line_to</span>(<span class="ruby-identifier">xpos</span>, <span class="ruby-identifier">ypos</span><span class="ruby-operator">+</span><span class="ruby-identifier">height</span>).
+            <span class="ruby-identifier">line_to</span>(<span class="ruby-identifier">xpos</span><span class="ruby-operator">+</span>(<span class="ruby-identifier">xdim</span><span class="ruby-operator">*</span><span class="ruby-identifier">array</span>.<span class="ruby-identifier">size</span>), <span class="ruby-identifier">ypos</span><span class="ruby-operator">+</span><span class="ruby-identifier">height</span>).
+            <span class="ruby-identifier">line_to</span>(<span class="ruby-identifier">xpos</span><span class="ruby-operator">+</span>(<span class="ruby-identifier">xdim</span><span class="ruby-operator">*</span><span class="ruby-identifier">array</span>.<span class="ruby-identifier">size</span>), <span class="ruby-identifier">ypos</span>).
+            <span class="ruby-identifier">line_to</span>(<span class="ruby-identifier">xpos</span>, <span class="ruby-identifier">ypos</span>).
+            <span class="ruby-identifier">fill</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">xpos</span> <span class="ruby-operator">+=</span> (<span class="ruby-identifier">xdim</span><span class="ruby-operator">*</span><span class="ruby-identifier">array</span>.<span class="ruby-identifier">size</span>)
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-identifier">previous_options</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{k}=&quot;</span>, <span class="ruby-identifier">v</span>) }
+
+      <span class="ruby-identifier">pdf</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Barby::RmagickOutputter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Barby::RmagickOutputter</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/barby/outputter/rmagick_outputter_rb.html">
+                lib/barby/outputter/rmagick_outputter.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Outputter.html">
+                Outputter
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Renders images from barcodes using RMagick
+</p>
+<p>
+Registers the <a href="RmagickOutputter.html#M000108">to_png</a>, <a
+href="RmagickOutputter.html#M000109">to_gif</a>, <a
+href="RmagickOutputter.html#M000110">to_jpg</a> and <a
+href="RmagickOutputter.html#M000111">to_image</a> methods
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000117">full_height</a>&nbsp;&nbsp;
+      <a href="#M000116">full_width</a>&nbsp;&nbsp;
+      <a href="#M000112">height</a>&nbsp;&nbsp;
+      <a href="#M000114">margin</a>&nbsp;&nbsp;
+      <a href="#M000109">to_gif</a>&nbsp;&nbsp;
+      <a href="#M000111">to_image</a>&nbsp;&nbsp;
+      <a href="#M000110">to_jpg</a>&nbsp;&nbsp;
+      <a href="#M000108">to_png</a>&nbsp;&nbsp;
+      <a href="#M000115">width</a>&nbsp;&nbsp;
+      <a href="#M000113">xdim</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">height</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">margin</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">xdim</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000117" class="method-detail">
+        <a name="M000117"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000117.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000117.html');return false;">
+          <span class="method-name">full_height</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="RmagickOutputter.html#M000112">height</a> of the image. This
+is the <a href="RmagickOutputter.html#M000112">height</a> of the barcode +
+the top and bottom <a href="RmagickOutputter.html#M000114">margin</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000116" class="method-detail">
+        <a name="M000116"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000116.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000116.html');return false;">
+          <span class="method-name">full_width</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The full <a href="RmagickOutputter.html#M000115">width</a> of the image.
+This is the <a href="RmagickOutputter.html#M000115">width</a> of the
+barcode + the left and right <a
+href="RmagickOutputter.html#M000114">margin</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000112" class="method-detail">
+        <a name="M000112"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000112.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000112.html');return false;">
+          <span class="method-name">height</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="RmagickOutputter.html#M000112">height</a> of the barcode in px
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000114" class="method-detail">
+        <a name="M000114"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000114.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000114.html');return false;">
+          <span class="method-name">margin</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="RmagickOutputter.html#M000114">margin</a> of each edge
+surrounding the barcode in pixels
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000109" class="method-detail">
+        <a name="M000109"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000109.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000109.html');return false;">
+          <span class="method-name">to_gif</span><span class="method-args">(*a)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string containint a GIF image
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000111" class="method-detail">
+        <a name="M000111"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000111.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000111.html');return false;">
+          <span class="method-name">to_image</span><span class="method-args">(opts={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an instance of Magick::Image
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000110" class="method-detail">
+        <a name="M000110"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000110.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000110.html');return false;">
+          <span class="method-name">to_jpg</span><span class="method-args">(*a)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string containing a JPEG image
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000108" class="method-detail">
+        <a name="M000108"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000108.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000108.html');return false;">
+          <span class="method-name">to_png</span><span class="method-args">(*a)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string containing a PNG image
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000115" class="method-detail">
+        <a name="M000115"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000115.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000115.html');return false;">
+          <span class="method-name">width</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="RmagickOutputter.html#M000115">width</a> of the barcode in px
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000113" class="method-detail">
+        <a name="M000113"></a>
+
+        <div class="method-heading">
+          <a href="RmagickOutputter.src/M000113.html" target="Code" class="method-signature"
+            onclick="popupCode('RmagickOutputter.src/M000113.html');return false;">
+          <span class="method-name">xdim</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+X dimension. 1X == 1px
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

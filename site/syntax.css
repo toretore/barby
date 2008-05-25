@@ -1,0 +1,180 @@
+/* Syntax highlighting */
+
+pre {
+  background: #000;
+  color: #fff;
+  font-size: 110%;
+  font-family: monospace;
+  text-align: left;
+  margin: 1em;
+  overflow: auto;
+}
+
+  pre code {
+    display: block;
+    padding: 1em;
+  }
+
+code.ruby {
+  
+}
+
+  code.ruby .comment {
+    color: #93B6FF;
+  }
+  
+  code.ruby .parens {
+    color: #8EFFBE;
+  }
+  
+  code.ruby .brackets {
+    color: #8EFFBE;
+  }
+  
+  code.ruby .curly {
+    color: #8EFFBE;
+  }
+  
+  code.ruby .string {
+    color: #FF8E6C;
+  }
+  
+  code.ruby .keywords {
+    color: #B1FF6C;
+  }
+  
+  code.ruby .symbol {
+    color: #FF6C9B;
+  }
+  
+  code.ruby .instance {
+    color: #C77DFF;
+  }
+  
+  code.ruby .class {
+    color: #C77DFF;
+  }
+  
+  code.ruby .numbers {
+    color: #737EFF;
+  }
+  
+  code.ruby .constants {
+    color: #FFF570;
+  }
+
+
+code.css {
+
+}
+
+  code.css .selectors {
+    color: #C2FF7F;
+  }
+  
+  code.css .properties {
+    color: #FF7F91;
+  }
+  
+  code.css .values {
+    color: #7FA8FF;
+  }
+  
+  code.css .comments {
+    color: #999;
+  }
+  
+  code.css .curly {
+    color: #E1FFC0;
+  }
+  
+  code.css .keywords {
+    color: #FF6CA3;
+  }
+
+
+code.html {
+  
+}
+
+  code.html .tag {
+    color: #5E88FF;
+  }
+  
+  code.html .attribute {
+    color: #FF665E;
+  }
+  
+  code.html .value {
+    color: #FFA35E;
+  }
+  
+  code.html .comment {
+    color: #7E92C0;
+  }
+  
+  code.html .brackets {
+    color: #A5C969;
+  }
+  
+  code.html .doctype {
+    color: #7E92C0;
+  }
+  
+  code.html .xml {
+    color: #7E92C0;
+  }
+
+
+code.javascript {
+
+}
+
+  code.javascript .keywords {
+    color: #E7EA78;
+  }
+  
+  code.javascript .string {
+    color: #EA8178;
+  }
+  
+  code.javascript .global {
+    color: #A1EA78;
+  }
+  
+  code.javascript .brackets {
+    color: #D3B1E2;
+  }
+
+  code.javascript .comment {
+    color: #89A9CC;
+  }
+
+
+code.irb {
+  
+}
+
+  code.irb .input {
+    
+  }
+  
+    code.irb .input.prompt {
+      color: #3A8838;
+    }
+    
+    code.irb .input.code {
+      color: #75B474;
+    }
+  
+  code.irb .output {
+    
+  }
+  
+    code.irb .output.prompt {
+      color: #385F88;
+    }
+    
+    code.irb .output.code {
+      color: #6A98C8;
+    }
