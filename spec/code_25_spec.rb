@@ -69,4 +69,13 @@ describe Code25 do
     @code.encoding.should == "111011101011101010101110101110101011101110111010101010101110101110111010111010101011101110101010101011101110111010111"
   end
 
+  it "should be valid" do
+    @code.should be_valid
+  end
+
+  it "should not be valid" do
+    @code.data = 'abc'
+    @code.should_not be_valid
+  end
+
 end

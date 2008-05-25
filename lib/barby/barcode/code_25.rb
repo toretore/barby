@@ -150,6 +150,11 @@ module Barby
     end
 
 
+    def valid?
+      data =~ /^[0-9]*$/
+    end
+
+
   end
 
 
