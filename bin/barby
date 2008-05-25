@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'rubygems'
+
+$: << File.join(File.dirname(__FILE__), '..', 'lib')
+require 'barby'
+
+options = {
+  :outputter => 'PngOutputter',
+  :outputter_method => 'to_png'
+}
+
+ARGV.options do |o|
+  o.banner = "  Usage: #{File.basename(__FILE__)} [OPTIONS] data"
+  o.define_head '  Generates barcodes and prints the generated output to STDOUT'
+
+  o.separator ''
+  o.separator '  EXPERIMENTAL'
+  o.separator ''
+
+  o.on('-b', '--barcode=ClassName', String, 'Barcode type'){|v| options[:barcode] = v }
+  o.on('-o', '--outputter=ClassName', String, 'Outputter'){|v| options[:outputter] = v }
+  o.on('-m', '--method=method_name', String, 'Outputter method'){|v| options[:outputter_method] = v }
+
+  o.on_tail("-h", "--help", "Show this help message.") { puts o; exit }
+    
+  o.parse!
+end
+
+#p options
+#exit
+
+require "barby/outputter/#{options[:outputter].gsub(/[A-Z]/){|c| '_'+c.downcase }[1..-1]}"
+
+barcode_class = Barby.const_get(options[:barcode])
+barcode = barcode_class.new($*)
+outputter_class = Barby.const_get(options[:outputter])
+outputter = outputter_class.new(barcode)
+
+print outputter.send(options[:outputter_method])
