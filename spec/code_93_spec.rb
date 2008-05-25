@@ -103,3 +103,34 @@ describe Code93 do
   end
 
 end
+
+
+describe "Extended mode" do
+
+  before :each do
+    @data = "Extended!"
+    @code = Code93.new(@data)
+  end
+
+  it "should be extended" do
+    @code.should be_extended
+  end
+
+  it "should convert extended characters to special shift characters" do
+    @code.characters.should == ["E", "\304", "X", "\304", "T", "\304", "E", "\304", "N", "\304", "D", "\304", "E", "\304", "D", "\303", "A"]
+  end
+
+  it "should have the expected data_encoding" do
+    @code.data_encoding.should == '110010010100110010101100110100110010110100110100110010110010010'+
+    '100110010101000110100110010110010100100110010110010010100110010110010100111010110110101000'
+  end
+
+  it "should have the expected c_checksum" do
+    @code.c_checksum.should == 9
+  end
+
+  it "should have the expected k_checksum" do
+    @code.k_checksum.should == 46
+  end
+
+end
