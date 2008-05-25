@@ -3,6 +3,10 @@ require 'cairo'
 require 'stringio'
 
 module Barby
+
+  #Uses Cairo to render a barcode to a number of formats: PNG, PS, EPS, PDF and SVG
+  #
+  #Registers methods render_to_cairo_context, to_png, to_ps, to_eps, to_pdf and to_svg
   class CairoOutputter < Outputter
 
     register :render_to_cairo_context
@@ -19,6 +23,7 @@ module Barby
     attr_writer :x, :y, :xdim, :height, :margin
 
 
+    #Render the barcode onto a Cairo context
     def render_to_cairo_context(context, options={})
       if context.respond_to?(:have_current_point?) and
           context.have_current_point?
@@ -47,6 +52,7 @@ module Barby
     end
 
 
+    #Render the barcode to a PNG image
     def to_png(options={})
       output_to_string_io do |io|
         Cairo::ImageSurface.new(options[:format],
@@ -59,6 +65,7 @@ module Barby
     end
 
 
+    #Render the barcode to a PS document
     def to_ps(options={})
       output_to_string_io do |io|
         Cairo::PSSurface.new(io,
@@ -71,11 +78,13 @@ module Barby
     end
 
 
+    #Render the barcode to an EPS document
     def to_eps(options={})
       to_ps(options.merge(:eps => true))
     end
 
 
+    #Render the barcode to a PDF document
     def to_pdf(options={})
       output_to_string_io do |io|
         Cairo::PDFSurface.new(io,
@@ -87,6 +96,7 @@ module Barby
     end
 
 
+    #Render the barcode to an SVG document
     def to_svg(options={})
       output_to_string_io do |io|
         Cairo::SVGSurface.new(io,
@@ -152,4 +162,5 @@ module Barby
 
 
   end
+
 end
