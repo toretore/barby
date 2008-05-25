@@ -2,6 +2,9 @@ require 'barby/outputter'
 
 module Barby
 
+  #Annotates a PDFWriter document with the barcode
+  #
+  #Registers the annotate_pdf method
   class PDFWriterOutputter < Outputter
 
     register :annotate_pdf
@@ -9,6 +12,13 @@ module Barby
     attr_accessor :x, :y, :height, :xdim
 
 
+    #Annotate a PDFWriter document with the barcode
+    #
+    #Valid options are:
+    #
+    #x, y   - The point in the document to start rendering from
+    #height - The height of the bars in PDF units
+    #xdim   - The X dimension in PDF units
     def annotate_pdf(pdf, options={})
       previous_options = options.map{|k,v| [k, send(k)] }
       options.each{|k,v| send("#{k}=", v) if respond_to?("#{k}=") }
@@ -49,24 +59,27 @@ module Barby
       @xdim || 1
     end
 
-    def widths
-      widths = []
-      count = nil
-      
-      booleans.inject nil do |previous,current|
-        if current != previous
-          widths << count if count
-          count = [current]
-        else
-          count << current
-        end
-        current
-      end
 
-      widths << count
-      
-      widths
-    end
+    private
+
+      def widths
+        widths = []
+        count = nil
+
+        booleans.inject nil do |previous,current|
+          if current != previous
+            widths << count if count
+            count = [current]
+          else
+            count << current
+          end
+          current
+        end
+
+        widths << count
+
+        widths
+      end
 
 
   end

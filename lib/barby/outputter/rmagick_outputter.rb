@@ -5,6 +5,8 @@ module Barby
 
 
   #Renders images from barcodes using RMagick
+  #
+  #Registers the to_png, to_gif, to_jpg and to_image methods
   class RmagickOutputter < Outputter
   
     register :to_png, :to_gif, :to_jpg, :to_image
