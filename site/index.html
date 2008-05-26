@@ -79,9 +79,9 @@ File.open('code39.png'){|f|
     <pre><code class="ruby">require 'barby'
 require 'barby/outputter/rmagick_outputter'
 
-barcode = Barby::Code39.new('Give the order that suruppu-disease shall break out', true)
-File.open('code39_rmagick.png'){|f|
-  f.write barcode.to_png
+barcode = Barby::Code128B.new('Give the order that suruppu-disease shall break out')
+File.open('code128B.gif'){|f|
+  f.write barcode.to_gif
 }</code></pre>
 
     <img src="code128b.gif" alt="Code 128B example" class="barcode" />
