@@ -91,3 +91,14 @@ img.barcode {
 ul {
   padding-left: 1em;
 }
+
+#footer {
+  font-size: 80%;
+  color: #999;
+  margin-top: 5em;
+  text-align: center;
+}
+
+  #footer a {
+    color: #999;
+  }
