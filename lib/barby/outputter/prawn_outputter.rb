@@ -27,7 +27,7 @@ module Barby
           pdf.line_to(xpos+(xdim*array.size), ypos+height)
           pdf.line_to(xpos+(xdim*array.size), ypos)
           pdf.line_to(xpos, ypos)
-          pdf.stroke
+          pdf.fill
         end
         xpos += (xdim*array.size)
       end
