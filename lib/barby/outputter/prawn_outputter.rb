@@ -17,7 +17,6 @@ module Barby
 
     def annotate_pdf(pdf, opts={})
       opts = options(opts)
-    warn opts.inspect
       xpos, ypos, height, xdim = opts[:x], opts[:y], opts[:height], opts[:xdim]
 
       widths.each do |array|
