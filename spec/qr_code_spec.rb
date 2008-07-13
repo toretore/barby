@@ -46,12 +46,12 @@ describe QRCode do
     QRCode.new('1'*30, :level => :q).size.should == 3
     QRCode.new('1'*30, :level => :h).size.should == 4
 
-    QRCode.new('1'*300, :level => :q).size.should == 16
+    QRCode.new('1'*270, :level => :l).size.should == 10
   end
 
   it "should raise ArgumentError when data too large" do
-    lambda{ QRCode.new('1'*2953, :level => :l) }.should_not raise_error(ArgumentError)
-    lambda{ QRCode.new('1'*2954, :level => :l) }.should raise_error(ArgumentError)
+    lambda{ QRCode.new('1'*271, :level => :l) }.should_not raise_error(ArgumentError)
+    lambda{ QRCode.new('1'*272, :level => :l) }.should raise_error(ArgumentError)
   end
 
 
