@@ -88,7 +88,7 @@ module Barby
     end
 
     def length
-      barcode.two_dimensional? ? barcode.encoding.first.length : barcode.endoding.length
+      barcode.two_dimensional? ? barcode.encoding.first.length : barcode.encoding.length
     end
 
 
