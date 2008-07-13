@@ -41,6 +41,12 @@ module Barby
     end
 
 
+    #Is this barcode 2D?
+    def two_dimensional?
+      is_a? Barcode2D
+    end
+
+
     def method_missing(name, *args, &b)#:nodoc:
       #See if an outputter has registered this method
       if self.class.outputters.include?(name)
@@ -83,22 +89,12 @@ module Barby
 
   #Most barcodes are one-dimensional. They have bars.
   class Barcode1D < Barcode
-
-    def two_dimensional?
-      false
-    end
-
   end
 
   #There is currently only support for one-dimensional barcodes,
   #but in the future it should also be possible to support barcodes
   #with two dimensions.
   class Barcode2D < Barcode
-
-    def two_dimensional?
-      true
-    end
-
   end
 
 
