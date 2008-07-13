@@ -18,17 +18,37 @@ module Barby
     def annotate_pdf(pdf, opts={})
       opts = options(opts)
       xpos, ypos, height, xdim = opts[:x], opts[:y], opts[:height], opts[:xdim]
+      ydim = opts[:ydim] || xdim
+      orig_xpos = xpos
 
-      widths.each do |array|
-        if array.first
-          pdf.move_to(xpos, ypos)
-          pdf.line_to(xpos, ypos+height)
-          pdf.line_to(xpos+(xdim*array.size), ypos+height)
-          pdf.line_to(xpos+(xdim*array.size), ypos)
-          pdf.line_to(xpos, ypos)
-          pdf.fill
+      if barcode.two_dimensional?
+        barcode.encoding.each do |line|
+          widths(line.split(//).map{|c| c == '1' }).each do |array|
+            if array.first
+              pdf.move_to(xpos, ypos)
+              pdf.line_to(xpos, ypos+ydim)
+              pdf.line_to(xpos+(xdim*array.size), ypos+ydim)
+              pdf.line_to(xpos+(xdim*array.size), ypos)
+              pdf.line_to(xpos, ypos)
+              pdf.fill
+            end
+            xpos += (xdim*array.size)
+          end
+          xpos = orig_xpos
+          ypos += ydim
         end
-        xpos += (xdim*array.size)
+      else
+        widths(booleans).each do |array|
+          if array.first
+            pdf.move_to(xpos, ypos)
+            pdf.line_to(xpos, ypos+height)
+            pdf.line_to(xpos+(xdim*array.size), ypos+height)
+            pdf.line_to(xpos+(xdim*array.size), ypos)
+            pdf.line_to(xpos, ypos)
+            pdf.fill
+          end
+          xpos += (xdim*array.size)
+        end
       end
 
       pdf
@@ -75,7 +95,7 @@ module Barby
     end
 
 
-    def widths
+    def widths(booleans)
       widths = []
       count = nil
 
