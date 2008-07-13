@@ -80,7 +80,7 @@ module Barby
     end
 
     def ydim
-      @ydim || 1
+      @ydim || xdim
     end
 
     def margin
