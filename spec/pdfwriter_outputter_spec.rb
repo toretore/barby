@@ -32,7 +32,7 @@ describe PDFWriterOutputter do
   end
 
   it "should have a method widths which collects continuous bars and spaces (true and false) into arrays" do
-    @outputter.widths.should == [[true],[false],[true,true],[false,false],[true,true,true],[false,false,false]]
+    @outputter.send(:widths).should == [[true],[false],[true,true],[false,false],[true,true,true],[false,false,false]]
   end
 
   it "should temporarily change attributes when given an options hash to annotate_pdf" do
