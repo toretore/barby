@@ -12,11 +12,13 @@ module Barby
 
 
     def to_ascii(opts={})
-      opts = {:height => 10, :xdim => 1, :bar => '#', :space => ' '}.merge(opts)
+      default_opts = {:height => 10, :xdim => 1, :bar => '#', :space => ' '}
+      default_opts.update(:height => 1, :bar => ' X ', :space => '   ') if barcode.two_dimensional?
+      opts = default_opts.merge(opts)
 
       if barcode.two_dimensional?
-        barcode.encoding.map do |line|
-          line_to_ascii(line.split(//).map{|s| s == '1' }, opts)
+        booleans.map do |bools|
+          line_to_ascii(bools, opts)
         end.join("\n")
       else
         line_to_ascii(booleans, opts)
