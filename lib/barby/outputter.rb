@@ -62,8 +62,15 @@ module Barby
 
     #Converts the barcode's encoding (a string containing 1s and 0s)
     #to true and false values (1 == true == "black bar")
+    #
+    #If the barcode is 2D, each line will be converted to an array
+    #in the same way
     def booleans#:doc:
-      encoding.split(//).map{|c| c == '1' }
+      if barcode.two_dimensional?
+        encoding.map{|l| l.split(//).map{|c| c == '1' } }
+      else
+        encoding.split(//).map{|c| c == '1' }
+      end
     end
 
 

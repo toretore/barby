@@ -35,6 +35,15 @@ describe "Outputter instances" do
     @outputter.send(:booleans).should == [t,f,t,t,f,f,t,t,t,f,f,f]
   end
 
+  it "should convert 2D encodings with 'booleans'" do
+    barcode = Barcode2D.new
+    def barcode.encoding; ['101100','110010']; end
+    outputter = Outputter.new(barcode)
+    outputter.send(:booleans).length.should == barcode.encoding.length
+    t, f = true, false
+    outputter.send(:booleans).should == [[t,f,t,t,f,f], [t,t,f,f,t,f]]
+  end
+
 end
 
 
