@@ -58,12 +58,6 @@ describe RmagickOutputter do
     @outputter.full_height.should == @outputter.height + (@outputter.margin * 2)
   end
 
-  it "should set writable attributes from options to to_* methods" do
-    @outputter.to_image(:xdim => 3, :height => 20)
-    @outputter.xdim.should == 3
-    @outputter.height.should == 20
-  end
-
 end
 
 describe "Rmagickoutputter#to_image" do
