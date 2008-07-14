@@ -39,7 +39,7 @@ module Barby
       y = margin
 
       if barcode.two_dimensional?
-        barcode.encoding.each do |line|
+        encoding.each do |line|
           line.split(//).map{|c| c == '1' }.each do |bar|
             if bar
               bars.rectangle(x, y, x+(xdim-1), y+(ydim-1))
@@ -67,7 +67,7 @@ module Barby
     #The height of the barcode in px
     #For 2D barcodes this is the number of "lines" * ydim
     def height
-      barcode.two_dimensional? ? (ydim * barcode.encoding.length) : (@height || 100)
+      barcode.two_dimensional? ? (ydim * encoding.length) : (@height || 100)
     end
 
     #The width of the barcode in px
@@ -77,7 +77,7 @@ module Barby
 
     #Number of modules (xdims) on the x axis
     def length
-      barcode.two_dimensional? ? barcode.encoding.first.length : barcode.encoding.length
+      barcode.two_dimensional? ? encoding.first.length : encoding.length
     end
 
     #X dimension. 1X == 1px
