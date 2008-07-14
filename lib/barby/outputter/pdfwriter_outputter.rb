@@ -27,32 +27,32 @@ module Barby
       orig_xpos = xpos
 
       if barcode.two_dimensional?
-        encoding.each do |line|
-          widths(line.split(//).map{|c| c == '1' }).each do |array|
-            if array.first
+        boolean_groups.reverse_each do |groups|
+          groups.each do |bar,amount|
+            if bar
               pdf.move_to(xpos, ypos).
                 line_to(xpos, ypos+xdim).
-                line_to(xpos+(xdim*array.size), ypos+xdim).
-                line_to(xpos+(xdim*array.size), ypos).
+                line_to(xpos+(xdim*amount), ypos+xdim).
+                line_to(xpos+(xdim*amount), ypos).
                 line_to(xpos, ypos).
                 fill
             end
-            xpos += (xdim*array.size)
+            xpos += (xdim*amount)
           end
           xpos = orig_xpos
           ypos += xdim
         end
       else
-        widths(booleans).each do |array|
-          if array.first
+        boolean_groups.each do |bar,amount|
+          if bar
             pdf.move_to(xpos, ypos).
               line_to(xpos, ypos+height).
-              line_to(xpos+(xdim*array.size), ypos+height).
-              line_to(xpos+(xdim*array.size), ypos).
+              line_to(xpos+(xdim*amount), ypos+height).
+              line_to(xpos+(xdim*amount), ypos).
               line_to(xpos, ypos).
               fill
           end
-          xpos += (xdim*array.size)
+          xpos += (xdim*amount)
         end
       end
 
@@ -77,28 +77,6 @@ module Barby
     def xdim
       @xdim || 1
     end
-
-
-    private
-
-      def widths(booleans)
-        widths = []
-        count = nil
-
-        booleans.inject nil do |previous,current|
-          if current != previous
-            widths << count if count
-            count = [current]
-          else
-            count << current
-          end
-          current
-        end
-
-        widths << count
-
-        widths
-      end
 
 
   end

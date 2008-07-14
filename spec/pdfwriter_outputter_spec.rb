@@ -31,10 +31,6 @@ describe PDFWriterOutputter do
     @outputter.should respond_to(:xdim)
   end
 
-  it "should have a method widths which collects continuous bars and spaces (true and false) into arrays" do
-    @outputter.send(:widths).should == [[true],[false],[true,true],[false,false],[true,true,true],[false,false,false]]
-  end
-
   it "should temporarily change attributes when given an options hash to annotate_pdf" do
     %w(x y height xdim).each do |m|
       @outputter.send("#{m}=", 10)

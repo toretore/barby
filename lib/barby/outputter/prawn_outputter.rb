@@ -22,32 +22,32 @@ module Barby
       orig_xpos = xpos
 
       if barcode.two_dimensional?
-        encoding.each do |line|
-          widths(line.split(//).map{|c| c == '1' }).each do |array|
-            if array.first
+        boolean_groups.reverse_each do |groups|
+          groups.each do |bar,amount|
+            if bar
               pdf.move_to(xpos, ypos)
               pdf.line_to(xpos, ypos+ydim)
-              pdf.line_to(xpos+(xdim*array.size), ypos+ydim)
-              pdf.line_to(xpos+(xdim*array.size), ypos)
+              pdf.line_to(xpos+(xdim*amount), ypos+ydim)
+              pdf.line_to(xpos+(xdim*amount), ypos)
               pdf.line_to(xpos, ypos)
               pdf.fill
             end
-            xpos += (xdim*array.size)
+            xpos += (xdim*amount)
           end
           xpos = orig_xpos
           ypos += ydim
         end
       else
-        widths(booleans).each do |array|
-          if array.first
+        boolean_groups.each do |bar,amount|
+          if bar
             pdf.move_to(xpos, ypos)
             pdf.line_to(xpos, ypos+height)
-            pdf.line_to(xpos+(xdim*array.size), ypos+height)
-            pdf.line_to(xpos+(xdim*array.size), ypos)
+            pdf.line_to(xpos+(xdim*amount), ypos+height)
+            pdf.line_to(xpos+(xdim*amount), ypos)
             pdf.line_to(xpos, ypos)
             pdf.fill
           end
-          xpos += (xdim*array.size)
+          xpos += (xdim*amount)
         end
       end
 
@@ -92,26 +92,6 @@ module Barby
 
     def height(height, margin)
       height + (margin * 2)
-    end
-
-
-    def widths(booleans)
-      widths = []
-      count = nil
-
-      booleans.inject nil do |previous,current|
-        if current != previous
-          widths << count if count
-          count = [current]
-        else
-          count << current
-        end
-        current
-      end
-
-      widths << count
-
-      widths
     end
 
 
