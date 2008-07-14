@@ -35,15 +35,30 @@ module Barby
 
       _xdim = xdim(options)
       _height = height(options)
+      original_current_x = current_x
       context.save do
         context.set_source_color(:black)
         context.fill do
-          barcode.encoding.scan(/(?:0+|1+)/).each do |codes|
-            current_width = _xdim * codes.size
-            if codes[0] == ?1
-              context.rectangle(current_x, current_y, current_width, _height)
+          if barcode.two_dimensional?
+            barcode.encoding.each do |line|
+              line.scan(/(?:0+|1+)/).each do |codes|
+                current_width = _xdim * codes.size
+                if codes[0] == ?1
+                  context.rectangle(current_x, current_y, current_width, _xdim)
+                end
+                current_x += current_width
+              end
+              current_x = original_current_x
+              current_y += _xdim
             end
-            current_x += current_width
+          else
+            barcode.encoding.scan(/(?:0+|1+)/).each do |codes|
+              current_width = _xdim * codes.size
+              if codes[0] == ?1
+                context.rectangle(current_x, current_y, current_width, _height)
+              end
+              current_x += current_width
+            end
           end
         end
       end
@@ -117,11 +132,15 @@ module Barby
     end
 
     def width(options={})
-      barcode.encoding.length * xdim(options)
+      (barcode.two_dimensional? ? barcode.encoding.first.length : barcode.encoding.length) * xdim(options)
     end
 
     def height(options={})
-      @height || options[:height] || 50
+      if barcode.two_dimensional?
+        barcode.encoding.size * xdim(options)
+      else
+        @height || options[:height] || 50
+      end
     end
 
     def full_width(options={})
