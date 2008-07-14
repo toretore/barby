@@ -40,7 +40,7 @@ module Barby
         context.set_source_color(:black)
         context.fill do
           if barcode.two_dimensional?
-            barcode.encoding.each do |line|
+            encoding.each do |line|
               line.scan(/(?:0+|1+)/).each do |codes|
                 current_width = _xdim * codes.size
                 if codes[0] == ?1
@@ -52,7 +52,7 @@ module Barby
               current_y += _xdim
             end
           else
-            barcode.encoding.scan(/(?:0+|1+)/).each do |codes|
+            encoding.scan(/(?:0+|1+)/).each do |codes|
               current_width = _xdim * codes.size
               if codes[0] == ?1
                 context.rectangle(current_x, current_y, current_width, _height)
@@ -132,12 +132,12 @@ module Barby
     end
 
     def width(options={})
-      (barcode.two_dimensional? ? barcode.encoding.first.length : barcode.encoding.length) * xdim(options)
+      (barcode.two_dimensional? ? encoding.first.length : encoding.length) * xdim(options)
     end
 
     def height(options={})
       if barcode.two_dimensional?
-        barcode.encoding.size * xdim(options)
+        encoding.size * xdim(options)
       else
         @height || options[:height] || 50
       end
