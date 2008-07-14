@@ -25,11 +25,12 @@ describe "Outputter instances" do
 
   before :each do
     @barcode = Barcode.new
-    def @barcode.encoding; '101100111000'; end
+    class << @barcode; attr_accessor :encoding; end
+    @barcode.encoding = '101100111000'
+    @outputter = Outputter.new(@barcode)
   end
 
   it "should have a method 'booleans' which converts the barcode encoding to an array of true,false values" do
-    @outputter = Class.new(Outputter).new(@barcode)
     @outputter.send(:booleans).length.should == @barcode.encoding.length
     t, f = true, false
     @outputter.send(:booleans).should == [t,f,t,t,f,f,t,t,t,f,f,f]
@@ -42,6 +43,18 @@ describe "Outputter instances" do
     outputter.send(:booleans).length.should == barcode.encoding.length
     t, f = true, false
     outputter.send(:booleans).should == [[t,f,t,t,f,f], [t,t,f,f,t,f]]
+  end
+
+  it "should have an 'encoding' attribute" do
+    @outputter.send(:encoding).should == @barcode.encoding
+  end
+
+  it "should cache encoding" do
+    @outputter.send(:encoding).should == @barcode.encoding
+    previous_encoding = @barcode.encoding
+    @barcode.encoding = '101010'
+    @outputter.send(:encoding).should == previous_encoding
+    @outputter.send(:encoding, true).should == @barcode.encoding
   end
 
 end
