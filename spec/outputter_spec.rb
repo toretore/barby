@@ -68,6 +68,21 @@ describe "Outputter instances" do
     outputter.send(:boolean_groups).should == [[[t,2],[f,2]],[[t,3],[f,3]]]
   end
 
+  it "should have a with_options method which sets the instance's attributes temporarily while the block gets yielded" do
+    class << @outputter; attr_accessor :foo, :bar; end
+    @outputter.foo, @outputter.bar = 'humbaba', 'scorpion man'
+    @outputter.send(:with_options, :foo => 'horse', :bar => 'donkey') do
+      @outputter.foo.should == 'horse'
+      @outputter.bar.should == 'donkey'
+    end
+    @outputter.foo.should == 'humbaba'
+    @outputter.bar.should == 'scorpion man'
+  end
+
+  it "should return the block value on with_options" do
+    @outputter.send(:with_options, {}){ 'donkey' }.should == 'donkey'
+  end
+
 end
 
 

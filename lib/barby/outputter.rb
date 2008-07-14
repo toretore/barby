@@ -82,6 +82,11 @@ module Barby
     end
 
 
+    #Collects continuous groups of bars and spaces (1 and 0)
+    #into arrays where the first item is true or false (1 or 0)
+    #and the second is the size of the group
+    #
+    #For example, "1100111000" becomes [[true,2],[false,2],[true,3],[false,3]]
     def boolean_groups(reload=false)
       if barcode.two_dimensional?
         encoding(reload).map do |line|
@@ -94,6 +99,25 @@ module Barby
           [group[0,1] == '1', group.size]
         end
       end
+    end
+
+
+    def with_options(options={})
+      original_options = options.inject({}) do |origs,pair|
+        if respond_to?(pair.first) && respond_to?("#{pair.first}=")
+          origs[pair.first] = send(pair.first)
+          send("#{pair.first}=", pair.last)
+        end
+        origs
+      end
+
+      rv = yield
+
+      original_options.each do |attribute,value|
+        send("#{attribute}=", value)
+      end
+
+      rv
     end
 
 
