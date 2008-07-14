@@ -20,7 +20,7 @@ module Barby
 
       if barcode.two_dimensional?
         x, y = margin, margin
-        barcode.encoding.reverse_each do |line|
+        encoding.reverse_each do |line|
           line.split(//).map{|c| c == '1' }.each do |bar|
             if bar
               x.upto(x+(xdim-1)) do |xx|
@@ -64,7 +64,7 @@ module Barby
     end
 
     def height
-      barcode.two_dimensional? ? (ydim * barcode.encoding.length) : (@height || 100)
+      barcode.two_dimensional? ? (ydim * encoding.length) : (@height || 100)
     end
 
     def full_width
@@ -88,7 +88,7 @@ module Barby
     end
 
     def length
-      barcode.two_dimensional? ? barcode.encoding.first.length : barcode.encoding.length
+      barcode.two_dimensional? ? encoding.first.length : encoding.length
     end
 
 
