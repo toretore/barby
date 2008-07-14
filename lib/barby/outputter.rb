@@ -65,11 +65,11 @@ module Barby
     #
     #If the barcode is 2D, each line will be converted to an array
     #in the same way
-    def booleans#:doc:
+    def booleans(reload=false)#:doc:
       if barcode.two_dimensional?
-        encoding.map{|l| l.split(//).map{|c| c == '1' } }
+        encoding(reload).map{|l| l.split(//).map{|c| c == '1' } }
       else
-        encoding.split(//).map{|c| c == '1' }
+        encoding(reload).split(//).map{|c| c == '1' }
       end
     end
 
@@ -79,6 +79,21 @@ module Barby
     def encoding(reload=false)#:doc:
       @encoding = barcode.encoding if reload
       @encoding ||= barcode.encoding
+    end
+
+
+    def boolean_groups(reload=false)
+      if barcode.two_dimensional?
+        encoding(reload).map do |line|
+          line.scan(/1+|0+/).map do |group|
+            [group[0,1] == '1', group.size]
+          end
+        end
+      else
+        encoding(reload).scan(/1+|0+/).map do |group|
+          [group[0,1] == '1', group.size]
+        end
+      end
     end
 
 

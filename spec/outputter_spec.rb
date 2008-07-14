@@ -57,6 +57,12 @@ describe "Outputter instances" do
     @outputter.send(:encoding, true).should == @barcode.encoding
   end
 
+  it "should have a boolean_groups attribute which collects continuous bars and spaces" do
+    t, f = true, false
+                                       # 1     0     11    00    111   000
+    @outputter.send(:boolean_groups).should == [[t,1],[f,1],[t,2],[f,2],[t,3],[f,3]]
+  end
+
 end
 
 
