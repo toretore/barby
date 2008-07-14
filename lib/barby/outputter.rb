@@ -63,7 +63,7 @@ module Barby
     #Converts the barcode's encoding (a string containing 1s and 0s)
     #to true and false values (1 == true == "black bar")
     def booleans#:doc:
-      barcode.encoding.split(//).map{|c| c == '1' }
+      encoding.split(//).map{|c| c == '1' }
     end
 
 
