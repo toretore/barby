@@ -15,41 +15,41 @@ module Barby
 
     #Creates a PNG::Canvas object and renders the barcode on it
     def to_canvas(opts={})
-      orig_opts = opts.inject({}){|h,p| send("#{p.first}=", p.last) if respond_to?("#{p.first}="); h.update(p.first => p.last) }
-      canvas = PNG::Canvas.new(full_width, full_height, PNG::Color::White)
+      with_options opts do
+        canvas = PNG::Canvas.new(full_width, full_height, PNG::Color::White)
 
-      if barcode.two_dimensional?
-        x, y = margin, margin
-        encoding.reverse_each do |line|
-          line.split(//).map{|c| c == '1' }.each do |bar|
+        if barcode.two_dimensional?
+          x, y = margin, margin
+          booleans.reverse_each do |line|
+            line.each do |bar|
+              if bar
+                x.upto(x+(xdim-1)) do |xx|
+                  y.upto y+(ydim-1) do |yy|
+                    canvas[xx,yy] = PNG::Color::Black
+                  end
+                end
+              end
+              x += xdim
+            end
+            y += ydim
+            x = margin
+          end
+        else
+          x, y = margin, margin
+          booleans.each do |bar|
             if bar
               x.upto(x+(xdim-1)) do |xx|
-                y.upto y+(ydim-1) do |yy|
+                y.upto y+(height-1) do |yy|
                   canvas[xx,yy] = PNG::Color::Black
                 end
               end
             end
             x += xdim
           end
-          y += ydim
-          x = margin
         end
-      else
-        x, y = margin, margin
-        booleans.each do |bar|
-          if bar
-            x.upto(x+(xdim-1)) do |xx|
-              y.upto y+(height-1) do |yy|
-                canvas[xx,yy] = PNG::Color::Black
-              end
-            end
-          end
-          x += xdim
-        end
-      end
 
-      orig_opts.each{|k,v| send("#{k}=", v) if respond_to?("#{k}=") }
-      canvas
+        canvas
+      end
     end
 
 
