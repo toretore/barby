@@ -31,36 +31,37 @@ module Barby
 
     #Returns an instance of Magick::Image
     def to_image(opts={})
-      opts.each{|k,v| send("#{k}=", v) if respond_to?("#{k}=") }
-      canvas = Magick::Image.new(full_width, full_height)
-      bars = Magick::Draw.new
+      with_options opts do
+        canvas = Magick::Image.new(full_width, full_height)
+        bars = Magick::Draw.new
 
-      x = margin
-      y = margin
+        x = margin
+        y = margin
 
-      if barcode.two_dimensional?
-        encoding.each do |line|
-          line.split(//).map{|c| c == '1' }.each do |bar|
+        if barcode.two_dimensional?
+          encoding.each do |line|
+            line.split(//).map{|c| c == '1' }.each do |bar|
+              if bar
+                bars.rectangle(x, y, x+(xdim-1), y+(ydim-1))
+              end
+              x += xdim
+            end
+            x = margin
+            y += ydim
+          end
+        else
+          booleans.each do |bar|
             if bar
-              bars.rectangle(x, y, x+(xdim-1), y+(ydim-1))
+              bars.rectangle(x, y, x+(xdim-1), y+(height-1))
             end
             x += xdim
           end
-          x = margin
-          y += ydim
         end
-      else
-        booleans.each do |bar|
-          if bar
-            bars.rectangle(x, y, x+(xdim-1), y+(height-1))
-          end
-          x += xdim
-        end
+
+        bars.draw(canvas)
+
+        canvas
       end
-
-      bars.draw(canvas)
-
-      canvas
     end
 
 

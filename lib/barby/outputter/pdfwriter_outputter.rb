@@ -20,43 +20,42 @@ module Barby
     #height - The height of the bars in PDF units
     #xdim   - The X dimension in PDF units
     def annotate_pdf(pdf, options={})
-      previous_options = options.map{|k,v| [k, send(k)] }
-      options.each{|k,v| send("#{k}=", v) if respond_to?("#{k}=") }
+      with_options options do
 
-      xpos, ypos = x, y
-      orig_xpos = xpos
+        xpos, ypos = x, y
+        orig_xpos = xpos
 
-      if barcode.two_dimensional?
-        boolean_groups.reverse_each do |groups|
-          groups.each do |bar,amount|
+        if barcode.two_dimensional?
+          boolean_groups.reverse_each do |groups|
+            groups.each do |bar,amount|
+              if bar
+                pdf.move_to(xpos, ypos).
+                  line_to(xpos, ypos+xdim).
+                  line_to(xpos+(xdim*amount), ypos+xdim).
+                  line_to(xpos+(xdim*amount), ypos).
+                  line_to(xpos, ypos).
+                  fill
+              end
+              xpos += (xdim*amount)
+            end
+            xpos = orig_xpos
+            ypos += xdim
+          end
+        else
+          boolean_groups.each do |bar,amount|
             if bar
               pdf.move_to(xpos, ypos).
-                line_to(xpos, ypos+xdim).
-                line_to(xpos+(xdim*amount), ypos+xdim).
+                line_to(xpos, ypos+height).
+                line_to(xpos+(xdim*amount), ypos+height).
                 line_to(xpos+(xdim*amount), ypos).
                 line_to(xpos, ypos).
                 fill
             end
             xpos += (xdim*amount)
           end
-          xpos = orig_xpos
-          ypos += xdim
         end
-      else
-        boolean_groups.each do |bar,amount|
-          if bar
-            pdf.move_to(xpos, ypos).
-              line_to(xpos, ypos+height).
-              line_to(xpos+(xdim*amount), ypos+height).
-              line_to(xpos+(xdim*amount), ypos).
-              line_to(xpos, ypos).
-              fill
-          end
-          xpos += (xdim*amount)
-        end
-      end
 
-      previous_options.each{|k,v| send("#{k}=", v) }
+      end
 
       pdf
     end

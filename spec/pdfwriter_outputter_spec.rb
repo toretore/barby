@@ -31,13 +31,4 @@ describe PDFWriterOutputter do
     @outputter.should respond_to(:xdim)
   end
 
-  it "should temporarily change attributes when given an options hash to annotate_pdf" do
-    %w(x y height xdim).each do |m|
-      @outputter.send("#{m}=", 10)
-      @outputter.send(m).should == 10
-    end
-    @outputter.annotate_pdf(@pdf, {:x => 20, :y => 20, :height => 20, :xdim => 20})
-    %w(x y height xdim).each{|m| @outputter.send(m).should == 10 }
-  end
-
 end
