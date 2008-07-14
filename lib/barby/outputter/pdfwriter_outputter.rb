@@ -24,17 +24,36 @@ module Barby
       options.each{|k,v| send("#{k}=", v) if respond_to?("#{k}=") }
 
       xpos, ypos = x, y
+      orig_xpos = xpos
 
-      widths.each do |array|
-        if array.first
-          pdf.move_to(xpos, ypos).
-            line_to(xpos, ypos+height).
-            line_to(xpos+(xdim*array.size), ypos+height).
-            line_to(xpos+(xdim*array.size), ypos).
-            line_to(xpos, ypos).
-            fill
+      if barcode.two_dimensional?
+        barcode.encoding.each do |line|
+          widths(line.split(//).map{|c| c == '1' }).each do |array|
+            if array.first
+              pdf.move_to(xpos, ypos).
+                line_to(xpos, ypos+xdim).
+                line_to(xpos+(xdim*array.size), ypos+xdim).
+                line_to(xpos+(xdim*array.size), ypos).
+                line_to(xpos, ypos).
+                fill
+            end
+            xpos += (xdim*array.size)
+          end
+          xpos = orig_xpos
+          ypos += xdim
         end
-        xpos += (xdim*array.size)
+      else
+        widths(booleans).each do |array|
+          if array.first
+            pdf.move_to(xpos, ypos).
+              line_to(xpos, ypos+height).
+              line_to(xpos+(xdim*array.size), ypos+height).
+              line_to(xpos+(xdim*array.size), ypos).
+              line_to(xpos, ypos).
+              fill
+          end
+          xpos += (xdim*array.size)
+        end
       end
 
       previous_options.each{|k,v| send("#{k}=", v) }
@@ -62,7 +81,7 @@ module Barby
 
     private
 
-      def widths
+      def widths(booleans)
         widths = []
         count = nil
 
