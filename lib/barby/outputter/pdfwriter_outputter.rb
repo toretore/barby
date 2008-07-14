@@ -27,7 +27,7 @@ module Barby
       orig_xpos = xpos
 
       if barcode.two_dimensional?
-        barcode.encoding.each do |line|
+        encoding.each do |line|
           widths(line.split(//).map{|c| c == '1' }).each do |array|
             if array.first
               pdf.move_to(xpos, ypos).
