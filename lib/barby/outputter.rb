@@ -67,6 +67,14 @@ module Barby
     end
 
 
+    #Returns the barcode's encoding. The encoding
+    #is cached and can be reloaded by passing true
+    def encoding(reload=false)#:doc:
+      @encoding = barcode.encoding if reload
+      @encoding ||= barcode.encoding
+    end
+
+
   end
 
 
