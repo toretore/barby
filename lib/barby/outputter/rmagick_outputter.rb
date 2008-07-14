@@ -11,7 +11,7 @@ module Barby
   
     register :to_png, :to_gif, :to_jpg, :to_image
 
-    attr_accessor :height, :xdim, :margin
+    attr_accessor :height, :xdim, :ydim, :margin
 
 
     #Returns a string containing a PNG image
@@ -37,11 +37,25 @@ module Barby
 
       x = margin
       y = margin
-      booleans.each do |bar|
-        if bar
-          bars.rectangle(x, y, x+(xdim-1), y+(height-1))
+
+      if barcode.two_dimensional?
+        encoding.each do |line|
+          line.split(//).map{|c| c == '1' }.each do |bar|
+            if bar
+              bars.rectangle(x, y, x+(xdim-1), y+(ydim-1))
+            end
+            x += xdim
+          end
+          x = margin
+          y += ydim
         end
-        x += xdim
+      else
+        booleans.each do |bar|
+          if bar
+            bars.rectangle(x, y, x+(xdim-1), y+(height-1))
+          end
+          x += xdim
+        end
       end
 
       bars.draw(canvas)
@@ -51,8 +65,19 @@ module Barby
 
 
     #The height of the barcode in px
+    #For 2D barcodes this is the number of "lines" * ydim
     def height
-      @height || 100
+      barcode.two_dimensional? ? (ydim * encoding.length) : (@height || 100)
+    end
+
+    #The width of the barcode in px
+    def width
+      length * xdim
+    end
+
+    #Number of modules (xdims) on the x axis
+    def length
+      barcode.two_dimensional? ? encoding.first.length : encoding.length
     end
 
     #X dimension. 1X == 1px
@@ -60,14 +85,14 @@ module Barby
       @xdim || 1
     end
 
+    #Y dimension. Only for 2D codes
+    def ydim
+      @ydim || xdim
+    end
+
     #The margin of each edge surrounding the barcode in pixels
     def margin
       @margin || 10
-    end
-
-    #The width of the barcode in px
-    def width
-      barcode.encoding.length * xdim
     end
 
     #The full width of the image. This is the width of the
