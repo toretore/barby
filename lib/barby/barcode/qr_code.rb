@@ -4,8 +4,8 @@ require 'barby/barcode'
 module Barby
 
 
-  #QRCode is a thin wrapper around the RQRCode library
-  class QRCode < Barcode2D
+  #QrCode is a thin wrapper around the RQRCode library
+  class QrCode < Barcode2D
 
     #Maximum sizes for each correction level for binary data
     #It's an array
