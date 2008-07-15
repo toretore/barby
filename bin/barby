@@ -27,14 +27,15 @@ ARGV.options do |o|
   o.parse!
 end
 
-#p options
+#p STDIN.read
 #exit
 
-require "barby/outputter/#{options[:outputter].gsub(/[A-Z]/){|c| '_'+c.downcase }[1..-1]}"
+require "barby/outputter/#{options[:outputter].gsub(/[A-Z]/){|c| '_'+c.downcase }[1..-1]}_outputter"
 
 barcode_class = Barby.const_get(options[:barcode])
-barcode = barcode_class.new($*)
-outputter_class = Barby.const_get(options[:outputter])
+barcode = barcode_class.new($*.empty? ? STDIN.read.chomp : $*)
+outputter_class = Barby.const_get("#{options[:outputter]}Outputter")
 outputter = outputter_class.new(barcode)
 
-print outputter.send(options[:outputter_method])
+#print outputter.send(options[:outputter_method], *eval(ENV['OPTIONS'] || ''))
+print eval("outputter.#{options[:outputter_method]}(#{ENV['OPTIONS']})")
