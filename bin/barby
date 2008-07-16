@@ -37,5 +37,4 @@ barcode = barcode_class.new($*.empty? ? STDIN.read.chomp : $*)
 outputter_class = Barby.const_get("#{options[:outputter]}Outputter")
 outputter = outputter_class.new(barcode)
 
-#print outputter.send(options[:outputter_method], *eval(ENV['OPTIONS'] || ''))
 print eval("outputter.#{options[:outputter_method]}(#{ENV['OPTIONS']})")
