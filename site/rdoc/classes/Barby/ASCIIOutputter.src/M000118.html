@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_ascii (Barby::ASCIIOutputter)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/ascii_outputter.rb, line 14</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_ascii</span>(<span class="ruby-identifier">opts</span>={})
+      <span class="ruby-identifier">default_opts</span> = {<span class="ruby-identifier">:height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">:xdim</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">:bar</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'#'</span>, <span class="ruby-identifier">:space</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">' '</span>}
+      <span class="ruby-identifier">default_opts</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">:height</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">:bar</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">' X '</span>, <span class="ruby-identifier">:space</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'   '</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">barcode</span>.<span class="ruby-identifier">two_dimensional?</span>
+      <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">default_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">barcode</span>.<span class="ruby-identifier">two_dimensional?</span>
+        <span class="ruby-identifier">booleans</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bools</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">line_to_ascii</span>(<span class="ruby-identifier">bools</span>, <span class="ruby-identifier">opts</span>)
+        <span class="ruby-keyword kw">end</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>)
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">line_to_ascii</span>(<span class="ruby-identifier">booleans</span>, <span class="ruby-identifier">opts</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
