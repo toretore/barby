@@ -5,14 +5,18 @@
 
 <html>
 <head>
-  <title>valid? (Barby::Code128)</title>
+  <title>change_code_number_for (Barby::Code128)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 327</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">valid?</span>
-      <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">values</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">c</span>) }
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 301</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">change_code_number_for</span>(<span class="ruby-identifier">barcode</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">barcode</span>
+        <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Code128A</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">values</span>[<span class="ruby-constant">CODEA</span>]
+        <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Code128B</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">values</span>[<span class="ruby-constant">CODEB</span>]
+        <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Code128C</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">values</span>[<span class="ruby-constant">CODEC</span>]
+      <span class="ruby-keyword kw">end</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

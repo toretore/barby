@@ -5,18 +5,14 @@
 
 <html>
 <head>
-  <title>valid? (Barby::Code39)</title>
+  <title>extended? (Barby::Code39)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 188</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">valid?</span>
-      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">extended?</span>
-        <span class="ruby-identifier">raw_characters</span>.<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-constant">EXTENDED_ENCODINGS</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">c</span>) }
-      <span class="ruby-keyword kw">else</span>
-        <span class="ruby-identifier">raw_characters</span>.<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-constant">ENCODINGS</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">c</span>) }
-      <span class="ruby-keyword kw">end</span>
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 175</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">extended?</span>
+      <span class="ruby-identifier">extended</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

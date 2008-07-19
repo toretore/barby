@@ -5,14 +5,15 @@
 
 <html>
 <head>
-  <title>encoded_characters_with_checksum (Barby::Code39)</title>
+  <title>characters (Barby::Code39)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 118</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encoded_characters_with_checksum</span>
-      <span class="ruby-identifier">encoded_characters</span> <span class="ruby-operator">+</span> [<span class="ruby-identifier">checksum_encoding</span>]
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 105</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">characters</span>
+      <span class="ruby-identifier">chars</span> = <span class="ruby-identifier">raw_characters</span>
+      <span class="ruby-identifier">extended</span> <span class="ruby-value">? </span><span class="ruby-identifier">chars</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-constant">EXTENDED_ENCODINGS</span>[<span class="ruby-identifier">c</span>].<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>) }.<span class="ruby-identifier">flatten</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">chars</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

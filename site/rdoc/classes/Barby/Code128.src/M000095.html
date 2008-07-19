@@ -5,14 +5,16 @@
 
 <html>
 <head>
-  <title>stop_encoding (Barby::Code128)</title>
+  <title>numbers (Barby::Code128)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 290</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stop_encoding</span>
-      <span class="ruby-constant">STOP</span><span class="ruby-operator">+</span><span class="ruby-constant">TERMINATE</span>
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 273</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">numbers</span>
+      <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">char</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">values</span>[<span class="ruby-identifier">char</span>]
+      <span class="ruby-keyword kw">end</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

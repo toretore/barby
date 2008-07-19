@@ -81,7 +81,7 @@
     <div id="description">
       <p>
 The base class for all barcodes. It includes some method_missing magic that
-is used to find registered <a href="Barcode.html#M000005">outputters</a>.
+is used to find registered <a href="Barcode.html#M000006">outputters</a>.
 </p>
 <p>
 The only interface requirement of a barcode class is that is has an <a
@@ -108,6 +108,16 @@ Example implementation:
  # ##  ###   ####    #
  # ##  ###   ####    #
 </pre>
+<p>
+2D implementation:
+</p>
+<pre>
+ class Static2DBarcode &lt; Barby::Barcode2D
+   def encoding
+     ['1010101', '010101110', '0001010100']
+   end
+ end
+</pre>
 
     </div>
 
@@ -119,10 +129,11 @@ Example implementation:
 
       <div class="name-list">
       <a href="#M000001">encoding</a>&nbsp;&nbsp;
-      <a href="#M000004">outputter_class_for</a>&nbsp;&nbsp;
-      <a href="#M000003">outputter_for</a>&nbsp;&nbsp;
-      <a href="#M000005">outputters</a>&nbsp;&nbsp;
-      <a href="#M000006">register_outputter</a>&nbsp;&nbsp;
+      <a href="#M000005">outputter_class_for</a>&nbsp;&nbsp;
+      <a href="#M000004">outputter_for</a>&nbsp;&nbsp;
+      <a href="#M000006">outputters</a>&nbsp;&nbsp;
+      <a href="#M000007">register_outputter</a>&nbsp;&nbsp;
+      <a href="#M000003">two_dimensional?</a>&nbsp;&nbsp;
       <a href="#M000002">valid?</a>&nbsp;&nbsp;
       </div>
     </div>
@@ -145,12 +156,12 @@ Example implementation:
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000005" class="method-detail">
-        <a name="M000005"></a>
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
 
         <div class="method-heading">
-          <a href="Barcode.src/M000005.html" target="Code" class="method-signature"
-            onclick="popupCode('Barcode.src/M000005.html');return false;">
+          <a href="Barcode.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('Barcode.src/M000006.html');return false;">
           <span class="method-name">outputters</span><span class="method-args">()</span>
           </a>
         </div>
@@ -159,12 +170,12 @@ Example implementation:
         </div>
       </div>
 
-      <div id="method-M000006" class="method-detail">
-        <a name="M000006"></a>
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
 
         <div class="method-heading">
-          <a href="Barcode.src/M000006.html" target="Code" class="method-signature"
-            onclick="popupCode('Barcode.src/M000006.html');return false;">
+          <a href="Barcode.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('Barcode.src/M000007.html');return false;">
           <span class="method-name">register_outputter</span><span class="method-args">(name, klass, method_name)</span>
           </a>
         </div>
@@ -197,15 +208,19 @@ method. This method returns a string containing a series of 1 and 0,
 representing bars and spaces. One digit is the width of one
 &quot;module&quot; or X dimension.
 </p>
+<p>
+If the barcode is 2D, it returns an array of strings representing each line
+in the barcode
+</p>
         </div>
       </div>
 
-      <div id="method-M000004" class="method-detail">
-        <a name="M000004"></a>
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
 
         <div class="method-heading">
-          <a href="Barcode.src/M000004.html" target="Code" class="method-signature"
-            onclick="popupCode('Barcode.src/M000004.html');return false;">
+          <a href="Barcode.src/M000005.html" target="Code" class="method-signature"
+            onclick="popupCode('Barcode.src/M000005.html');return false;">
           <span class="method-name">outputter_class_for</span><span class="method-args">(name)</span>
           </a>
         </div>
@@ -217,12 +232,12 @@ Get the outputter class object for <tt>name</tt>
         </div>
       </div>
 
-      <div id="method-M000003" class="method-detail">
-        <a name="M000003"></a>
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
 
         <div class="method-heading">
-          <a href="Barcode.src/M000003.html" target="Code" class="method-signature"
-            onclick="popupCode('Barcode.src/M000003.html');return false;">
+          <a href="Barcode.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('Barcode.src/M000004.html');return false;">
           <span class="method-name">outputter_for</span><span class="method-args">(name, *a, &amp;b)</span>
           </a>
         </div>
@@ -231,6 +246,23 @@ Get the outputter class object for <tt>name</tt>
           <p>
 Returns an instantiated outputter for <tt>name</tt> if any outputter has
 registered that name
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="Barcode.src/M000003.html" target="Code" class="method-signature"
+            onclick="popupCode('Barcode.src/M000003.html');return false;">
+          <span class="method-name">two_dimensional?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Is this barcode 2D?
 </p>
         </div>
       </div>

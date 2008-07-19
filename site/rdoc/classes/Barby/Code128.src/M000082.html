@@ -5,16 +5,16 @@
 
 <html>
 <head>
-  <title>data= (Barby::Code128)</title>
+  <title>new (Barby::Code128)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 179</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">data=</span>(<span class="ruby-identifier">data</span>)
-      <span class="ruby-identifier">data</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">extra</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">split</span>(<span class="ruby-node">/([#{CODEA+CODEB+CODEC}])/n</span>)
-      <span class="ruby-ivar">@data</span> = <span class="ruby-identifier">data</span>
-      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">extra</span> = <span class="ruby-identifier">extra</span>.<span class="ruby-identifier">join</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">extra</span>.<span class="ruby-identifier">empty?</span>
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 159</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">type</span>)
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">type</span> = <span class="ruby-identifier">type</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">data</span> = <span class="ruby-node">&quot;#{data}&quot;</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">'Data not valid'</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">valid?</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

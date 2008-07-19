@@ -24,12 +24,23 @@ module Barby
   # # ##  ###   ####    #
   # # ##  ###   ####    #
   # # ##  ###   ####    #
+  #
+  #2D implementation:
+  #
+  # class Static2DBarcode < Barby::Barcode2D
+  #   def encoding
+  #     ['1010101', '010101110', '0001010100']
+  #   end
+  # end
   class Barcode
   
     
     #Every barcode must have an encoding method. This method returns
     #a string containing a series of 1 and 0, representing bars and
     #spaces. One digit is the width of one "module" or X dimension.
+    #
+    #If the barcode is 2D, it returns an array of strings representing
+    #each line in the barcode
     def encoding
       raise NotImplementedError, 'Every barcode should implement this method'
     end
@@ -91,9 +102,8 @@ module Barby
   class Barcode1D < Barcode
   end
 
-  #There is currently only support for one-dimensional barcodes,
-  #but in the future it should also be possible to support barcodes
-  #with two dimensions.
+  #2D barcodes are 1D barcodes stacked on top of each other.
+  #Their encoding method must return an array of strings
   class Barcode2D < Barcode
   end
 

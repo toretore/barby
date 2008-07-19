@@ -5,18 +5,19 @@
 
 <html>
 <head>
-  <title>to_pdf (Barby::CairoOutputter)</title>
+  <title>to_png (Barby::CairoOutputter)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/cairo_outputter.rb, line 88</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_pdf</span>(<span class="ruby-identifier">options</span>={})
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/cairo_outputter.rb, line 71</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_png</span>(<span class="ruby-identifier">options</span>={})
       <span class="ruby-identifier">output_to_string_io</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">io</span><span class="ruby-operator">|</span>
-        <span class="ruby-constant">Cairo</span><span class="ruby-operator">::</span><span class="ruby-constant">PDFSurface</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">io</span>,
-                              <span class="ruby-identifier">full_width</span>(<span class="ruby-identifier">options</span>),
-                              <span class="ruby-identifier">full_height</span>(<span class="ruby-identifier">options</span>)) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
+        <span class="ruby-constant">Cairo</span><span class="ruby-operator">::</span><span class="ruby-constant">ImageSurface</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:format</span>],
+                                <span class="ruby-identifier">full_width</span>(<span class="ruby-identifier">options</span>),
+                                <span class="ruby-identifier">full_height</span>(<span class="ruby-identifier">options</span>)) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">surface</span><span class="ruby-operator">|</span>
           <span class="ruby-identifier">render</span>(<span class="ruby-identifier">surface</span>, <span class="ruby-identifier">options</span>)
+          <span class="ruby-identifier">surface</span>.<span class="ruby-identifier">write_to_png</span>(<span class="ruby-identifier">io</span>)
         <span class="ruby-keyword kw">end</span>
       <span class="ruby-keyword kw">end</span>
     <span class="ruby-keyword kw">end</span></pre>

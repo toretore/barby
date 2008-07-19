@@ -30,18 +30,27 @@
     </p>
 
     <ul>
-      <li>
-        Code128
+      <li>1D
+      <ul>
+        <li>
+          Code128
+          <ul>
+            <li>GS1 128</li>
+            <li>Bookland</li>
+          </ul>
+        </li>
+        <li>EAN-13</li>
+        <li>EAN-8</li>
+        <li>Code39</li>
+        <li>Code93</li>
+        <li>Code25 (2 of 5)</li>
+      </ul>
+      </li>
+      <li>2D
         <ul>
-          <li>GS1 128</li>
-          <li>Bookland</li>
+          <li>QR Code</li>
         </ul>
       </li>
-      <li>EAN-13</li>
-      <li>EAN-8</li>
-      <li>Code39</li>
-      <li>Code93</li>
-      <li>Code25 (2 of 5)</li>
     </ul>
 
     <h2>Writing your own barcode class</h2>
@@ -50,8 +59,7 @@
       If you want to add support for a symbology that isn't currently supported,
       that's pretty easy. The only requirement is that your class has an <code>encoding</code>
       method which returns a string representation of the encoded barcode. It should also
-      inherit the <code>Barcode1D</code> class (there's also a Barcode2D class, but I'm not
-      really sure how support for 2D barcodes will look yet). As an example, this
+      inherit the <code>Barcode1D</code> class. As an example, this
       EAN-8 barcode,
     </p>
 
@@ -72,6 +80,28 @@
     <p>
       This string is what the outputter classes use as input when generating images etc for a barcode.
     </p>
+
+    <h3>2D barcodes</h3>
+
+    <p>
+      2D barcodes are similar to 1D barcodes with the only difference that their <code>encoding</code>
+      method should return an <em>array of strings</em> instead of a single string. 2D barcodes are thus
+      considered to be several 1D barcodes layered on top of each other. As an example, this QR Code,
+    </p>
+
+    <img src="qrcode.png" alt="QR Code barcode" class="barcode" />
+
+    <p>
+      is represented by this array of strings:
+    </p>
+
+    <pre><code>["111111100100101111111", "100000101001001000001", "101110100100001011101",
+"101110101001001011101", "101110100011101011101", "100000101110101000001",
+"111111101010101111111", "000000000011100000000", "111110111100110101010",
+"011011010110110110111", "100101101001011000010", "110100000000010001110",
+"100011111001001110010", "000000001101100111100", "111111101110110001110",
+"100000100101110011101", "101110101010101111001", "101110101100111110100",
+"101110101011000001000", "100000101000000101100", "111111101101000110010"]</code></pre>
 
     <p id="footer">
       <a href="http://tore.darell.no/">I</a> made this.

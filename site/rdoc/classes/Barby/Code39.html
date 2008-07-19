@@ -88,26 +88,26 @@
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000042">characters</a>&nbsp;&nbsp;
-      <a href="#M000043">characters_with_checksum</a>&nbsp;&nbsp;
-      <a href="#M000050">checksum</a>&nbsp;&nbsp;
-      <a href="#M000051">checksum_character</a>&nbsp;&nbsp;
-      <a href="#M000052">checksum_encoding</a>&nbsp;&nbsp;
-      <a href="#M000046">data_encoding</a>&nbsp;&nbsp;
-      <a href="#M000047">data_encoding_with_checksum</a>&nbsp;&nbsp;
-      <a href="#M000044">encoded_characters</a>&nbsp;&nbsp;
-      <a href="#M000045">encoded_characters_with_checksum</a>&nbsp;&nbsp;
-      <a href="#M000048">encoding</a>&nbsp;&nbsp;
-      <a href="#M000049">encoding_with_checksum</a>&nbsp;&nbsp;
-      <a href="#M000056">extended?</a>&nbsp;&nbsp;
-      <a href="#M000053">include_checksum?</a>&nbsp;&nbsp;
-      <a href="#M000040">new</a>&nbsp;&nbsp;
-      <a href="#M000041">raw_characters</a>&nbsp;&nbsp;
-      <a href="#M000054">spacing</a>&nbsp;&nbsp;
-      <a href="#M000055">spacing_encoding</a>&nbsp;&nbsp;
-      <a href="#M000057">start_encoding</a>&nbsp;&nbsp;
-      <a href="#M000058">stop_encoding</a>&nbsp;&nbsp;
-      <a href="#M000059">valid?</a>&nbsp;&nbsp;
+      <a href="#M000045">characters</a>&nbsp;&nbsp;
+      <a href="#M000046">characters_with_checksum</a>&nbsp;&nbsp;
+      <a href="#M000053">checksum</a>&nbsp;&nbsp;
+      <a href="#M000054">checksum_character</a>&nbsp;&nbsp;
+      <a href="#M000055">checksum_encoding</a>&nbsp;&nbsp;
+      <a href="#M000049">data_encoding</a>&nbsp;&nbsp;
+      <a href="#M000050">data_encoding_with_checksum</a>&nbsp;&nbsp;
+      <a href="#M000047">encoded_characters</a>&nbsp;&nbsp;
+      <a href="#M000048">encoded_characters_with_checksum</a>&nbsp;&nbsp;
+      <a href="#M000051">encoding</a>&nbsp;&nbsp;
+      <a href="#M000052">encoding_with_checksum</a>&nbsp;&nbsp;
+      <a href="#M000059">extended?</a>&nbsp;&nbsp;
+      <a href="#M000056">include_checksum?</a>&nbsp;&nbsp;
+      <a href="#M000043">new</a>&nbsp;&nbsp;
+      <a href="#M000044">raw_characters</a>&nbsp;&nbsp;
+      <a href="#M000057">spacing</a>&nbsp;&nbsp;
+      <a href="#M000058">spacing_encoding</a>&nbsp;&nbsp;
+      <a href="#M000060">start_encoding</a>&nbsp;&nbsp;
+      <a href="#M000061">stop_encoding</a>&nbsp;&nbsp;
+      <a href="#M000062">valid?</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -136,8 +136,8 @@
           <td width="3em">&nbsp;</td>
           <td class="context-item-desc">
 In extended mode, each character is replaced with two <a
-href="Code39.html#M000042">characters</a> from the &quot;normal&quot; <a
-href="Code39.html#M000048">encoding</a>
+href="Code39.html#M000045">characters</a> from the &quot;normal&quot; <a
+href="Code39.html#M000051">encoding</a>
 
 </td>
         </tr>
@@ -197,12 +197,12 @@ href="Code39.html#M000048">encoding</a>
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000040" class="method-detail">
-        <a name="M000040"></a>
+      <div id="method-M000043" class="method-detail">
+        <a name="M000043"></a>
 
         <div class="method-heading">
-          <a href="Code39.src/M000040.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000040.html');return false;">
+          <a href="Code39.src/M000043.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000043.html');return false;">
           <span class="method-name">new</span><span class="method-args">(data, extended=false) {|self if block_given?| ...}</span>
           </a>
         </div>
@@ -213,81 +213,22 @@ href="Code39.html#M000048">encoding</a>
 
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000042" class="method-detail">
-        <a name="M000042"></a>
+      <div id="method-M000045" class="method-detail">
+        <a name="M000045"></a>
 
         <div class="method-heading">
-          <a href="Code39.src/M000042.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000042.html');return false;">
+          <a href="Code39.src/M000045.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000045.html');return false;">
           <span class="method-name">characters</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Returns the encodable <a href="Code39.html#M000042">characters</a>. If
+Returns the encodable <a href="Code39.html#M000045">characters</a>. If
 extended mode is enabled, each character will first be replaced by two <a
-href="Code39.html#M000042">characters</a> from the encodable charset
+href="Code39.html#M000045">characters</a> from the encodable charset
 </p>
-        </div>
-      </div>
-
-      <div id="method-M000043" class="method-detail">
-        <a name="M000043"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000043.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000043.html');return false;">
-          <span class="method-name">characters_with_checksum</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000050" class="method-detail">
-        <a name="M000050"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000050.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000050.html');return false;">
-          <span class="method-name">checksum</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Checksum is optional
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000051" class="method-detail">
-        <a name="M000051"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000051.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000051.html');return false;">
-          <span class="method-name">checksum_character</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000052" class="method-detail">
-        <a name="M000052"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000052.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000052.html');return false;">
-          <span class="method-name">checksum_encoding</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
         </div>
       </div>
 
@@ -297,95 +238,7 @@ Checksum is optional
         <div class="method-heading">
           <a href="Code39.src/M000046.html" target="Code" class="method-signature"
             onclick="popupCode('Code39.src/M000046.html');return false;">
-          <span class="method-name">data_encoding</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-The data part of the <a href="Code39.html#M000048">encoding</a> (no
-start+stop <a href="Code39.html#M000042">characters</a>)
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000047" class="method-detail">
-        <a name="M000047"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000047.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000047.html');return false;">
-          <span class="method-name">data_encoding_with_checksum</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000044" class="method-detail">
-        <a name="M000044"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000044.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000044.html');return false;">
-          <span class="method-name">encoded_characters</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000045" class="method-detail">
-        <a name="M000045"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000045.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000045.html');return false;">
-          <span class="method-name">encoded_characters_with_checksum</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000048" class="method-detail">
-        <a name="M000048"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000048.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000048.html');return false;">
-          <span class="method-name">encoding</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000049" class="method-detail">
-        <a name="M000049"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000049.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000049.html');return false;">
-          <span class="method-name">encoding_with_checksum</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000056" class="method-detail">
-        <a name="M000056"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000056.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000056.html');return false;">
-          <span class="method-name">extended?</span><span class="method-args">()</span>
+          <span class="method-name">characters_with_checksum</span><span class="method-args">()</span>
           </a>
         </div>
       
@@ -399,35 +252,13 @@ start+stop <a href="Code39.html#M000042">characters</a>)
         <div class="method-heading">
           <a href="Code39.src/M000053.html" target="Code" class="method-signature"
             onclick="popupCode('Code39.src/M000053.html');return false;">
-          <span class="method-name">include_checksum?</span><span class="method-args">()</span>
+          <span class="method-name">checksum</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Set include_checksum to true to make <tt><a
-href="Code39.html#M000048">encoding</a></tt> include the <a
-href="Code39.html#M000050">checksum</a>
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000041" class="method-detail">
-        <a name="M000041"></a>
-
-        <div class="method-heading">
-          <a href="Code39.src/M000041.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000041.html');return false;">
-          <span class="method-name">raw_characters</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Returns the <a href="Code39.html#M000042">characters</a> that were passed
-in, no matter it they&#8216;re part of the extended charset or if
-they&#8216;re already encodable, &quot;normal&quot; <a
-href="Code39.html#M000042">characters</a>
+Checksum is optional
 </p>
         </div>
       </div>
@@ -438,16 +269,11 @@ href="Code39.html#M000042">characters</a>
         <div class="method-heading">
           <a href="Code39.src/M000054.html" target="Code" class="method-signature"
             onclick="popupCode('Code39.src/M000054.html');return false;">
-          <span class="method-name">spacing</span><span class="method-args">()</span>
+          <span class="method-name">checksum_character</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
-          <p>
-Spacing between the <a href="Code39.html#M000042">characters</a> in xdims.
-Spacing will be inserted between each character in the <a
-href="Code39.html#M000048">encoding</a>
-</p>
         </div>
       </div>
 
@@ -457,7 +283,7 @@ href="Code39.html#M000048">encoding</a>
         <div class="method-heading">
           <a href="Code39.src/M000055.html" target="Code" class="method-signature"
             onclick="popupCode('Code39.src/M000055.html');return false;">
-          <span class="method-name">spacing_encoding</span><span class="method-args">()</span>
+          <span class="method-name">checksum_encoding</span><span class="method-args">()</span>
           </a>
         </div>
       
@@ -465,13 +291,31 @@ href="Code39.html#M000048">encoding</a>
         </div>
       </div>
 
-      <div id="method-M000057" class="method-detail">
-        <a name="M000057"></a>
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
 
         <div class="method-heading">
-          <a href="Code39.src/M000057.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000057.html');return false;">
-          <span class="method-name">start_encoding</span><span class="method-args">()</span>
+          <a href="Code39.src/M000049.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000049.html');return false;">
+          <span class="method-name">data_encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The data part of the <a href="Code39.html#M000051">encoding</a> (no
+start+stop <a href="Code39.html#M000045">characters</a>)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000050.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000050.html');return false;">
+          <span class="method-name">data_encoding_with_checksum</span><span class="method-args">()</span>
           </a>
         </div>
       
@@ -479,13 +323,55 @@ href="Code39.html#M000048">encoding</a>
         </div>
       </div>
 
-      <div id="method-M000058" class="method-detail">
-        <a name="M000058"></a>
+      <div id="method-M000047" class="method-detail">
+        <a name="M000047"></a>
 
         <div class="method-heading">
-          <a href="Code39.src/M000058.html" target="Code" class="method-signature"
-            onclick="popupCode('Code39.src/M000058.html');return false;">
-          <span class="method-name">stop_encoding</span><span class="method-args">()</span>
+          <a href="Code39.src/M000047.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000047.html');return false;">
+          <span class="method-name">encoded_characters</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000048" class="method-detail">
+        <a name="M000048"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000048.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000048.html');return false;">
+          <span class="method-name">encoded_characters_with_checksum</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000051.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000051.html');return false;">
+          <span class="method-name">encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000052.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000052.html');return false;">
+          <span class="method-name">encoding_with_checksum</span><span class="method-args">()</span>
           </a>
         </div>
       
@@ -499,6 +385,120 @@ href="Code39.html#M000048">encoding</a>
         <div class="method-heading">
           <a href="Code39.src/M000059.html" target="Code" class="method-signature"
             onclick="popupCode('Code39.src/M000059.html');return false;">
+          <span class="method-name">extended?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000056.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000056.html');return false;">
+          <span class="method-name">include_checksum?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Set include_checksum to true to make <tt><a
+href="Code39.html#M000051">encoding</a></tt> include the <a
+href="Code39.html#M000053">checksum</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000044" class="method-detail">
+        <a name="M000044"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000044.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000044.html');return false;">
+          <span class="method-name">raw_characters</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="Code39.html#M000045">characters</a> that were passed
+in, no matter it they&#8216;re part of the extended charset or if
+they&#8216;re already encodable, &quot;normal&quot; <a
+href="Code39.html#M000045">characters</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000057.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000057.html');return false;">
+          <span class="method-name">spacing</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Spacing between the <a href="Code39.html#M000045">characters</a> in xdims.
+Spacing will be inserted between each character in the <a
+href="Code39.html#M000051">encoding</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000058.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000058.html');return false;">
+          <span class="method-name">spacing_encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000060.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000060.html');return false;">
+          <span class="method-name">start_encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000061.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000061.html');return false;">
+          <span class="method-name">stop_encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="Code39.src/M000062.html" target="Code" class="method-signature"
+            onclick="popupCode('Code39.src/M000062.html');return false;">
           <span class="method-name">valid?</span><span class="method-args">()</span>
           </a>
         </div>

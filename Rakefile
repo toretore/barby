@@ -35,3 +35,8 @@ Spec::Rake::SpecTask.new('spec') do |t|
     t.ruby_opts << '-rubygems'
     t.spec_files = FileList['spec/*.rb']
 end
+
+desc "Build RDoc"
+task :doc do
+  system "rm -rf site/rdoc; rdoc -tBarby -xvendor -osite/rdoc -mREADME lib/**/* README"
+end

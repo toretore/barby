@@ -5,14 +5,14 @@
 
 <html>
 <head>
-  <title>margin (Barby::CairoOutputter)</title>
+  <title>full_width (Barby::CairoOutputter)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/cairo_outputter.rb, line 139</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">margin</span>(<span class="ruby-identifier">options</span>={})
-      <span class="ruby-ivar">@margin</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:margin</span>] <span class="ruby-operator">||</span> <span class="ruby-value">10</span>
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/cairo_outputter.rb, line 146</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">full_width</span>(<span class="ruby-identifier">options</span>={})
+      <span class="ruby-identifier">width</span>(<span class="ruby-identifier">options</span>) <span class="ruby-operator">+</span> (<span class="ruby-identifier">margin</span>(<span class="ruby-identifier">options</span>) <span class="ruby-operator">*</span> <span class="ruby-value">2</span>)
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

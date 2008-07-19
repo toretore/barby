@@ -5,14 +5,14 @@
 
 <html>
 <head>
-  <title>encoding_with_checksum (Barby::Code39)</title>
+  <title>data_encoding (Barby::Code39)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 138</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encoding_with_checksum</span>
-      <span class="ruby-identifier">start_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">spacing_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">data_encoding_with_checksum</span><span class="ruby-operator">+</span><span class="ruby-identifier">spacing_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">stop_encoding</span>
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 124</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">data_encoding</span>
+      <span class="ruby-identifier">encoded_characters</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">spacing_encoding</span>)
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

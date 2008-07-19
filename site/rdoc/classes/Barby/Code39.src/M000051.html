@@ -5,14 +5,15 @@
 
 <html>
 <head>
-  <title>checksum_character (Barby::Code39)</title>
+  <title>encoding (Barby::Code39)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 150</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">checksum_character</span>
-      <span class="ruby-constant">CHECKSUM_VALUES</span>.<span class="ruby-identifier">invert</span>[<span class="ruby-identifier">checksum</span>]
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_39.rb, line 133</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encoding</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">encoding_with_checksum</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">include_checksum?</span>
+      <span class="ruby-identifier">start_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">spacing_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">data_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">spacing_encoding</span><span class="ruby-operator">+</span><span class="ruby-identifier">stop_encoding</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>

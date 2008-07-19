@@ -86,8 +86,8 @@ Renders the barcode to a PNG image using the &quot;png&quot; gem (gem
 install png)
 </p>
 <p>
-Registers the <a href="PngOutputter.html#M000032">to_png</a> and <a
-href="PngOutputter.html#M000031">to_canvas</a> methods
+Registers the <a href="PngOutputter.html#M000033">to_png</a> and <a
+href="PngOutputter.html#M000032">to_canvas</a> methods
 </p>
 
     </div>
@@ -99,14 +99,16 @@ href="PngOutputter.html#M000031">to_canvas</a> methods
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000036">full_height</a>&nbsp;&nbsp;
-      <a href="#M000035">full_width</a>&nbsp;&nbsp;
-      <a href="#M000034">height</a>&nbsp;&nbsp;
-      <a href="#M000038">margin</a>&nbsp;&nbsp;
-      <a href="#M000031">to_canvas</a>&nbsp;&nbsp;
-      <a href="#M000032">to_png</a>&nbsp;&nbsp;
-      <a href="#M000033">width</a>&nbsp;&nbsp;
-      <a href="#M000037">xdim</a>&nbsp;&nbsp;
+      <a href="#M000037">full_height</a>&nbsp;&nbsp;
+      <a href="#M000036">full_width</a>&nbsp;&nbsp;
+      <a href="#M000035">height</a>&nbsp;&nbsp;
+      <a href="#M000041">length</a>&nbsp;&nbsp;
+      <a href="#M000040">margin</a>&nbsp;&nbsp;
+      <a href="#M000032">to_canvas</a>&nbsp;&nbsp;
+      <a href="#M000033">to_png</a>&nbsp;&nbsp;
+      <a href="#M000034">width</a>&nbsp;&nbsp;
+      <a href="#M000038">xdim</a>&nbsp;&nbsp;
+      <a href="#M000039">ydim</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -146,6 +148,11 @@ href="PngOutputter.html#M000031">to_canvas</a> methods
           <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
           <td class="context-item-desc"></td>
         </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ydim</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
         </table>
       </div>
     </div>
@@ -156,13 +163,27 @@ href="PngOutputter.html#M000031">to_canvas</a> methods
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
+
+        <div class="method-heading">
+          <a href="PngOutputter.src/M000037.html" target="Code" class="method-signature"
+            onclick="popupCode('PngOutputter.src/M000037.html');return false;">
+          <span class="method-name">full_height</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
       <div id="method-M000036" class="method-detail">
         <a name="M000036"></a>
 
         <div class="method-heading">
           <a href="PngOutputter.src/M000036.html" target="Code" class="method-signature"
             onclick="popupCode('PngOutputter.src/M000036.html');return false;">
-          <span class="method-name">full_height</span><span class="method-args">()</span>
+          <span class="method-name">full_width</span><span class="method-args">()</span>
           </a>
         </div>
       
@@ -176,11 +197,73 @@ href="PngOutputter.html#M000031">to_canvas</a> methods
         <div class="method-heading">
           <a href="PngOutputter.src/M000035.html" target="Code" class="method-signature"
             onclick="popupCode('PngOutputter.src/M000035.html');return false;">
-          <span class="method-name">full_width</span><span class="method-args">()</span>
+          <span class="method-name">height</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000041" class="method-detail">
+        <a name="M000041"></a>
+
+        <div class="method-heading">
+          <a href="PngOutputter.src/M000041.html" target="Code" class="method-signature"
+            onclick="popupCode('PngOutputter.src/M000041.html');return false;">
+          <span class="method-name">length</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000040" class="method-detail">
+        <a name="M000040"></a>
+
+        <div class="method-heading">
+          <a href="PngOutputter.src/M000040.html" target="Code" class="method-signature"
+            onclick="popupCode('PngOutputter.src/M000040.html');return false;">
+          <span class="method-name">margin</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="PngOutputter.src/M000032.html" target="Code" class="method-signature"
+            onclick="popupCode('PngOutputter.src/M000032.html');return false;">
+          <span class="method-name">to_canvas</span><span class="method-args">(opts={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a PNG::Canvas object and renders the barcode on it
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="PngOutputter.src/M000033.html" target="Code" class="method-signature"
+            onclick="popupCode('PngOutputter.src/M000033.html');return false;">
+          <span class="method-name">to_png</span><span class="method-args">(*a)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Renders the barcode to a PNG image
+</p>
         </div>
       </div>
 
@@ -190,7 +273,7 @@ href="PngOutputter.html#M000031">to_canvas</a> methods
         <div class="method-heading">
           <a href="PngOutputter.src/M000034.html" target="Code" class="method-signature"
             onclick="popupCode('PngOutputter.src/M000034.html');return false;">
-          <span class="method-name">height</span><span class="method-args">()</span>
+          <span class="method-name">width</span><span class="method-args">()</span>
           </a>
         </div>
       
@@ -204,69 +287,21 @@ href="PngOutputter.html#M000031">to_canvas</a> methods
         <div class="method-heading">
           <a href="PngOutputter.src/M000038.html" target="Code" class="method-signature"
             onclick="popupCode('PngOutputter.src/M000038.html');return false;">
-          <span class="method-name">margin</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000031" class="method-detail">
-        <a name="M000031"></a>
-
-        <div class="method-heading">
-          <a href="PngOutputter.src/M000031.html" target="Code" class="method-signature"
-            onclick="popupCode('PngOutputter.src/M000031.html');return false;">
-          <span class="method-name">to_canvas</span><span class="method-args">(opts={})</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Creates a PNG::Canvas object and renders the barcode on it
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000032" class="method-detail">
-        <a name="M000032"></a>
-
-        <div class="method-heading">
-          <a href="PngOutputter.src/M000032.html" target="Code" class="method-signature"
-            onclick="popupCode('PngOutputter.src/M000032.html');return false;">
-          <span class="method-name">to_png</span><span class="method-args">(*a)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p>
-Renders the barcode to PNG image
-</p>
-        </div>
-      </div>
-
-      <div id="method-M000033" class="method-detail">
-        <a name="M000033"></a>
-
-        <div class="method-heading">
-          <a href="PngOutputter.src/M000033.html" target="Code" class="method-signature"
-            onclick="popupCode('PngOutputter.src/M000033.html');return false;">
-          <span class="method-name">width</span><span class="method-args">()</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-        </div>
-      </div>
-
-      <div id="method-M000037" class="method-detail">
-        <a name="M000037"></a>
-
-        <div class="method-heading">
-          <a href="PngOutputter.src/M000037.html" target="Code" class="method-signature"
-            onclick="popupCode('PngOutputter.src/M000037.html');return false;">
           <span class="method-name">xdim</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000039" class="method-detail">
+        <a name="M000039"></a>
+
+        <div class="method-heading">
+          <a href="PngOutputter.src/M000039.html" target="Code" class="method-signature"
+            onclick="popupCode('PngOutputter.src/M000039.html');return false;">
+          <span class="method-name">ydim</span><span class="method-args">()</span>
           </a>
         </div>
       

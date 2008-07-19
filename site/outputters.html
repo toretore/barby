@@ -80,6 +80,36 @@ canvas = barcode.to_canvas</code></pre>
       passed to it through the barcode's proxy method.
     </p>
 
+    <h3>2D barcodes</h3>
+
+    <p>
+      2D barcodes are considered 1D barcodes stacked on top of each other. Their
+      <code>encoding</code> method returns an array of strings instead of just
+      a single string. If you want your outputter to support 2D barcodes, you
+      will have to take this into account. Barcode classes inherited from
+      <code>Barcode</code> have a <code>two_dimensional?</code> method which
+      can be used to distinguish a 2D barcode from a 1D barcode.
+    </p>
+
+    <pre><code class="ruby">require 'barby/outputter'
+require 'some_helper_lib'
+
+module Barby
+  class CanvasOutputter &lt; Outputter
+
+    register :to_canvas
+
+    def to_canvas
+      if barcode.two_dimensional?
+        create_2d_canvas_from(encoding)
+      else
+        create_1d_canvas_from(encoding)
+      end
+    end
+
+  end
+end</code></pre>
+
     <p id="footer">
       <a href="http://tore.darell.no/">I</a> made this.
     </p>

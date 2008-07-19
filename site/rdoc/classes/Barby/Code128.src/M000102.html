@@ -5,14 +5,21 @@
 
 <html>
 <head>
-  <title>start_num (Barby::Code128)</title>
+  <title>class_for (Barby::Code128)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
 </head>
 <body class="standalone-code">
-  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 335</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start_num</span>
-      <span class="ruby-identifier">values</span>[<span class="ruby-node">&quot;START#{type}&quot;</span>]
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 314</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">class_for</span>(<span class="ruby-identifier">character</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">character</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'A'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128A</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'B'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128B</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'C'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128C</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CODEA</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128A</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CODEB</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128B</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CODEC</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128C</span>
+      <span class="ruby-keyword kw">end</span>
     <span class="ruby-keyword kw">end</span></pre>
 </body>
 </html>
