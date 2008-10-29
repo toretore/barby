@@ -116,6 +116,7 @@ describe "Extended mode" do
     @code.should be_extended
   end
 
+  #TODO: For some reason the encoding gets screwed up when running all specs at once
   it "should convert extended characters to special shift characters" do
     @code.characters.should == ["E", "\304", "X", "\304", "T", "\304", "E", "\304", "N", "\304", "D", "\304", "E", "\304", "D", "\303", "A"]
   end
