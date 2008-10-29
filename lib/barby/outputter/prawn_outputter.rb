@@ -1,5 +1,4 @@
 require 'barby/outputter'
-#$: << '/home/toretore/Projects/tmp/prawn/lib'
 require 'prawn'
 
 module Barby
