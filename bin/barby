@@ -7,7 +7,8 @@ require 'barby'
 
 options = {
   :outputter => 'Png',
-  :outputter_method => 'to_png'
+  :outputter_method => 'to_png',
+  :barcode => 'Code128B'
 }
 
 ARGV.options do |o|
@@ -18,9 +19,9 @@ ARGV.options do |o|
   o.separator '  EXPERIMENTAL'
   o.separator ''
 
-  o.on('-b', '--barcode=ClassName', String, 'Barcode type'){|v| options[:barcode] = v }
-  o.on('-o', '--outputter=ClassName', String, 'Outputter'){|v| options[:outputter] = v }
-  o.on('-m', '--method=method_name', String, 'Outputter method'){|v| options[:outputter_method] = v }
+  o.on('-b', '--barcode=ClassName', String, 'Barcode type (Code128B)'){|v| options[:barcode] = v }
+  o.on('-o', '--outputter=ClassName', String, 'Outputter (Png)'){|v| options[:outputter] = v }
+  o.on('-m', '--method=method_name', String, 'Outputter method (to_png)'){|v| options[:outputter_method] = v }
 
   o.on_tail("-h", "--help", "Show this help message.") { puts o; exit }
     
