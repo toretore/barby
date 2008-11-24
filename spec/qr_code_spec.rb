@@ -50,8 +50,8 @@ describe QrCode do
   end
 
   it "should raise ArgumentError when data too large" do
-    lambda{ QrCode.new('1'*271, :level => :l) }.should_not raise_error(ArgumentError)
-    lambda{ QrCode.new('1'*272, :level => :l) }.should raise_error(ArgumentError)
+    lambda{ QrCode.new('1'*2953, :level => :l) }.should_not raise_error(ArgumentError)
+    lambda{ QrCode.new('1'*2954, :level => :l) }.should raise_error(ArgumentError)
   end
 
 
