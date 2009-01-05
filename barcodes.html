@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Barby</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+    <!--
+    <link href="syntax.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="code_highlighter/all.js"></script>
+    -->
+  </head>
+  <body>
+  
+    <h1 id="header">Barby</h1>
+    <p id="header-copy">
+      <strong>Bar</strong>codes for Ru<strong>by</strong>
+    </p>
+    <img src="code128b_header.png" alt="Code 128 B" id="header-barcode" class="barcode" />
+
+    <ul id="menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="howto.html">Howto</a></li>
+      <li><a href="rdoc">RDoc</a></li>
+      <li class="current"><a href="barcodes.html">Barcodes</a></li>
+      <li><a href="outputters.html">Outputters</a></li>
+    </ul>
+
+    <p>
+      The following barcode symbologies are currently supported:
+    </p>
+
+    <ul>
+      <li>1D
+      <ul>
+        <li>
+          Code128
+          <ul>
+            <li>GS1 128</li>
+          </ul>
+        </li>
+        <li>EAN-13</li>
+          <ul>
+            <li>Bookland</li>
+          </ul>
+        <li>EAN-8</li>
+        <li>Code39</li>
+        <li>Code93</li>
+        <li>Code25 (2 of 5)</li>
+      </ul>
+      </li>
+      <li>2D
+        <ul>
+          <li>QR Code</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Writing your own barcode class</h2>
+
+    <p>
+      If you want to add support for a symbology that isn't currently supported,
+      that's pretty easy. The only requirement is that your class has an <code>encoding</code>
+      method which returns a string representation of the encoded barcode. It should also
+      inherit the <code>Barcode1D</code> class. As an example, this
+      EAN-8 barcode,
+    </p>
+
+    <img src="ean8.png" alt="EAN-8 barcode" class="barcode" />
+
+    <p>
+      is represented by the string
+      <code>"1010111011010111100110010010011010101011100101110010011101000100101"</code>.
+    </p>
+
+    <p>
+      In the string, "black" or "bar" is represented with a 1 and "white" or "space" is represented by 0. One digit
+      is one "X dimension" in length. So, a thick black line is represented by several 1s together. The image above
+      was created with the outputter's <code>:xdim</code> option set to 2, i.e. 2 pixels, so the thinnest line possible
+      is 2px wide.
+    </p>
+
+    <p>
+      This string is what the outputter classes use as input when generating images etc for a barcode.
+    </p>
+
+    <h3>2D barcodes</h3>
+
+    <p>
+      2D barcodes are similar to 1D barcodes with the only difference that their <code>encoding</code>
+      method should return an <em>array of strings</em> instead of a single string. 2D barcodes are thus
+      considered to be several 1D barcodes layered on top of each other. As an example, this QR Code,
+    </p>
+
+    <img src="qrcode.png" alt="QR Code barcode" class="barcode" />
+
+    <p>
+      is represented by this array of strings:
+    </p>
+
+    <pre><code>["111111100100101111111", "100000101001001000001", "101110100100001011101",
+"101110101001001011101", "101110100011101011101", "100000101110101000001",
+"111111101010101111111", "000000000011100000000", "111110111100110101010",
+"011011010110110110111", "100101101001011000010", "110100000000010001110",
+"100011111001001110010", "000000001101100111100", "111111101110110001110",
+"100000100101110011101", "101110101010101111001", "101110101100111110100",
+"101110101011000001000", "100000101000000101100", "111111101101000110010"]</code></pre>
+
+    <p id="footer">
+      <a href="http://tore.darell.no/">I</a> made this.
+    </p>
+
+  </body>
+</html>
