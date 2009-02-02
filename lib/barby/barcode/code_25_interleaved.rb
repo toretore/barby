@@ -2,69 +2,69 @@ require 'barby/barcode/code_25'
 
 module Barby
 
+  #Code 2 of 5 interleaved. Same as standard 2 of 5, but spaces are used
+  #for encoding as well as the bars. Each pair of numbers get interleaved,
+  #that is, the first is encoded in the bars and the second is encoded
+  #in the spaced. This means an interleaved 2/5 barcode must have an even
+  #number of digits.
   class Code25Interleaved < Code25
 
     START_ENCODING = [N,N,N,N]
     STOP_ENCODING =  [W,N,N]
 
 
-    def data_encoding
-      digit_pair_encodings.join
+    def digit_pairs(d=nil)
+      (d || digits).inject [] do |ary,d|
+        ary << [] if !ary.last || ary.last.size == 2
+        ary.last << d
+        ary
+      end
+    end
+
+    def digit_pairs_with_checksum
+      digit_pairs(digits_with_checksum)
     end
 
 
-    def character_pairs
-      chars = characters
-      pairs = Array.new((chars.size/2.0).ceil){ [] }
-      chars.each_with_index{|c,i| pairs[(i/2.0).floor] << c }
-      pairs
-    end
-
-    def digit_pairs
-      d = digits
-      pairs = Array.new((d.size/2.0).ceil){ [] }
-      d.each_with_index{|dd,i| pairs[(i/2.0).floor] << dd }
-      pairs
-    end
-
-
-    def digit_pair_encodings
+    def digit_encodings
+      raise_invalid unless valid?
       digit_pairs.map{|p| encoding_for_pair(p) }
+    end
+
+    def digit_encodings_with_checksum
+      digit_pairs_with_checksum.map{|p| encoding_for_pair(p) }
     end
 
 
     def encoding_for_pair(pair)
       bars, spaces = ENCODINGS[pair.first], ENCODINGS[pair.last]
-      bars.zip(spaces).inject '' do |enc,p|
-        bar, space = *p
-        enc + ('1' *  (bar == WIDE ? wide_width : narrow_width)) +
-        ('0' *  (space == WIDE ? wide_width : narrow_width))
-      end
+      encoding_for_interleaved(bars.zip(spaces))
     end
 
-    #def encoding_for_bars(*bars_and_spaces)
-    #  bar = false
-    #  bars_and_spaces.flatten.inject '' do |enc,bar_or_space|
-    #    bar = !bar
-    #    enc + (bar ? '1' : '0')*(bar_or_space == WIDE ? wide_width : narrow_width)
-    #  end
-    #end
+
+    #Encodes an array of interleaved W or N bars and spaces
+    #ex: [W,N,W,W,N,N] => "111011100010"
+    def encoding_for_interleaved(*bars_and_spaces)
+      bar = false#starts with bar
+      bars_and_spaces.flatten.inject '' do |enc,bar_or_space|
+        bar = !bar
+        enc << (bar ? '1' : '0') * (bar_or_space == WIDE ? wide_width : narrow_width)
+      end
+    end
 
 
     def start_encoding
-      bar = false
-      START_ENCODING.inject '' do |enc,bar_or_space|
-        bar = !bar
-        enc << (bar ? '1' : '0') * (bar_or_space == WIDE ? wide_width : narrow_width)
-      end
+      encoding_for_interleaved(START_ENCODING)
     end
 
     def stop_encoding
-      bar = false
-      STOP_ENCODING.inject '' do |enc,bar_or_space|
-        bar = !bar
-        enc << (bar ? '1' : '0') * (bar_or_space == WIDE ? wide_width : narrow_width)
-      end
+      encoding_for_interleaved(STOP_ENCODING)
+    end
+
+
+    def valid?
+      #                           When checksum is included, it's included when determining "evenness"
+      super && digits.size % 2 == (include_checksum? ? 1 : 0)
     end
 
 
