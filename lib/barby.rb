@@ -10,5 +10,8 @@ require 'barby/barcode/ean_13'
 require 'barby/barcode/ean_8'
 require 'barby/barcode/bookland'
 require 'barby/barcode/qr_code'
+require 'barby/barcode/code_25'
+require 'barby/barcode/code_25_interleaved'
+require 'barby/barcode/code_25_iata'
 
 require 'barby/outputter'
