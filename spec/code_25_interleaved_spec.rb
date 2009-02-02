@@ -38,7 +38,6 @@ describe Code25Interleaved do
   end
 
   it "should have the expected encoding" do
-    #TODO: Add start, stop
     @code.encoding.should == "101011101000101011100011101110100010100011101000111000101010101000111000111011101"
   end
 

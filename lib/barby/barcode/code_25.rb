@@ -117,6 +117,8 @@ module Barby
     end
 
 
+    #2 of 5 doesn't require a checksum, but you can include a Mod10 checksum
+    #by setting +include_checksum+ to true
     def include_checksum?
       include_checksum
     end
