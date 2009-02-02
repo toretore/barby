@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>render_to_cairo_context (Barby::CairoOutputter)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/cairo_outputter.rb, line 27</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_to_cairo_context</span>(<span class="ruby-identifier">context</span>, <span class="ruby-identifier">options</span>={})
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">context</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:have_current_point?</span>) <span class="ruby-keyword kw">and</span>
+          <span class="ruby-identifier">context</span>.<span class="ruby-identifier">have_current_point?</span>
+        <span class="ruby-identifier">current_x</span>, <span class="ruby-identifier">current_y</span> = <span class="ruby-identifier">context</span>.<span class="ruby-identifier">current_point</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">current_x</span> = <span class="ruby-identifier">x</span>(<span class="ruby-identifier">options</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">margin</span>(<span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">current_y</span> = <span class="ruby-identifier">y</span>(<span class="ruby-identifier">options</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">margin</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-identifier">_xdim</span> = <span class="ruby-identifier">xdim</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">_height</span> = <span class="ruby-identifier">height</span>(<span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">original_current_x</span> = <span class="ruby-identifier">current_x</span>
+      <span class="ruby-identifier">context</span>.<span class="ruby-identifier">save</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">context</span>.<span class="ruby-identifier">set_source_color</span>(<span class="ruby-identifier">:black</span>)
+        <span class="ruby-identifier">context</span>.<span class="ruby-identifier">fill</span> <span class="ruby-keyword kw">do</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">barcode</span>.<span class="ruby-identifier">two_dimensional?</span>
+            <span class="ruby-identifier">boolean_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">groups</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bar</span>,<span class="ruby-identifier">amount</span><span class="ruby-operator">|</span>
+                <span class="ruby-identifier">current_width</span> = <span class="ruby-identifier">_xdim</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">amount</span>
+                <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bar</span>
+                  <span class="ruby-identifier">context</span>.<span class="ruby-identifier">rectangle</span>(<span class="ruby-identifier">current_x</span>, <span class="ruby-identifier">current_y</span>, <span class="ruby-identifier">current_width</span>, <span class="ruby-identifier">_xdim</span>)
+                <span class="ruby-keyword kw">end</span>
+                <span class="ruby-identifier">current_x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">current_width</span>
+              <span class="ruby-keyword kw">end</span>
+              <span class="ruby-identifier">current_x</span> = <span class="ruby-identifier">original_current_x</span>
+              <span class="ruby-identifier">current_y</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">_xdim</span>
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-identifier">boolean_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bar</span>,<span class="ruby-identifier">amount</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">current_width</span> = <span class="ruby-identifier">_xdim</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">amount</span>
+              <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bar</span>
+                <span class="ruby-identifier">context</span>.<span class="ruby-identifier">rectangle</span>(<span class="ruby-identifier">current_x</span>, <span class="ruby-identifier">current_y</span>, <span class="ruby-identifier">current_width</span>, <span class="ruby-identifier">_height</span>)
+              <span class="ruby-keyword kw">end</span>
+              <span class="ruby-identifier">current_x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">current_width</span>
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+
+      <span class="ruby-identifier">context</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
