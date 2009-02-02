@@ -17,8 +17,16 @@ describe Code25 do
     @code.characters.should == %w(1 2 3 4 5 6 7)
   end
 
+  it "should have the expected characters_with_checksum" do
+    @code.characters_with_checksum.should == %w(1 2 3 4 5 6 7 0)
+  end
+
   it "should have the expected digits" do
     @code.digits.should == [1,2,3,4,5,6,7]
+  end
+
+  it "should have the expected digits_with_checksum" do
+    @code.digits_with_checksum.should == [1,2,3,4,5,6,7,0]
   end
 
   it "should have the expected even_and_odd_digits" do
@@ -50,7 +58,11 @@ describe Code25 do
   end
 
   it "should have the expected digit_encodings" do
-    @code.character_encodings.should == %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110)
+    @code.digit_encodings.should == %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110)
+  end
+
+  it "should have the expected digit_encodings_with_checksum" do
+    @code.digit_encodings_with_checksum.should == %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110 10101110111010)
   end
 
   it "should have the expected data_encoding" do
@@ -76,6 +88,15 @@ describe Code25 do
   it "should not be valid" do
     @code.data = 'abc'
     @code.should_not be_valid
+  end
+
+  it "should raise on encoding methods that include data encoding if not valid" do
+    @code.data = 'abc'
+    lambda{ @code.encoding }.should raise_error
+    lambda{ @code.data_encoding }.should raise_error
+    lambda{ @code.data_encoding_with_checksum }.should raise_error
+    lambda{ @code.digit_encodings }.should raise_error
+    lambda{ @code.digit_encodings_with_checksum }.should raise_error
   end
 
 end

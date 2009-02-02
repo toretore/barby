@@ -41,7 +41,7 @@ module Barby
     end
 
     def data_encoding_with_checksum
-      data_encoding+checksum_encoding
+      digit_encodings_with_checksum.join
     end
 
     def encoding
@@ -53,8 +53,16 @@ module Barby
       data.split(//)
     end
 
+    def characters_with_checksum
+      characters.push(checksum.to_s)
+    end
+
     def digits
       characters.map{|c| c.to_i }
+    end
+
+    def digits_with_checksum
+      digits.push(checksum)
     end
 
     def even_and_odd_digits
@@ -64,9 +72,16 @@ module Barby
 
 
     def digit_encodings
+      raise_invalid unless valid?
       digits.map{|d| encoding_for(d) }
     end
     alias character_encodings digit_encodings
+
+    def digit_encodings_with_checksum
+      raise_invalid unless valid?
+      digits_with_checksum.map{|d| encoding_for(d) }
+    end
+    alias character_encodings_with_checksum digit_encodings_with_checksum
 
 
     #Returns the encoding for a single digit
@@ -154,6 +169,13 @@ module Barby
 
     def valid?
       data =~ /^[0-9]*$/
+    end
+
+
+  private
+
+    def raise_invalid
+      raise ArgumentError, "data not valid"
     end
 
 
