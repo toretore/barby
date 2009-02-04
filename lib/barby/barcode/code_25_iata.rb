@@ -15,7 +15,7 @@ module Barby
     end
 
     def stop_encoding
-      encoding_for_bars(STOP_ENCODING)
+      encoding_for_bars_without_end_space(STOP_ENCODING)
     end
 
   end
