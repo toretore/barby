@@ -174,6 +174,19 @@ module Barby
       @data
     end
 
+    #Returns the data for this barcode plus that for the entire extra chain,
+    #including all change codes prefixing each extra
+    def full_data
+      data + full_extra_data
+    end
+
+    #Returns the full_data for the extra with the change code for the extra
+    #prepended. If there is no extra, an empty string is returned
+    def full_extra_data
+      return '' unless extra
+      change_code_for(extra) + extra.full_data
+    end
+
     #Set the data for this barcode. If the barcode changes
     #character set, an extra will be created.
     def data=(data)
@@ -296,14 +309,20 @@ module Barby
       encodings[values[char]]
     end
 
+    def change_code_for_class(klass)
+      {Code128A => CODEA, Code128B => CODEB, Code128C => CODEC}[klass]
+    end
+
+    #Find the character that changes the character set to the one
+    #represented in +barcode+
+    def change_code_for(barcode)
+      change_code_for_class(barcode.class)
+    end
+
     #Find the numeric value for the character that changes the character
     #set to the one represented in +barcode+
     def change_code_number_for(barcode)
-      case barcode
-        when Code128A then values[CODEA]
-        when Code128B then values[CODEB]
-        when Code128C then values[CODEC]
-      end
+      values[change_code_for(barcode)]
     end
 
     #Find the encoding to change to the character set in +barcode+

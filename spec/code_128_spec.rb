@@ -20,6 +20,12 @@ describe "Common features" do
     @code.send(:class_for, 'C').should == Code128C
   end
 
+  it "should find the right change code for a class" do
+    @code.send(:change_code_for_class, Code128A).should == Code128::CODEA
+    @code.send(:change_code_for_class, Code128B).should == Code128::CODEB
+    @code.send(:change_code_for_class, Code128C).should == Code128::CODEC
+  end
+
 end
 
 
@@ -60,6 +66,22 @@ describe "Common features for multiple encodings" do
   before :each do
     @data = "ABC123\306def\3074567"
     @code = Code128A.new(@data)
+  end
+
+  it "should be able to return full_data which includes the entire extra chain including charset change characters" do
+    @code.full_data.should == @data
+  end
+
+  it "should not matter if extras were added separately" do
+    code = Code128B.new("ABC")
+    code.extra = "\3071234"
+    code.full_data.should == "ABC\3071234"
+    code.extra.extra = "\306abc"
+    code.full_data.should == "ABC\3071234\306abc"
+    code.extra.extra.data = "abc\305DEF"
+    code.full_data.should == "ABC\3071234\306abc\305DEF"
+    code.extra.extra.full_data.should == "abc\305DEF"
+    code.extra.full_data.should == "1234\306abc\305DEF"
   end
 
   it "should have a Code B extra" do
