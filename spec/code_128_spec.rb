@@ -62,6 +62,10 @@ describe "Common features for multiple encodings" do
     @code = Code128A.new(@data)
   end
 
+  it "should retain full_data including data converted to extras" do
+    @code.full_data.should == @data
+  end
+
   it "should have a Code B extra" do
     @code.extra.should be_an_instance_of(Code128B)
   end

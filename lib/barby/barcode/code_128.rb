@@ -174,9 +174,14 @@ module Barby
       @data
     end
 
+    def full_data
+      @full_data
+    end
+
     #Set the data for this barcode. If the barcode changes
     #character set, an extra will be created.
     def data=(data)
+      @full_data = data
       data, *extra = data.split(/([#{CODEA+CODEB+CODEC}])/n)
       @data = data
       self.extra = extra.join unless extra.empty?
