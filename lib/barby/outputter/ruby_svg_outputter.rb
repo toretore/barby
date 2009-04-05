@@ -17,7 +17,7 @@ module Barby
   #:use => 'rects' or :use => 'path' options.
   class RubySvgOutputter < Outputter
     register :to_svg, :bars_to_rects, :bars_to_path
-    attr_writer :title, :xdim, :ydim, :height, :xmargin, :ymargin, :margin
+    attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin
     
     def to_svg(opts={})
       with_options opts do
