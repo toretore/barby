@@ -31,7 +31,7 @@ module Barby
         
         <<-"EOT"
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="#{svg_width(opts)}px" height="#{svg_height(opts)}px" viewBox="0 0 #{svg_width} #{svg_height}" version="1.1">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="#{svg_width(opts)}px" height="#{svg_height(opts)}px" viewBox="0 0 #{svg_width(opts)} #{svg_height(opts)}" version="1.1">
 <g id="canvas" #{transform(opts)}>
 <rect x="0" y="0" width="#{full_width}px" height="#{full_height}px" fill="white" />
 <g id="barcode" fill="black"><title>#{title}</title>
@@ -76,10 +76,8 @@ EOT
     end
     
     def bars_to_path(opts={})
-      opts[:stroke] ||= 'black'
-      
       with_options opts do
-        %Q|<path stroke="#{opts[:stroke]}" stroke-width="#{xdim}" d="#{bars_to_path_data(opts)}" />|
+        %Q|<path stroke="black" stroke-width="#{xdim}" d="#{bars_to_path_data(opts)}" />|
       end
     end
     
@@ -127,11 +125,11 @@ EOT
     end
     
     def full_width
-      width + (xmargin * 2)
+      width + lmargin + rmargin
     end
     
     def full_height
-      height + (ymargin * 2)
+      height + tmargin + bmargin
     end
     
     def xdim
