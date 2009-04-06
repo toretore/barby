@@ -48,7 +48,7 @@ EOT
         x, y = lmargin, tmargin
         
         if barcode.two_dimensional?
-          boolean_groups.reverse_each do |line|
+          boolean_groups.each do |line|
             line.each do |bar, amount|
               bar_width = xdim * amount
               if bar
@@ -87,7 +87,7 @@ EOT
         x, y = lmargin+(xdim/2), tmargin
         
         if barcode.two_dimensional?
-          booleans.reverse_each do |line|
+          booleans.each do |line|
             line.each do |bar|
               if bar
                 path_data << "M#{x} #{y}V #{y+ydim}"
