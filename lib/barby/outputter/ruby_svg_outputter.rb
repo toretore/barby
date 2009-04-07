@@ -113,7 +113,7 @@ EOT
     end
     
     def title
-      @title || (barcode.full_data if barcode.respond_to?(:full_data)) || (barcode.data)
+      @title || (barcode.full_data if barcode.respond_to?(:full_data)) || (barcode.data if barcode.respond_to?(:data))
     end
     
     def width
