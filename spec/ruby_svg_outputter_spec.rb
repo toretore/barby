@@ -27,7 +27,7 @@ describe RubySvgOutputter do
     Barcode.outputters.should include(:to_svg, :bars_to_rects, :bars_to_path)
   end
 
-  it "should return a string on to_svg" do
+  it 'should return a string on to_svg' do
     @barcode.to_svg.should be_an_instance_of(String)
   end
   
@@ -65,16 +65,35 @@ describe RubySvgOutputter do
     @outputter.ymargin.should == @outputter.send(:_margin)
   end
   
-  it "should have a width equal to Xdim * barcode_string.length" do
+  it 'should have a width equal to Xdim * barcode_string.length' do
     @outputter.width.should == @outputter.barcode.encoding.length * @outputter.xdim
   end
 
-  it "should have a full_width which is by default the sum of width + (margin*2)" do
+  it 'should have a full_width which is by default the sum of width + (margin*2)' do
     @outputter.full_width.should == @outputter.width + (@outputter.margin*2)
   end
   
-  it "should have a full_width which is the sum of width + xmargin + ymargin" do
+  it 'should have a full_width which is the sum of width + xmargin + ymargin' do
     @outputter.full_width.should == @outputter.width + @outputter.xmargin + @outputter.ymargin
+  end
+
+  it 'should not complain if there is no valid title' do
+    @outputter.title.should == nil
+  end
+  
+  it 'should use data for title if possible' do
+    class TestBarcode
+      def data; @data; end
+    end
+    @outputter.title.should == @barcode.data
+  end
+  
+  it 'should prefer full_data for title if full_data is defined' do
+    class TestBarcode
+      def data; :data; end
+      def full_data; :full_data; end
+    end
+    @outputter.title.should == :full_data
   end
 
 end
