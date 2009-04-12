@@ -142,31 +142,34 @@ EOT
     end
     
     def lmargin
-      @lmargin || xmargin
+      @lmargin || _xmargin
     end
     
     def rmargin
-      @rmargin || xmargin
+      @rmargin || _xmargin
     end
     
     def tmargin
-      @tmargin || ymargin
+      @tmargin || _ymargin
     end
     
     def bmargin
-      @bmargin || ymargin
+      @bmargin || _ymargin
     end
     
     def xmargin
-      @xmargin || margin
+      return nil if @lmargin || @rmargin
+      _margin
     end
     
     def ymargin
-      @ymargin || margin
+      return nil if @tmargin || @bmargin
+      _margin
     end
     
     def margin
-      @margin || 10
+      return nil if @ymargin || @xmargin || @tmargin || @bmargin || @lmargin || @rmargin
+      _margin
     end
     
     def length
@@ -183,6 +186,21 @@ EOT
     
     def transform(opts={})
       opts[:rot] ? %Q|transform="rotate(-90) translate(-#{full_width}, 0)"| : nil
+    end
+    
+    
+    private
+    
+    def _xmargin
+      @xmargin || _margin
+    end
+    
+    def _ymargin
+      @ymargin || _margin
+    end
+    
+    def _margin
+      @margin || 10
     end
     
   end
