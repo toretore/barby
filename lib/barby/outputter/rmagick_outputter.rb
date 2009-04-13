@@ -16,17 +16,24 @@ module Barby
 
     #Returns a string containing a PNG image
     def to_png(*a)
-      to_image(*a).to_blob{|i| i.format ='png' }
+      to_blob('png', *a)
     end
 
     #Returns a string containint a GIF image
     def to_gif(*a)
-      to_image(*a).to_blob{|i| i.format ='gif' }
+      to_blob('gif', *a)
     end
 
     #Returns a string containing a JPEG image
     def to_jpg(*a)
-      to_image(*a).to_blob{|i| i.format = 'jpg' }
+      to_blob('jpg', *a)
+    end
+    
+    def to_blob(format, *a)
+      img = to_image(*a)
+      blob = img.to_blob{|i| i.format = format }
+      img.destroy! if img.respond_to?(:destroy!) # Helps with RMagick memory leak problem
+      blob
     end
 
     #Returns an instance of Magick::Image
