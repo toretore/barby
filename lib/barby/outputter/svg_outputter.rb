@@ -1,7 +1,7 @@
 require 'barby/outputter'
 
 module Barby
-  
+
   #Renders the barcode to a simple SVG image using pure ruby
   #
   #Registers the to_svg, bars_to_path, and bars_to_rects method
@@ -16,9 +16,11 @@ module Barby
   #rectangles for odd.  This can be overridden by calling with explicit
   #:use => 'rects' or :use => 'path' options.
   class SvgOutputter < Outputter
+
     register :to_svg, :bars_to_rects, :bars_to_path
     attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin
-    
+
+
     def to_svg(opts={})
       with_options opts do
         case opts[:use]
@@ -28,7 +30,7 @@ module Barby
           xdim_odd = (xdim % 2 == 1)
           bars = xdim_odd ? bars_to_rects : bars_to_path
         end
-        
+
         <<-"EOT"
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="#{svg_width(opts)}px" height="#{svg_height(opts)}px" viewBox="0 0 #{svg_width(opts)} #{svg_height(opts)}" version="1.1">
@@ -42,12 +44,13 @@ module Barby
 EOT
       end
     end
-    
+
+
     def bars_to_rects(opts={})
       rects = ''
       with_options opts do
         x, y = lmargin, tmargin
-        
+
         if barcode.two_dimensional?
           boolean_groups.each do |line|
             line.each do |bar, amount|
@@ -60,7 +63,7 @@ EOT
             y += ydim
             x = lmargin
           end
-        
+
         else
           boolean_groups.each do |bar, amount|
             bar_width = xdim * amount
@@ -69,24 +72,26 @@ EOT
             end
             x += bar_width
           end
-        
+
         end
       end # with_options
-      
+
       rects
     end
-    
+
+
     def bars_to_path(opts={})
       with_options opts do
         %Q|<path stroke="black" stroke-width="#{xdim}" d="#{bars_to_path_data(opts)}" />|
       end
     end
-    
+
+
     def bars_to_path_data(opts={})
       path_data = ''
       with_options opts do
         x, y = lmargin+(xdim/2), tmargin
-        
+
         if barcode.two_dimensional?
           booleans.each do |line|
             line.each do |bar|
@@ -98,7 +103,7 @@ EOT
             y += ydim
             x = lmargin+(xdim/2)
           end
-          
+
         else
           booleans.each do |bar|
             if bar
@@ -106,103 +111,109 @@ EOT
             end
             x += xdim
           end
-          
+
         end
       end # with_options
-      
+
       path_data
     end
-    
+
+
     def title
       @title || (barcode.full_data if barcode.respond_to?(:full_data)) || (barcode.data if barcode.respond_to?(:data))
     end
-    
+
+
     def width
       length * xdim
     end
-    
+
     def height
       barcode.two_dimensional? ? (ydim * encoding.length) : (@height || 100)
     end
-    
+
     def full_width
       width + lmargin + rmargin
     end
-    
+
     def full_height
       height + tmargin + bmargin
     end
-    
+
     def xdim
       @xdim || 1
     end
-    
+
     def ydim
       @ydim || xdim
     end
-    
+
     def lmargin
       @lmargin || _xmargin
     end
-    
+
     def rmargin
       @rmargin || _xmargin
     end
-    
+
     def tmargin
       @tmargin || _ymargin
     end
-    
+
     def bmargin
       @bmargin || _ymargin
     end
-    
+
     def xmargin
       return nil if @lmargin || @rmargin
       _margin
     end
-    
+
     def ymargin
       return nil if @tmargin || @bmargin
       _margin
     end
-    
+
     def margin
       return nil if @ymargin || @xmargin || @tmargin || @bmargin || @lmargin || @rmargin
       _margin
     end
-    
+
     def length
       barcode.two_dimensional? ? encoding.first.length : encoding.length
     end
-    
+
+
     def svg_width(opts={})
       opts[:rot] ? full_height : full_width
     end
-    
+
     def svg_height(opts={})
-      opts[:rot] ? full_width : full_height 
+      opts[:rot] ? full_width : full_height
     end
-    
+
+
     def transform(opts={})
       opts[:rot] ? %Q|transform="rotate(-90) translate(-#{full_width}, 0)"| : nil
     end
-    
-    
-    private
-    
+
+
+  private
+
     def _xmargin
       @xmargin || _margin
     end
-    
+
     def _ymargin
       @ymargin || _margin
     end
-    
+
     def _margin
       @margin || 10
     end
-    
+
+
   end
-  
+
+
 end
