@@ -68,20 +68,29 @@ describe "Common features for multiple encodings" do
     @code = Code128A.new(@data)
   end
 
-  it "should be able to return full_data which includes the entire extra chain including charset change characters" do
-    @code.full_data.should == @data
+  it "should be able to return full_data which includes the entire extra chain excluding charset change characters" do
+    @code.full_data.should == "ABC123def4567"
+  end
+
+  it "should be able to return full_data_with_change_codes which includes the entire extra chain including charset change characters" do
+    @code.full_data_with_change_codes.should == @data
   end
 
   it "should not matter if extras were added separately" do
     code = Code128B.new("ABC")
     code.extra = "\3071234"
-    code.full_data.should == "ABC\3071234"
+    code.full_data.should == "ABC1234"
+    code.full_data_with_change_codes.should == "ABC\3071234"
     code.extra.extra = "\306abc"
-    code.full_data.should == "ABC\3071234\306abc"
+    code.full_data.should == "ABC1234abc"
+    code.full_data_with_change_codes.should == "ABC\3071234\306abc"
     code.extra.extra.data = "abc\305DEF"
-    code.full_data.should == "ABC\3071234\306abc\305DEF"
-    code.extra.extra.full_data.should == "abc\305DEF"
-    code.extra.full_data.should == "1234\306abc\305DEF"
+    code.full_data.should == "ABC1234abcDEF"
+    code.full_data_with_change_codes.should == "ABC\3071234\306abc\305DEF"
+    code.extra.extra.full_data.should == "abcDEF"
+    code.extra.extra.full_data_with_change_codes.should == "abc\305DEF"
+    code.extra.full_data.should == "1234abcDEF"
+    code.extra.full_data_with_change_codes.should == "1234\306abc\305DEF"
   end
 
   it "should have a Code B extra" do

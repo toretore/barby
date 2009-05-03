@@ -175,16 +175,28 @@ module Barby
     end
 
     #Returns the data for this barcode plus that for the entire extra chain,
-    #including all change codes prefixing each extra
+    #excluding all change codes
     def full_data
       data + full_extra_data
     end
 
-    #Returns the full_data for the extra with the change code for the extra
-    #prepended. If there is no extra, an empty string is returned
+    #Returns the data for this barcode plus that for the entire extra chain,
+    #including all change codes prefixing each extra
+    def full_data_with_change_codes
+      data + full_extra_data_with_change_code
+    end
+
+    #Returns the full_data for the extra or an empty string if there is no extra
     def full_extra_data
       return '' unless extra
-      change_code_for(extra) + extra.full_data
+      extra.full_data
+    end
+
+    #Returns the full_data for the extra with the change code for the extra
+    #prepended. If there is no extra, an empty string is returned
+    def full_extra_data_with_change_code
+      return '' unless extra
+      change_code_for(extra) + extra.full_data_with_change_codes
     end
 
     #Set the data for this barcode. If the barcode changes
