@@ -13,7 +13,8 @@ module Barby
       super(data, type)
     end
 
-    
+
+    #TODO: Not sure this is entirely right
     def data
       FNC1+application_identifier+super
     end
@@ -28,6 +29,10 @@ module Barby
 
     def application_identifier_encoding
       encodings[application_identifier_number]
+    end
+
+    def to_s
+      "(#{application_identifier}) #{partial_data}"
     end
 
 

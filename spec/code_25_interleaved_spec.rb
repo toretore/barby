@@ -47,6 +47,10 @@ describe Code25Interleaved do
     @code.encoding_for_interleaved(w,n,w,n,n,w,n,n,n,w).should == '111011101000101000'
   end
 
+  it "should return all characters in sequence for to_s" do
+    @code.to_s.should == @code.characters.join
+  end
+
 end
 
 describe "Code25Interleaved with checksum" do
@@ -77,6 +81,10 @@ describe "Code25Interleaved with checksum" do
 
   it "should be valid" do
     @code.should be_valid
+  end
+
+  it "should return all characters including checksum in sequence on to_s" do
+    @code.to_s.should ==  @code.characters_with_checksum.join
   end
 
 

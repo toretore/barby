@@ -54,6 +54,14 @@ describe QrCode do
     lambda{ QrCode.new('1'*2954, :level => :l) }.should raise_error(ArgumentError)
   end
 
+  it "should return the original data on to_s" do
+    @code.to_s.should == 'Ereshkigal'
+  end
+
+  it "should include at most 20 characters on to_s" do
+    QrCode.new('123456789012345678901234567890').to_s.should == '12345678901234567890'
+  end
+
 
   def rqrcode(code)
     RQRCode::QRCode.new(code.data, :level => code.level, :size => code.size)

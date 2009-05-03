@@ -170,6 +170,11 @@ module Barby
     end
 
 
+    def to_s
+      full_data
+    end
+
+
     def data
       @data
     end

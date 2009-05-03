@@ -175,6 +175,11 @@ module Barby
     end
 
 
+    def to_s
+      (include_checksum? ? characters_with_checksum : characters).join
+    end
+
+
   private
 
     def raise_invalid

@@ -61,4 +61,8 @@ describe GS1128 do
     @code.encoding.should == '110100111001111010111011000100100100110001001011001110011011011000101100010001100011101011'
   end
 
+  it "should return full data excluding change codes, including AI on to_s" do
+    @code.to_s.should == '(11) 071230'
+  end
+
 end

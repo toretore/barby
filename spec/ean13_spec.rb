@@ -74,6 +74,10 @@ describe EAN13, ' data' do
     @code.data_with_checksum.should == @data+'5'
   end
 
+  it "should return all digits and the checksum on to_s" do
+    @code.to_s.should == '0075678164125'
+  end
+
 end
 
 

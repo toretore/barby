@@ -52,6 +52,11 @@ module Barby
     end
 
 
+    def to_s
+      self.class.name.split('::').last
+    end
+
+
     #Is this barcode 2D?
     def two_dimensional?
       is_a? Barcode2D

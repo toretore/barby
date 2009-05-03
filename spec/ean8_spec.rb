@@ -71,6 +71,10 @@ describe EAN8, 'data' do
     @code.right_numbers.should == [3,4,5,7]
   end
 
+  it "should return the data with checksum on to_s" do
+    @code.to_s.should == '55123457'
+  end
+
 end
 
 

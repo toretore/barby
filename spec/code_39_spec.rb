@@ -61,6 +61,10 @@ describe Code39 do
     lambda{ Code39.new('abc') }.should raise_error(ArgumentError)
   end
 
+  it "should return all characters in sequence without checksum on to_s" do
+    @code.to_s.should == @data
+  end
+
 end
 
 describe "Checksumming" do
@@ -173,6 +177,10 @@ describe "Extended encoding" do
   it "should not be valid" do
     @code.data = "abc\200123"
     @code.should_not be_valid
+  end
+
+  it "should return all characters in sequence without checksum on to_s" do
+    @code.to_s.should == @data
   end
 
 end

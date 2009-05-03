@@ -58,6 +58,10 @@ describe "Common features for single encoding" do
     @code.checksum.should == 66
   end
 
+  it "should return all data for to_s" do
+    @code.to_s.should == @data
+  end
+
 end
 
 
@@ -151,6 +155,10 @@ describe "Common features for multiple encodings" do
                              '101110111101011101100010000101100'+
                              #CHECK=84   STOP
                              '100111101001100011101011'
+  end
+
+  it "should return all data including extras, except change codes for to_s" do
+    @code.to_s.should == "ABC123def4567"
   end
 
 end

@@ -148,6 +148,11 @@ module Barby
     end
 
 
+    def to_s
+      data_with_checksum
+    end
+
+
     #Is this a UPC-A barcode?
     #UPC barcodes are EAN codes that start with 0
     def upc?

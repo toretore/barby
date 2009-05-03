@@ -102,6 +102,10 @@ describe Code93 do
     @code.data = 'not extended'
   end
 
+  it "should return data with no checksums on to_s" do
+    @code.to_s.should == 'TEST93'
+  end
+
 end
 
 
@@ -116,7 +120,7 @@ describe "Extended mode" do
     @code.should be_extended
   end
 
-  #TODO: For some reason the encoding gets screwed up when running all specs at once
+  #TODO: For some reason the encoding gets screwed up when using RSpec
   it "should convert extended characters to special shift characters" do
     @code.characters.should == ["E", "\304", "X", "\304", "T", "\304", "E", "\304", "N", "\304", "D", "\304", "E", "\304", "D", "\303", "A"]
   end
@@ -132,6 +136,10 @@ describe "Extended mode" do
 
   it "should have the expected k_checksum" do
     @code.k_checksum.should == 46
+  end
+
+  it "should return the original data on to_s with no checksums" do
+    @code.to_s.should == 'Extended!'
   end
 
 end

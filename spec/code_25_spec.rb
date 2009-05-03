@@ -99,4 +99,13 @@ describe Code25 do
     lambda{ @code.digit_encodings_with_checksum }.should raise_error
   end
 
+  it "should return all characters in sequence on to_s" do
+    @code.to_s.should == @code.characters.join
+  end
+
+  it "should include checksum in to_s when include_checksum is true" do
+    @code.include_checksum = true
+    @code.to_s.should == @code.characters_with_checksum.join
+  end
+
 end

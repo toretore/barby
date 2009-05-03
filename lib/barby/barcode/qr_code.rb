@@ -77,6 +77,11 @@ module Barby
     end
 
 
+    def to_s
+      data[0,20]
+    end
+
+
   private
   
     #Generate an RQRCode object with the available values

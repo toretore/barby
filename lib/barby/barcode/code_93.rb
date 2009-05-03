@@ -220,6 +220,11 @@ module Barby
     end
 
 
+    def to_s
+      data
+    end
+
+
   end
 
 end
