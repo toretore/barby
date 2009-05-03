@@ -15,7 +15,7 @@ module Barby
   #Therefore, default behavior is to use a path for even xdims, and
   #rectangles for odd.  This can be overridden by calling with explicit
   #:use => 'rects' or :use => 'path' options.
-  class RubySvgOutputter < Outputter
+  class SvgOutputter < Outputter
     register :to_svg, :bars_to_rects, :bars_to_path
     attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin
     

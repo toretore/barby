@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
-require 'barby/outputter/ruby_svg_outputter'
+require 'barby/outputter/svg_outputter'
 include Barby
 
 class TestBarcode < Barcode
@@ -16,11 +16,11 @@ class TestBarcode < Barcode
 end
 
 
-describe RubySvgOutputter do
+describe SvgOutputter do
 
   before :each do
     @barcode = TestBarcode.new('10110011100011110000')
-    @outputter = RubySvgOutputter.new(@barcode)
+    @outputter = SvgOutputter.new(@barcode)
   end
 
   it 'should register to_svg, bars_to_rects, and bars_to_path' do
