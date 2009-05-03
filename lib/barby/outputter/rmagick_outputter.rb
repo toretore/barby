@@ -32,7 +32,11 @@ module Barby
     def to_blob(format, *a)
       img = to_image(*a)
       blob = img.to_blob{|i| i.format = format }
-      img.destroy! if img.respond_to?(:destroy!) # Helps with RMagick memory leak problem
+      
+      #Release the memory used by RMagick explicitly. Ruby's GC
+      #isn't aware of it and can't clean it up automatically
+      img.destroy! if img.respond_to?(:destroy!)
+      
       blob
     end
 
