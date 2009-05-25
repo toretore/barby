@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>encoding_for_pair (Barby::Code25Interleaved)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_25_interleaved.rb, line 39</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encoding_for_pair</span>(<span class="ruby-identifier">pair</span>)
+      <span class="ruby-identifier">bars</span>, <span class="ruby-identifier">spaces</span> = <span class="ruby-constant">ENCODINGS</span>[<span class="ruby-identifier">pair</span>.<span class="ruby-identifier">first</span>], <span class="ruby-constant">ENCODINGS</span>[<span class="ruby-identifier">pair</span>.<span class="ruby-identifier">last</span>]
+      <span class="ruby-identifier">encoding_for_interleaved</span>(<span class="ruby-identifier">bars</span>.<span class="ruby-identifier">zip</span>(<span class="ruby-identifier">spaces</span>))
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

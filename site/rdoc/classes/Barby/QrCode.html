@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Barby::QrCode</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Barby::QrCode</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/barby/barcode/qr_code_rb.html">
+                lib/barby/barcode/qr_code.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Barcode2D.html">
+                Barcode2D
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+<a href="QrCode.html">QrCode</a> is a thin wrapper around the RQRCode
+library
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000153">data=</a>&nbsp;&nbsp;
+      <a href="#M000154">encoding</a>&nbsp;&nbsp;
+      <a href="#M000155">level</a>&nbsp;&nbsp;
+      <a href="#M000152">new</a>&nbsp;&nbsp;
+      <a href="#M000156">size</a>&nbsp;&nbsp;
+      <a href="#M000157">to_s</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">SIZES</td>
+          <td>=</td>
+          <td class="context-item-value">{             #L   M   Q   H       1  =&gt; [17, 14, 11, 7],          2  =&gt; [32, 26, 20, 14],       3  =&gt; [53, 42, 32, 24],         4  =&gt; [78, 62, 46, 34],       5  =&gt; [106, 84, 60, 44],        6  =&gt; [134, 106, 74, 58],       7  =&gt; [154, 122, 86, 64],       8  =&gt; [192, 152, 108, 84],       9  =&gt; [230, 180, 130, 98],      10 =&gt; [271, 213, 151, 119],       11 =&gt; [321, 251, 177, 137],     12 =&gt; [367, 287, 203, 155],       13 =&gt; [425, 331, 241, 177],     14 =&gt; [458, 362, 258, 194],       15 =&gt; [520, 412, 292, 220],     16 =&gt; [586, 450, 322, 250],       17 =&gt; [644, 504, 364, 280],     18 =&gt; [718, 560, 394, 310],       19 =&gt; [792, 624, 442, 338],     20 =&gt; [858, 666, 482, 382],       21 =&gt; [929, 711, 509, 403],     22 =&gt; [1003, 779, 565, 439],       23 =&gt; [1091, 857, 611, 461],    24 =&gt; [1171, 911, 661, 511],       25 =&gt; [1273, 997, 715, 535],    26 =&gt; [1367, 1059, 751, 593],       27 =&gt; [1465, 1125, 805, 625],   28 =&gt; [1528, 1190, 868, 658],       29 =&gt; [1628, 1264, 908, 698],   30 =&gt; [1732, 1370, 982, 742],       31 =&gt; [1840, 1452, 1030, 790],  32 =&gt; [1952, 1538, 1112, 842],       33 =&gt; [2068, 1628, 1168, 898],  34 =&gt; [2188, 1722, 1228, 958],       35 =&gt; [2303, 1809, 1283, 983],  36 =&gt; [2431, 1911, 1351, 1051],       37 =&gt; [2563, 1989, 1423, 1093], 38 =&gt; [2699, 2099, 1499, 1139],       39 =&gt; [2809, 2213, 1579, 1219], 40 =&gt; [2953, 2331, 1663, 1273]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Maximum sizes for each correction <a href="QrCode.html#M000155">level</a>
+for binary data It&#8216;s an array
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">LEVELS</td>
+          <td>=</td>
+          <td class="context-item-value">{ :l =&gt; 0, :m =&gt; 1, :q =&gt; 2, :h =&gt; 3 }</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">data</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">level</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000152" class="method-detail">
+        <a name="M000152"></a>
+
+        <div class="method-heading">
+          <a href="QrCode.src/M000152.html" target="Code" class="method-signature"
+            onclick="popupCode('QrCode.src/M000152.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(data, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000153" class="method-detail">
+        <a name="M000153"></a>
+
+        <div class="method-heading">
+          <a href="QrCode.src/M000153.html" target="Code" class="method-signature"
+            onclick="popupCode('QrCode.src/M000153.html');return false;">
+          <span class="method-name">data=</span><span class="method-args">(data)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000154" class="method-detail">
+        <a name="M000154"></a>
+
+        <div class="method-heading">
+          <a href="QrCode.src/M000154.html" target="Code" class="method-signature"
+            onclick="popupCode('QrCode.src/M000154.html');return false;">
+          <span class="method-name">encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000155" class="method-detail">
+        <a name="M000155"></a>
+
+        <div class="method-heading">
+          <a href="QrCode.src/M000155.html" target="Code" class="method-signature"
+            onclick="popupCode('QrCode.src/M000155.html');return false;">
+          <span class="method-name">level</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Error correction <a href="QrCode.html#M000155">level</a> Can be one of [:l,
+:m, :q, :h] (7%, 15%, 25%, 30%)
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000156" class="method-detail">
+        <a name="M000156"></a>
+
+        <div class="method-heading">
+          <a href="QrCode.src/M000156.html" target="Code" class="method-signature"
+            onclick="popupCode('QrCode.src/M000156.html');return false;">
+          <span class="method-name">size</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000157" class="method-detail">
+        <a name="M000157"></a>
+
+        <div class="method-heading">
+          <a href="QrCode.src/M000157.html" target="Code" class="method-signature"
+            onclick="popupCode('QrCode.src/M000157.html');return false;">
+          <span class="method-name">to_s</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

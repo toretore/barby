@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>class_for (Barby::Code128)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_128.rb, line 350</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">class_for</span>(<span class="ruby-identifier">character</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">character</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'A'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128A</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'B'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128B</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'C'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128C</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CODEA</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128A</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CODEB</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128B</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-constant">CODEC</span> <span class="ruby-keyword kw">then</span> <span class="ruby-constant">Code128C</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

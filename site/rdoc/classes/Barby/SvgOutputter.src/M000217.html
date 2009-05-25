@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>bars_to_rects (Barby::SvgOutputter)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/svg_outputter.rb, line 51</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">bars_to_rects</span>(<span class="ruby-identifier">opts</span>={})
+      <span class="ruby-identifier">rects</span> = <span class="ruby-value str">''</span>
+      <span class="ruby-identifier">with_options</span> <span class="ruby-identifier">opts</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span> = <span class="ruby-identifier">lmargin</span>, <span class="ruby-identifier">tmargin</span>
+
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">barcode</span>.<span class="ruby-identifier">two_dimensional?</span>
+          <span class="ruby-identifier">boolean_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">line</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bar</span>, <span class="ruby-identifier">amount</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">bar_width</span> = <span class="ruby-identifier">xdim</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">amount</span>
+              <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bar</span>
+                <span class="ruby-identifier">rects</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%Q|&lt;rect x=&quot;#{x}&quot; y=&quot;#{y}&quot; width=&quot;#{bar_width}px&quot; height=&quot;#{ydim}px&quot; /&gt;\n|</span>
+              <span class="ruby-keyword kw">end</span>
+              <span class="ruby-identifier">x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">bar_width</span>
+            <span class="ruby-keyword kw">end</span>
+            <span class="ruby-identifier">y</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">ydim</span>
+            <span class="ruby-identifier">x</span> = <span class="ruby-identifier">lmargin</span>
+          <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">boolean_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bar</span>, <span class="ruby-identifier">amount</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">bar_width</span> = <span class="ruby-identifier">xdim</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">amount</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bar</span>
+              <span class="ruby-identifier">rects</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%Q|&lt;rect x=&quot;#{x}&quot; y=&quot;#{y}&quot; width=&quot;#{bar_width}px&quot; height=&quot;#{height}px&quot; /&gt;\n|</span>
+            <span class="ruby-keyword kw">end</span>
+            <span class="ruby-identifier">x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">bar_width</span>
+          <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-comment cmt"># with_options</span>
+
+      <span class="ruby-identifier">rects</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

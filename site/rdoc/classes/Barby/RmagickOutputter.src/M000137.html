@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_image (Barby::RmagickOutputter)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/rmagick_outputter.rb, line 44</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_image</span>(<span class="ruby-identifier">opts</span>={})
+      <span class="ruby-identifier">with_options</span> <span class="ruby-identifier">opts</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">canvas</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">Image</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">full_width</span>, <span class="ruby-identifier">full_height</span>)
+        <span class="ruby-identifier">bars</span> = <span class="ruby-constant">Magick</span><span class="ruby-operator">::</span><span class="ruby-constant">Draw</span>.<span class="ruby-identifier">new</span>
+
+        <span class="ruby-identifier">x</span> = <span class="ruby-identifier">margin</span>
+        <span class="ruby-identifier">y</span> = <span class="ruby-identifier">margin</span>
+
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">barcode</span>.<span class="ruby-identifier">two_dimensional?</span>
+          <span class="ruby-identifier">encoding</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">//</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">c</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'1'</span> }.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bar</span><span class="ruby-operator">|</span>
+              <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bar</span>
+                <span class="ruby-identifier">bars</span>.<span class="ruby-identifier">rectangle</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">x</span><span class="ruby-operator">+</span>(<span class="ruby-identifier">xdim</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>), <span class="ruby-identifier">y</span><span class="ruby-operator">+</span>(<span class="ruby-identifier">ydim</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>))
+              <span class="ruby-keyword kw">end</span>
+              <span class="ruby-identifier">x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xdim</span>
+            <span class="ruby-keyword kw">end</span>
+            <span class="ruby-identifier">x</span> = <span class="ruby-identifier">margin</span>
+            <span class="ruby-identifier">y</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">ydim</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">booleans</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bar</span><span class="ruby-operator">|</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bar</span>
+              <span class="ruby-identifier">bars</span>.<span class="ruby-identifier">rectangle</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">y</span>, <span class="ruby-identifier">x</span><span class="ruby-operator">+</span>(<span class="ruby-identifier">xdim</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>), <span class="ruby-identifier">y</span><span class="ruby-operator">+</span>(<span class="ruby-identifier">height</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>))
+            <span class="ruby-keyword kw">end</span>
+            <span class="ruby-identifier">x</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xdim</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-identifier">bars</span>.<span class="ruby-identifier">draw</span>(<span class="ruby-identifier">canvas</span>)
+
+        <span class="ruby-identifier">canvas</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

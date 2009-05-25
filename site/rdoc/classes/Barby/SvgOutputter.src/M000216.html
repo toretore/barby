@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_svg (Barby::SvgOutputter)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/outputter/svg_outputter.rb, line 25</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_svg</span>(<span class="ruby-identifier">opts</span>={})
+      <span class="ruby-identifier">with_options</span> <span class="ruby-identifier">opts</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">:use</span>]
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'rects'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">bars</span> = <span class="ruby-identifier">bars_to_rects</span>
+          <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'path'</span>  <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">bars</span> = <span class="ruby-identifier">bars_to_path</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">xdim_odd</span> = (<span class="ruby-identifier">xdim</span> <span class="ruby-operator">%</span> <span class="ruby-value">2</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>)
+          <span class="ruby-identifier">bars</span> = <span class="ruby-identifier">xdim_odd</span> <span class="ruby-value">? </span><span class="ruby-identifier">bars_to_rects</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">bars_to_path</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-value str">&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;\n&lt;svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot; xmlns:xlink=\&quot;http://www.w3.org/1999/xlink\&quot; width=\&quot;\#{svg_width(opts)}px\&quot; height=\&quot;\#{svg_height(opts)}px\&quot; viewBox=\&quot;0 0 \#{svg_width(opts)} \#{svg_height(opts)}\&quot; version=\&quot;1.1\&quot;&gt;\n&lt;title&gt;\#{escape title}&lt;/title&gt;\n&lt;g id=\&quot;canvas\&quot; \#{transform(opts)}&gt;\n&lt;rect x=\&quot;0\&quot; y=\&quot;0\&quot; width=\&quot;\#{full_width}px\&quot; height=\&quot;\#{full_height}px\&quot; fill=\&quot;white\&quot; /&gt;\n&lt;g id=\&quot;barcode\&quot; fill=\&quot;black\&quot;&gt;\n\#{bars}\n&lt;/g&gt;&lt;/g&gt;\n&lt;/svg&gt;\n&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

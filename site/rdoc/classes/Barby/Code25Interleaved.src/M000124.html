@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>encoding_for_interleaved (Barby::Code25Interleaved)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_25_interleaved.rb, line 47</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encoding_for_interleaved</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">bars_and_spaces</span>)
+      <span class="ruby-identifier">bar</span> = <span class="ruby-keyword kw">false</span><span class="ruby-comment cmt">#starts with bar</span>
+      <span class="ruby-identifier">bars_and_spaces</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">inject</span> <span class="ruby-value str">''</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">enc</span>,<span class="ruby-identifier">bar_or_space</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">bar</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">bar</span>
+        <span class="ruby-identifier">enc</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">bar</span> <span class="ruby-value">? </span><span class="ruby-value str">'1'</span> <span class="ruby-operator">:</span> <span class="ruby-value str">'0'</span>) <span class="ruby-operator">*</span> (<span class="ruby-identifier">bar_or_space</span> <span class="ruby-operator">==</span> <span class="ruby-constant">WIDE</span> <span class="ruby-value">? </span><span class="ruby-identifier">wide_width</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">narrow_width</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

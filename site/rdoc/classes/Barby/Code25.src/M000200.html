@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>encoding_for_bars (Barby::Code25)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/barby/barcode/code_25.rb, line 93</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">encoding_for_bars</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">bars</span>)
+      <span class="ruby-identifier">wide</span>, <span class="ruby-identifier">narrow</span>, <span class="ruby-identifier">space</span> = <span class="ruby-identifier">wide_encoding</span>, <span class="ruby-identifier">narrow_encoding</span>, <span class="ruby-identifier">space_encoding</span>
+      <span class="ruby-identifier">bars</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">inject</span> <span class="ruby-value str">''</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">enc</span>,<span class="ruby-identifier">bar</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">enc</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">bar</span> <span class="ruby-operator">==</span> <span class="ruby-constant">WIDE</span> <span class="ruby-value">? </span><span class="ruby-identifier">wide</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">narrow</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">space</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
