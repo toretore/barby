@@ -3,15 +3,18 @@ require 'barby/outputter/svg_outputter'
 include Barby
 
 class TestBarcode < Barcode
+  attr_accessor :data, :two_d
   def initialize(data, two_d=false)
-    @data = data
-    @two_d = two_d
+    self.data, self.two_d = data, two_d
   end
   def encoding
-    @data
+    data
   end
   def two_dimensional?
-    @two_d
+    two_d
+  end
+  def to_s
+    data
   end
 end
 
@@ -76,24 +79,11 @@ describe SvgOutputter do
   it 'should have a full_width which is the sum of width + xmargin + ymargin' do
     @outputter.full_width.should == @outputter.width + @outputter.xmargin + @outputter.ymargin
   end
-
-  it 'should not complain if there is no valid title' do
-    @outputter.title.should == nil
-  end
   
-  it 'should use data for title if possible' do
-    class TestBarcode
-      def data; @data; end
-    end
+  it 'should use Barcode#to_s for title' do
     @outputter.title.should == @barcode.data
-  end
-  
-  it 'should prefer full_data for title if full_data is defined' do
-    class TestBarcode
-      def data; :data; end
-      def full_data; :full_data; end
-    end
-    @outputter.title.should == :full_data
+    def @barcode.to_s; "the eastern star"; end
+    @outputter.title.should == "the eastern star"
   end
 
 end
