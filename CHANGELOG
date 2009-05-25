@@ -1,3 +1,8 @@
+* 0.3.0
+
+* Make compatible with Ruby 1.9 [Chris Mowforth]
+* Add SvgOutputter for outputting SVGs without dependencies [Peter H. Li]
+
 * 0.2.1
 
 * Allow QR Codes with sizes up to 40
