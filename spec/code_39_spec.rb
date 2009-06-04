@@ -184,3 +184,28 @@ describe "Extended encoding" do
   end
 
 end
+
+
+describe "Variable widths" do
+
+  before :each do
+    @data = 'ABC$%'
+    @code = Code39.new(@data)
+    @code.narrow_width = 2
+    @code.wide_width = 5
+  end
+
+  it "should have the expected encoded_characters" do
+    @code.encoded_characters.should == %w(111110011001100000110011111 110011111001100000110011111 111110011111001100000110011 110000011000001100000110011 110011000001100000110000011)
+  end
+
+  it "should have the expected data_encoding" do
+    #                              A                          SB                          SC                          S$                          S%
+    @code.data_encoding.should == '1111100110011000001100111110110011111001100000110011111011111001111100110000011001101100000110000011000001100110110011000001100000110000011'
+
+    @code.spacing = 3
+    #                              A                          S  B                          S  C                          S  $                          S  %
+    @code.data_encoding.should == '111110011001100000110011111000110011111001100000110011111000111110011111001100000110011000110000011000001100000110011000110011000001100000110000011'
+  end
+
+end

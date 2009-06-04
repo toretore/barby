@@ -5,29 +5,32 @@ module Barby
 
   class Code39 < Barcode1D
 
+    WIDE   = W = true
+    NARROW = N = false
+
     ENCODINGS = {
-      '0' => '101001101101', 'M' => '110110101001',
-      '1' => '110100101011', 'N' => '101011010011',
-      '2' => '101100101011', 'O' => '110101101001',
-      '3' => '110110010101', 'P' => '101101101001',
-      '4' => '101001101011', 'Q' => '101010110011',
-      '5' => '110100110101', 'R' => '110101011001',
-      '6' => '101100110101', 'S' => '101101011001',
-      '7' => '101001011011', 'T' => '101011011001',
-      '8' => '110100101101', 'U' => '110010101011',
-      '9' => '101100101101', 'V' => '100110101011',
-      'A' => '110101001011', 'W' => '110011010101',
-      'B' => '101101001011', 'X' => '100101101011',
-      'C' => '110110100101', 'Y' => '110010110101',
-      'D' => '101011001011', 'Z' => '100110110101',
-      'E' => '110101100101', '-' => '100101011011',
-      'F' => '101101100101', '.' => '110010101101',
-      'G' => '101010011011', ' ' => '100110101101',
-      'H' => '110101001101', '$' => '100100100101',
-      'I' => '101101001101', '/' => '100100101001',
-      'J' => '101011001101', '+' => '100101001001',
-      'K' => '110101010011', '%' => '101001001001',
-      'L' => '101101010011'#, '*' => '100101101101'
+      ' ' => [N,W,W,N,N,N,W,N,N], '$' => [N,W,N,W,N,W,N,N,N],
+      '%' => [N,N,N,W,N,W,N,W,N], '+' => [N,W,N,N,N,W,N,W,N],
+      '-' => [N,W,N,N,N,N,W,N,W], '.' => [W,W,N,N,N,N,W,N,N],
+      '/' => [N,W,N,W,N,N,N,W,N], '0' => [N,N,N,W,W,N,W,N,N],
+      '1' => [W,N,N,W,N,N,N,N,W], '2' => [N,N,W,W,N,N,N,N,W],
+      '3' => [W,N,W,W,N,N,N,N,N], '4' => [N,N,N,W,W,N,N,N,W],
+      '5' => [W,N,N,W,W,N,N,N,N], '6' => [N,N,W,W,W,N,N,N,N],
+      '7' => [N,N,N,W,N,N,W,N,W], '8' => [W,N,N,W,N,N,W,N,N],
+      '9' => [N,N,W,W,N,N,W,N,N], 'A' => [W,N,N,N,N,W,N,N,W],
+      'B' => [N,N,W,N,N,W,N,N,W], 'C' => [W,N,W,N,N,W,N,N,N],
+      'D' => [N,N,N,N,W,W,N,N,W], 'E' => [W,N,N,N,W,W,N,N,N],
+      'F' => [N,N,W,N,W,W,N,N,N], 'G' => [N,N,N,N,N,W,W,N,W],
+      'H' => [W,N,N,N,N,W,W,N,N], 'I' => [N,N,W,N,N,W,W,N,N],
+      'J' => [N,N,N,N,W,W,W,N,N], 'K' => [W,N,N,N,N,N,N,W,W],
+      'L' => [N,N,W,N,N,N,N,W,W], 'M' => [W,N,W,N,N,N,N,W,N],
+      'N' => [N,N,N,N,W,N,N,W,W], 'O' => [W,N,N,N,W,N,N,W,N],
+      'P' => [N,N,W,N,W,N,N,W,N], 'Q' => [N,N,N,N,N,N,W,W,W],
+      'R' => [W,N,N,N,N,N,W,W,N], 'S' => [N,N,W,N,N,N,W,W,N],
+      'T' => [N,N,N,N,W,N,W,W,N], 'U' => [W,W,N,N,N,N,N,N,W],
+      'V' => [N,W,W,N,N,N,N,N,W], 'W' => [W,W,W,N,N,N,N,N,N],
+      'X' => [N,W,N,N,W,N,N,N,W], 'Y' => [W,W,N,N,W,N,N,N,N],
+      'Z' => [N,W,W,N,W,N,N,N,N]
     }
 
     #In extended mode, each character is replaced with two characters from the "normal" encoding
@@ -80,10 +83,10 @@ module Barby
       '/' => 40,  '+' => 41,  '%' => 42
     }
 
-    START_ENCODING = '100101101101' # *
-    STOP_ENCODING = '100101101101'  # *
+    START_ENCODING = [N,W,N,N,W,N,W,N,N] # *
+    STOP_ENCODING  = [N,W,N,N,W,N,W,N,N] # *
 
-    attr_accessor :data, :spacing, :extended, :include_checksum
+    attr_accessor :data, :spacing, :narrow_width, :wide_width, :extended, :include_checksum
     
 
     def initialize(data, extended=false)
@@ -112,7 +115,7 @@ module Barby
     end
 
     def encoded_characters
-      characters.map{|c| ENCODINGS[c] }
+      characters.map{|c| encoding_for(c) }
     end
 
     def encoded_characters_with_checksum
@@ -152,7 +155,7 @@ module Barby
     end
 
     def checksum_encoding
-      ENCODINGS[checksum_character]
+      encoding_for(checksum_character)
     end
 
     #Set include_checksum to true to make +encoding+ include the checksum
@@ -161,14 +164,39 @@ module Barby
     end
 
 
+    #Takes an array of WIDE/NARROW values and returns the string representation for
+    #those bars and spaces, using wide_width and narrow_width
+    def encoding_for_bars(*bars_and_spaces)
+      bar = false
+      bars_and_spaces.flatten.map do |width|
+        bar = !bar
+        (bar ? '1' : '0') * (width == WIDE ? wide_width : narrow_width)
+      end.join
+    end
+
+    #Returns the string representation for a single character
+    def encoding_for(character)
+      encoding_for_bars(ENCODINGS[character])
+    end
+
+
     #Spacing between the characters in xdims. Spacing will be inserted
     #between each character in the encoding
     def spacing
-      @spacing || 1
+      @spacing ||= 1
     end
 
     def spacing_encoding
       '0' * spacing
+    end
+
+
+    def narrow_width
+      @narrow_width ||= 1
+    end
+
+    def wide_width
+      @wide_width ||= 2
     end
 
 
@@ -178,11 +206,11 @@ module Barby
 
 
     def start_encoding
-      START_ENCODING
+      encoding_for_bars(START_ENCODING)
     end
 
     def stop_encoding
-      STOP_ENCODING
+      encoding_for_bars(STOP_ENCODING)
     end
 
     def valid?
