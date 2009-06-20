@@ -1,3 +1,7 @@
+* 0.3.1 (In Git)
+
+* Add support for PDF417, using Pdf417lib (JRuby only) [Aslak Hellesøy]
+
 * 0.3.0
 
 * Make compatible with Ruby 1.9 [Chris Mowforth]
