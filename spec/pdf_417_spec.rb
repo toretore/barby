@@ -28,13 +28,13 @@ describe Pdf417 do
     enc[0].length.should == 99
   end
 
-  it "should produce a 19x135 code with default aspec_ratio" do
+  it "should produce a 19x135 code with default aspect_ratio" do
     enc = Pdf417.new('qwertyuiopasdfghjklzxcvbnm'*3).encoding
     enc.length.should == 19
     enc[0].length.should == 135
   end
 
-  it "should produce a 29x117 code with 0.7 aspec_ratio" do
+  it "should produce a 29x117 code with 0.7 aspect_ratio" do
     enc = Pdf417.new('qwertyuiopasdfghjklzxcvbnm'*3, :aspect_ratio => 0.7).encoding
     enc.length.should == 29
     enc[0].length.should == 117
