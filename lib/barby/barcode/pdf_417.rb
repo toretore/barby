@@ -14,7 +14,11 @@ module Barby
       :code_rows     => 0,
       :code_columns  => 0
     }
-    
+
+    # Creates a new Pdf417 barcode. The +options+ argument
+    # can use the same keys as DEFAULT_OPTIONS. Please consult
+    # the source code of Pdf417lib.java for details about values
+    # that can be used.
     def initialize(data, options={})
       @pdf417 = Java::Pdf417lib.new
       self.data = data
