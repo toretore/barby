@@ -49,6 +49,14 @@ describe QrCode do
     QrCode.new('1'*270, :level => :l).size.should == 10
   end
 
+  it "should allow size to be set manually" do
+    code = QrCode.new('1'*15, :level => :l, :size => 2)
+    code.size.should == 2
+    code.encoding.should == rqrcode(code).modules.map do |line|
+      line.inject(''){|s,m| s << (m ? '1' : '0') }
+    end
+  end
+
   it "should raise ArgumentError when data too large" do
     lambda{ QrCode.new('1'*2953, :level => :l) }.should_not raise_error(ArgumentError)
     lambda{ QrCode.new('1'*2954, :level => :l) }.should raise_error(ArgumentError)

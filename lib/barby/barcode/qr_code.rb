@@ -36,7 +36,7 @@ module Barby
     LEVELS = { :l => 0, :m => 1, :q => 2, :h => 3 }
 
     attr_reader :data
-    attr_writer :level
+    attr_writer :level, :size
 
 
     def initialize(data, options={})
@@ -64,6 +64,11 @@ module Barby
 
 
     def size
+      #@size is only used for manual override, if it's not set
+      #manually, the size is always dynamic, calculated from the
+      #length of the data
+      return @size if @size
+
       level_index = LEVELS[level]
       length = data.length
       found_size = nil
