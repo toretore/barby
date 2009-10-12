@@ -65,7 +65,7 @@ module Barby
 
     def size
       #@size is only used for manual override, if it's not set
-      #manually, the size is always dynamic, calculated from the
+      #manually the size is always dynamic, calculated from the
       #length of the data
       return @size if @size
 
