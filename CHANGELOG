@@ -1,4 +1,4 @@
-* master
+* 0.3.2
 
 * Fix bug where Code128 extras choke on newlines [Wayne Conrad]
 * Don't allow Code128 with empty data strings [Wayne Conrad]
