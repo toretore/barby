@@ -208,7 +208,7 @@ module Barby
     #character set, an extra will be created.
     def data=(data)
       data, *extra = data.split(/([#{CODEA+CODEB+CODEC}])/n)
-      @data = data
+      @data = data || ''
       self.extra = extra.join unless extra.empty?
     end
 
@@ -358,9 +358,10 @@ module Barby
     end
 
     #Is the data in this barcode valid? Does a lookup of every character
-    #and checks if it exists in the character set.
+    #and checks if it exists in the character set. An empty data string
+    #will also be reported as invalid.
     def valid?
-      characters.all?{|c| values.include?(c) }
+      characters.any? && characters.all?{|c| values.include?(c) }
     end
 
     def values

@@ -26,6 +26,10 @@ describe "Common features" do
     @code.send(:change_code_for_class, Code128C).should == Code128::CODEC
   end
 
+  it "should not allow empty data" do
+    lambda{ Code128B.new("") }.should raise_error(ArgumentError)
+  end
+
 end
 
 
