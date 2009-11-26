@@ -226,9 +226,8 @@ module Barby
     #"change character set" symbol. The string may contain several character
     #sets, in which case the extra will itself have an extra.
     def extra=(extra)
-      raise ArgumentError, "Extra must begin with \\301, \\302 or \\303" unless extra =~ /^[#{CODEA+CODEB+CODEC}]/n
-      type = extra[/([#{CODEA+CODEB+CODEC}])/n, 1]
-      data = extra[/[#{CODEA+CODEB+CODEC}](.*)/n, 1]
+      raise ArgumentError, "Extra must begin with \\305, \\306 or \\307" unless extra =~ /^[#{CODEA+CODEB+CODEC}]/n
+      type, data = extra[0,1], extra[1..-1]
       @extra = class_for(type).new(data)
     end
 

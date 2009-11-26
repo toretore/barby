@@ -138,6 +138,15 @@ describe "Common features for multiple encodings" do
     @code.extra.extra.data.should == '4567'
   end
 
+  it "should not fail on newlines in extras" do
+    code = Code128B.new("ABC\305\n")
+    code.data.should == "ABC"
+    code.extra.should be_an_instance_of(Code128A)
+    code.extra.data.should == "\n"
+    code.extra.extra = "\305\n\n\n\n\n\nVALID"
+    code.extra.extra.data.should == "\n\n\n\n\n\nVALID"
+  end
+
   it "should raise an exception when extra string doesn't start with the special code character" do
     lambda{ @code.extra = '123' }.should raise_error
   end
