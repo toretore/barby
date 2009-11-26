@@ -1,4 +1,10 @@
-* 0.3.1 (In Git)
+* master
+
+* Fix bug where Code128 extras choke on newlines [Wayne Conrad]
+* Don't allow Code128 with empty data strings [Wayne Conrad]
+* Allow custom :size for QrCodes
+
+* 0.3.1
 
 * Add support for PDF417, using Pdf417lib (JRuby only) [Aslak Hellesøy]
 
