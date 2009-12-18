@@ -60,13 +60,18 @@ module Barby
 
   private
 
+    def two_dimensional?
+      barcode.respond_to?(:two_dimensional?) && barcode.two_dimensional?
+    end
+
+
     #Converts the barcode's encoding (a string containing 1s and 0s)
     #to true and false values (1 == true == "black bar")
     #
     #If the barcode is 2D, each line will be converted to an array
     #in the same way
     def booleans(reload=false)#:doc:
-      if barcode.two_dimensional?
+      if two_dimensional?
         encoding(reload).map{|l| l.split(//).map{|c| c == '1' } }
       else
         encoding(reload).split(//).map{|c| c == '1' }
@@ -88,7 +93,7 @@ module Barby
     #
     #For example, "1100111000" becomes [[true,2],[false,2],[true,3],[false,3]]
     def boolean_groups(reload=false)
-      if barcode.two_dimensional?
+      if two_dimensional?
         encoding(reload).map do |line|
           line.scan(/1+|0+/).map do |group|
             [group[0,1] == '1', group.size]

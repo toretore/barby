@@ -83,6 +83,19 @@ describe "Outputter instances" do
     @outputter.send(:with_options, {}){ 'donkey' }.should == 'donkey'
   end
 
+  it "should have a two_dimensional? method which returns true if the barcode is 2d" do
+    Outputter.new(Barcode1D.new).should_not be_two_dimensional
+    Outputter.new(Barcode2D.new).should be_two_dimensional
+  end
+
+  it "should not require the barcode object to respond to two_dimensional?" do
+    barcode = Object.new
+    def barcode.encoding; "101100111000"; end
+    outputter = Outputter.new(barcode)
+    lambda{ outputter.send :booleans }.should_not raise_error(NoMethodError)
+    lambda{ outputter.send :boolean_groups }.should_not raise_error(NoMethodError)
+  end
+
 end
 
 
