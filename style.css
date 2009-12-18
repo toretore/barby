@@ -36,7 +36,8 @@ h2, h3 {
 }
 
 img#header-barcode {
-  margin: 0.5em 0 0 0;
+  margin: 0 0 -5px -5px;
+  position: relative;
 }
 
 #menu {
@@ -45,6 +46,8 @@ img#header-barcode {
   margin: 0 0 3em 0;
   padding: 2px 0 0 0;
   font-size: 90%;
+  position: relative;
+  z-index: 2;
 }
 
   #menu li {

@@ -50,7 +50,7 @@
 require 'barby/outputter/png_outputter'
 
 barcode = Barby::Code128B.new('The noise of mankind has become too much')
-File.open('code128b.png'){|f|
+File.open('code128b.png', 'w'){|f|
   f.write barcode.to_png(:height =&gt; 20, :margin =&gt; 5)
 }</code></pre>
 
@@ -67,7 +67,7 @@ File.open('code128b.png'){|f|
 require 'barby/outputter/png_outputter'
 
 barcode = Barby::Code39.new('I am losing sleep over their racket', true)
-File.open('code39.png'){|f|
+File.open('code39.png', 'w'){|f|
   f.write barcode.to_png
 }</code></pre>
 
@@ -81,7 +81,7 @@ File.open('code39.png'){|f|
 require 'barby/outputter/rmagick_outputter'
 
 barcode = Barby::Code128B.new('Give the order that suruppu-disease shall break out')
-File.open('code128B.gif'){|f|
+File.open('code128B.gif', 'w'){|f|
   f.write barcode.to_gif
 }</code></pre>
 
