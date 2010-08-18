@@ -107,6 +107,9 @@ module Barby
     end
 
 
+    #Takes a hash and temporarily sets properties on self (the outputter object)
+    #corresponding with the keys to their values. When the block exits, the
+    #properties are reset to their original values. Returns whatever the block returns.
     def with_options(options={})
       original_options = options.inject({}) do |origs,pair|
         if respond_to?(pair.first) && respond_to?("#{pair.first}=")
