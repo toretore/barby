@@ -7,7 +7,7 @@ include FileUtils
 
 spec = Gem::Specification.new do |s|
   s.name = "barby"
-  s.version = "0.3.2"
+  s.version = "0.4.0"
   s.author = "Tore Darell"
   s.email = "toredarell@gmail.com"
   s.homepage = "http://toretore.github.com/barby"
