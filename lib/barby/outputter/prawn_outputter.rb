@@ -7,7 +7,7 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_accessor :xdim, :ydim, :x, :y, :height, :margin
+    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed
 
 
     def to_pdf(opts={})
@@ -26,11 +26,11 @@ module Barby
           boolean_groups.reverse_each do |groups|
             groups.each do |bar,amount|
               if bar
-                pdf.move_to(xpos, ypos)
-                pdf.line_to(xpos, ypos+ydim)
-                pdf.line_to(xpos+(xdim*amount), ypos+ydim)
-                pdf.line_to(xpos+(xdim*amount), ypos)
-                pdf.line_to(xpos, ypos)
+                pdf.move_to(xpos+unbleed, ypos+unbleed)
+                pdf.line_to(xpos+unbleed, ypos+ydim-unbleed)
+                pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+ydim-unbleed)
+                pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+unbleed)
+                pdf.line_to(xpos+unbleed, ypos+unbleed)
                 pdf.fill
               end
               xpos += (xdim*amount)
@@ -41,11 +41,11 @@ module Barby
         else
           boolean_groups.each do |bar,amount|
             if bar
-              pdf.move_to(xpos, ypos)
-              pdf.line_to(xpos, ypos+height)
-              pdf.line_to(xpos+(xdim*amount), ypos+height)
-              pdf.line_to(xpos+(xdim*amount), ypos)
-              pdf.line_to(xpos, ypos)
+              pdf.move_to(xpos+unbleed, ypos)
+              pdf.line_to(xpos+unbleed, ypos+height)
+              pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
+              pdf.line_to(xpos+(xdim*amount)-unbleed, ypos)
+              pdf.line_to(xpos+unbleed, ypos)
               pdf.fill
             end
             xpos += (xdim*amount)
@@ -99,6 +99,13 @@ module Barby
 
     def ydim
       @ydim || xdim
+    end
+
+    #Defines an amount to reduce black bars/squares by to account for "ink bleed"
+    #If xdim = 3, unbleed = 0.2, a single/width black bar will be 2.6 wide
+    #For 2D, both x and y dimensions are reduced.
+    def unbleed
+      @unbleed || 0
     end
 
 
