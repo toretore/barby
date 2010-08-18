@@ -7,90 +7,105 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
+    attr_accessor :xdim, :ydim, :x, :y, :height, :margin
+
 
     def to_pdf(opts={})
-      opts = options(opts)
-      annotate_pdf(Prawn::Document.new(opts[:document]), opts).render
+      doc_opts = opts.delete(:document) || {}
+      doc_opts[:page_size] ||= 'A4'
+      annotate_pdf(Prawn::Document.new(doc_opts), opts).render
     end
 
 
     def annotate_pdf(pdf, opts={})
-      opts = options(opts)
-      xpos, ypos, height, xdim = opts[:x], opts[:y], opts[:height], opts[:xdim]
-      ydim = opts[:ydim] || xdim
-      orig_xpos = xpos
+      with_options opts do
+        xpos, ypos = x, y
+        orig_xpos = xpos
 
-      if barcode.two_dimensional?
-        boolean_groups.reverse_each do |groups|
-          groups.each do |bar,amount|
+        if barcode.two_dimensional?
+          boolean_groups.reverse_each do |groups|
+            groups.each do |bar,amount|
+              if bar
+                pdf.move_to(xpos, ypos)
+                pdf.line_to(xpos, ypos+ydim)
+                pdf.line_to(xpos+(xdim*amount), ypos+ydim)
+                pdf.line_to(xpos+(xdim*amount), ypos)
+                pdf.line_to(xpos, ypos)
+                pdf.fill
+              end
+              xpos += (xdim*amount)
+            end
+            xpos = orig_xpos
+            ypos += ydim
+          end
+        else
+          boolean_groups.each do |bar,amount|
             if bar
               pdf.move_to(xpos, ypos)
-              pdf.line_to(xpos, ypos+ydim)
-              pdf.line_to(xpos+(xdim*amount), ypos+ydim)
+              pdf.line_to(xpos, ypos+height)
+              pdf.line_to(xpos+(xdim*amount), ypos+height)
               pdf.line_to(xpos+(xdim*amount), ypos)
               pdf.line_to(xpos, ypos)
               pdf.fill
             end
             xpos += (xdim*amount)
           end
-          xpos = orig_xpos
-          ypos += ydim
         end
-      else
-        boolean_groups.each do |bar,amount|
-          if bar
-            pdf.move_to(xpos, ypos)
-            pdf.line_to(xpos, ypos+height)
-            pdf.line_to(xpos+(xdim*amount), ypos+height)
-            pdf.line_to(xpos+(xdim*amount), ypos)
-            pdf.line_to(xpos, ypos)
-            pdf.fill
-          end
-          xpos += (xdim*amount)
-        end
+
       end
 
       pdf
     end
 
 
+    def length
+      two_dimensional? ? encoding.first.length : encoding.length
+    end
+
+    def width
+      length * xdim
+    end
+
+    def height
+      two_dimensional? ? (ydim * encoding.length) : (@height || 50)
+    end
+
+    def full_width
+      width + (margin * 2)
+    end
+
+    def full_height
+      height + (margin * 2)
+    end
+
+    #Margin is used for x and y if not given explicitly, effectively placing the barcode
+    #<margin> points from the [left,bottom] of the page.
+    #If you define x and y, there will be no margin. And if you don't define margin, it's 0.
+    def margin
+      @margin || 0
+    end
+
+    def x
+      @x || margin
+    end
+
+    def y
+      @y || margin
+    end
+
+    def xdim
+      @xdim || 1
+    end
+
+    def ydim
+      @ydim || xdim
+    end
+
+
   private
-
-    def default_options
-      @default_options ||= {
-        :margin => 5,
-        :height => 100,
-        :xdim => 1
-      }
-    end
-
-    def options(opts={})
-      doc_opts = opts.delete(:document) || {}
-      opts = default_options.merge(opts)
-      opts[:x] ||= opts[:margin]
-      opts[:y] ||= opts[:margin]
-      opts[:document] = document_options(opts, doc_opts)
-      opts
-    end
-
-    def document_options(opts, doc_opts)
-      o = doc_opts.dup
-      #o[:page_size] ||= page_size(opts[:xdim], opts[:height], opts[:margin])
-      #%w(left right top bottom).each{|s| o[:"#{s}_margin"] ||= opts[:margin] }
-      o[:page_size] ||= 'A4' #Prawn doesn't currently support custom page sizes
-      o
-    end
 
     def page_size(xdim, height, margin)
       [width(xdim,margin), height(height,margin)]
-    end
-
-    def width(xdim, margin)
-      (xdim * encoding.length) + (margin * 2)
-    end
-
-    def height(height, margin)
-      height + (margin * 2)
     end
 
 
