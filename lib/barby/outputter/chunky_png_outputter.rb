@@ -54,13 +54,13 @@ module Barby
 
 
     def to_datastream(*a)
-      to_image.to_datastream
+      to_image(*a).to_datastream
     end
 
 
     #Renders the barcode to a PNG image
     def to_png(*a)
-      to_datastream.to_s
+      to_datastream(*a).to_s
     end
 
 
