@@ -7,16 +7,16 @@ include FileUtils
 
 spec = Gem::Specification.new do |s|
   s.name = "barby"
-  s.version = "0.4.0"
+  s.version = "0.4.1"
   s.author = "Tore Darell"
   s.email = "toredarell@gmail.com"
   s.homepage = "http://toretore.github.com/barby"
   s.platform = Gem::Platform::RUBY
-  s.summary = "A pure-Ruby barcode generator"
+  s.summary = "The Ruby barcode generator"
+  s.description = "Barby creates barcodes."
   s.rubyforge_project = "barby"
   s.files = FileList["lib/**/*", "bin/*", "vendor/**/*"].to_a
   s.require_path = "lib"
-  s.autorequire = "barby"
   s.has_rdoc = true
   s.extra_rdoc_files = ["README"]
 end
