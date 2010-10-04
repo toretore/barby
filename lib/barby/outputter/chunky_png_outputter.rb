@@ -53,8 +53,13 @@ module Barby
     end
 
 
+    #Create a ChunkyPNG::Datastream containing the barcode image
+    #
+    # :constraints - Value is passed on to ChunkyPNG::Image#to_datastream
+    #                E.g. to_datastream(:constraints => {:color_mode => ChunkyPNG::COLOR_GRAYSCALE})
     def to_datastream(*a)
-      to_image(*a).to_datastream
+      constraints = a.first ? [a.first[:constraints]] : []
+      to_image(*a).to_datastream(*constraints)
     end
 
 
