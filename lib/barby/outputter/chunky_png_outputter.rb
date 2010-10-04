@@ -5,16 +5,16 @@ module Barby
 
   #Renders the barcode to a PNG image using the "png" gem (gem install png)
   #
-  #Registers the to_png and to_canvas methods
+  #Registers the to_png, to_datastream and to_canvas methods
   class ChunkyPngOutputter < Outputter
 
-    register :to_png, :to_canvas
+    register :to_png, :to_image, :to_datastream
 
     attr_accessor :xdim, :ydim, :width, :height, :margin
 
 
     #Creates a PNG::Canvas object and renders the barcode on it
-    def to_canvas(opts={})
+    def to_image(opts={})
       with_options opts do
         canvas = ChunkyPNG::Image.new(full_width, full_height, ChunkyPNG::Color::WHITE)
 
@@ -53,9 +53,14 @@ module Barby
     end
 
 
+    def to_datastream(*a)
+      to_image.to_datastream
+    end
+
+
     #Renders the barcode to a PNG image
     def to_png(*a)
-      to_canvas.to_datastream
+      to_datastream.to_s
     end
 
 
