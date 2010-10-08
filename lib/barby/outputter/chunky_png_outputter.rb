@@ -20,7 +20,7 @@ module Barby
 
         if barcode.two_dimensional?
           x, y = margin, margin
-          booleans.reverse_each do |line|
+          booleans.each do |line|
             line.each do |bar|
               if bar
                 x.upto(x+(xdim-1)) do |xx|
@@ -58,7 +58,7 @@ module Barby
     # :constraints - Value is passed on to ChunkyPNG::Image#to_datastream
     #                E.g. to_datastream(:constraints => {:color_mode => ChunkyPNG::COLOR_GRAYSCALE})
     def to_datastream(*a)
-      constraints = a.first ? [a.first[:constraints]] : []
+      constraints = a.first && a.first[:constraints] ? [a.first[:constraints]] : []
       to_image(*a).to_datastream(*constraints)
     end
 
