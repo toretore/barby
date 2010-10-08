@@ -1,3 +1,7 @@
+* 0.4.2
+
+* ChunkyPngOutputter now renders 2D barcodes not upside down [Thanks Scient]
+
 * 0.4.1
 
 * ChunkyPngOutputter - ChunkyPNG is a pure-Ruby PNG library
