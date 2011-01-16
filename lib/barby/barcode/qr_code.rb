@@ -4,8 +4,8 @@ require 'barby/barcode'
 module Barby
 
 
-  #QrCode is a thin wrapper around the RQRCode library
-  class QrCode < Barcode2D
+  #A thin wrapper around the RQRCode library
+  class RQRCode < Barcode2D
 
     #Maximum sizes for each correction level for binary data
     #It's an array
@@ -91,11 +91,55 @@ module Barby
   
     #Generate an RQRCode object with the available values
     def rqrcode
-      RQRCode::QRCode.new(data, :level => level, :size => size)
+      ::RQRCode::QRCode.new(data, :level => level, :size => size)
     end
 
 
   end
+
+
+  #A thin wrapper around the RQREncoder library
+  #rqrencoder needs to be installed and required for this to work
+  class RQREncoder < Barcode2D
+
+    LEVELS = { :l => 0, :m => 1, :q => 2, :h => 3 }
+
+    attr_accessor :data, :level, :size
+
+
+    def initialize(data, opts={})
+      self.data = data
+      opts.each{|k,v| send("#{k}=", v) }
+    end
+
+
+    def data=(data)
+      @data = data
+      @qrcode = nil
+    end
+
+
+    def encoding
+      qrcode.modules.map{|r| r.inject(''){|s,m| s << (m ? '1' : '0') } }
+    end
+
+
+  private
+
+    def qrcode
+      @qrcode ||= begin
+        opts = {}
+        opts[:level] = LEVELS[level] if level
+        opts[:version] = size if size
+        ::RQREncoder::QREncoder.new(opts).encode(data)
+      end
+    end
+
+
+  end
+
+
+  QrCode = defined?(::RQREncoder) ? RQREncoder : RQRCode
 
 
 end
