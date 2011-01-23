@@ -175,4 +175,12 @@ module Barby
 
   end
 
+  class UPCA < EAN13
+
+    def data
+      '0' + super
+    end
+
+  end
+
 end
