@@ -7,6 +7,8 @@ module Barby
     @data = nil
     attr_reader :data
 
+    FORMAT = /^\d\d\d\d\d$/
+
     START = '1011'
     STOP = ''
     INTER_CHAR = '01'
@@ -83,7 +85,7 @@ module Barby
     end
 
     def valid?
-      return true
+      data =~ FORMAT
     end
 
     def to_s
