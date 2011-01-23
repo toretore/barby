@@ -1,4 +1,5 @@
 require 'barby/barcode'
+require 'barby/barcode/ean_13'
 
 module Barby
 
@@ -10,50 +11,54 @@ module Barby
     FORMAT = /^\d\d\d\d\d$/
 
     START = '1011'
-    STOP = ''
-    INTER_CHAR = '01'
+    SEPARATOR = '01'
+
+    ODD = :odd
+    EVEN = :even
 
     PARITY_MAPS = {
-      0 => [:even, :even, :odd, :odd, :odd],
-      1 => [:even, :odd, :even, :odd, :odd],
-      2 => [:even, :odd, :odd, :even, :odd],
-      3 => [:even, :odd, :odd, :odd, :even],
-      4 => [:odd, :even, :even, :odd, :odd],
-      5 => [:odd, :odd, :even, :even, :odd],
-      6 => [:odd, :odd, :odd, :even, :even],
-      7 => [:odd, :even, :odd, :even, :odd],
-      8 => [:odd, :even, :odd, :odd, :even],
-      9 => [:odd, :odd, :even, :odd, :even]
+      0 => [EVEN, EVEN, ODD, ODD, ODD],
+      1 => [EVEN, ODD, EVEN, ODD, ODD],
+      2 => [EVEN, ODD, ODD, EVEN, ODD],
+      3 => [EVEN, ODD, ODD, ODD, EVEN],
+      4 => [ODD, EVEN, EVEN, ODD, ODD],
+      5 => [ODD, ODD, EVEN, EVEN, ODD],
+      6 => [ODD, ODD, ODD, EVEN, EVEN],
+      7 => [ODD, EVEN, ODD, EVEN, ODD],
+      8 => [ODD, EVEN, ODD, ODD, EVEN],
+      9 => [ODD, ODD, EVEN, ODD, EVEN]
     }
 
-   ENCODINGS_ODD = {
-      0 => '0001101', 1 => '0011001', 2 => '0010011',
-      3 => '0111101', 4 => '0100011', 5 => '0110001',
-      6 => '0101111', 7 => '0111011', 8 => '0110111',
-      9 => '0001011'
-    }
-
-    ENCODINGS_EVEN = {
-      0 => '0100111', 1 => '0110011', 2 => '0011011',
-      3 => '0100001', 4 => '0011101', 5 => '0111001',
-      6 => '0000101', 7 => '0010001', 8 => '0001001',
-      9 => '0010111'
+    ENCODINGS = {
+      ODD => EAN13::LEFT_ENCODINGS_ODD,
+      EVEN => EAN13::LEFT_ENCODINGS_EVEN
     }
 
 
-    def initialize data
+    def initialize(data)
       self.data = data
     end
 
+
+    def characters
+      data.split(//)
+    end
+
+    def digits
+      characters.map{|c| c.to_i }
+    end
+
+
     def odd_digits
       alternater = false
-      data.split(//).reverse.map{|c| c.to_i }.partition{ alternater = !alternater }[0]
+      digits.reverse.select{ alternater = !alternater }
     end
 
     def even_digits
-      alternater = false
-      data.split(//).reverse.map{|c| c.to_i }.partition{ alternater = !alternater }[1]
+      alternater = true
+      digits.reverse.select{ alternater = !alternater }
     end
+
 
     def odd_sum
       odd_digits.inject(0){|s,d| s + d * 3 }
@@ -63,41 +68,38 @@ module Barby
       even_digits.inject(0){|s,d| s + d * 9 }
     end
 
+
     def checksum
       (odd_sum + even_sum) % 10
     end
 
-    def encoding
-      check_digit = checksum
 
-      parity_map = PARITY_MAPS[check_digit]
+    def parity_map
+      PARITY_MAPS[checksum]
+    end
 
-      pos = 0
-      e = START
-      data_chars = data.split('')
-      for digit_char in data_chars
-        digit = digit_char.to_i
-        parity = parity_map[pos]
-        e +=  ENCODINGS_ODD[digit] if parity==:odd
-        e +=  ENCODINGS_EVEN[digit] if parity==:even
-        e += INTER_CHAR unless pos == 4
-        pos += 1
+
+    def encoded_characters
+      parity_map.zip(digits).map do |parity, digit|
+        ENCODINGS[parity][digit]
       end
-
-      e
     end
 
-    def two_dimensional?
-      return false
+
+    def encoding
+      START + encoded_characters.join(SEPARATOR)
     end
+
 
     def valid?
       data =~ FORMAT
     end
 
+
     def to_s
-      data[0,20]
+      data
     end
+
 
   end
 
