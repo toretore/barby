@@ -101,6 +101,11 @@ module Barby
     end
 
 
+    NO_PRICE = new('90000') #The book doesn't have a suggested retail price
+    COMPLIMENTARY = new('99991') #The book is complimentary (~free)
+    USED = new('99990') #The book is marked as used
+
+
   end
 
 
