@@ -1,31 +1,31 @@
 require 'barby/outputter'
-require 'png'
+require 'chunky_png'
 
 module Barby
 
-  #Renders the barcode to a PNG image using the "png" gem (gem install png)
+  #Renders the barcode to a PNG image using chunky_png (gem install chunky_png)
   #
-  #Registers the to_png and to_canvas methods
+  #Registers the to_png, to_datastream and to_canvas methods
   class PngOutputter < Outputter
 
-    register :to_png, :to_canvas
+    register :to_png, :to_image, :to_datastream
 
     attr_accessor :xdim, :ydim, :width, :height, :margin
 
 
     #Creates a PNG::Canvas object and renders the barcode on it
-    def to_canvas(opts={})
+    def to_image(opts={})
       with_options opts do
-        canvas = PNG::Canvas.new(full_width, full_height, PNG::Color::White)
+        canvas = ChunkyPNG::Image.new(full_width, full_height, ChunkyPNG::Color::WHITE)
 
         if barcode.two_dimensional?
           x, y = margin, margin
-          booleans.reverse_each do |line|
+          booleans.each do |line|
             line.each do |bar|
               if bar
                 x.upto(x+(xdim-1)) do |xx|
                   y.upto y+(ydim-1) do |yy|
-                    canvas[xx,yy] = PNG::Color::Black
+                    canvas[xx,yy] = ChunkyPNG::Color::BLACK
                   end
                 end
               end
@@ -40,7 +40,7 @@ module Barby
             if bar
               x.upto(x+(xdim-1)) do |xx|
                 y.upto y+(height-1) do |yy|
-                  canvas[xx,yy] = PNG::Color::Black
+                  canvas[xx,yy] = ChunkyPNG::Color::BLACK
                 end
               end
             end
@@ -53,9 +53,19 @@ module Barby
     end
 
 
+    #Create a ChunkyPNG::Datastream containing the barcode image
+    #
+    # :constraints - Value is passed on to ChunkyPNG::Image#to_datastream
+    #                E.g. to_datastream(:constraints => {:color_mode => ChunkyPNG::COLOR_GRAYSCALE})
+    def to_datastream(*a)
+      constraints = a.first && a.first[:constraints] ? [a.first[:constraints]] : []
+      to_image(*a).to_datastream(*constraints)
+    end
+
+
     #Renders the barcode to a PNG image
     def to_png(*a)
-      PNG.new(to_canvas(*a)).to_blob
+      to_datastream(*a).to_s
     end
 
 

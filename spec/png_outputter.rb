@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
-require 'barby/outputter/chunky_png_outputter'
+require 'barby/outputter/png_outputter'
 include Barby
 
 class TestBarcode < Barcode
@@ -12,11 +12,11 @@ class TestBarcode < Barcode
 end
 
 
-describe ChunkyPngOutputter do
+describe PngOutputter do
 
   before :each do
     @barcode = TestBarcode.new('10110011100011110000')
-    @outputter = ChunkyPngOutputter.new(@barcode)
+    @outputter = PngOutputter.new(@barcode)
   end
 
   it "should register to_png and to_image" do
