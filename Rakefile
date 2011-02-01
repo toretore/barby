@@ -5,22 +5,6 @@ require 'rake'
 require 'spec/rake/spectask'
 include FileUtils
 
-spec = Gem::Specification.new do |s|
-  s.name = "barby"
-  s.version = "0.4.2"
-  s.author = "Tore Darell"
-  s.email = "toredarell@gmail.com"
-  s.homepage = "http://toretore.github.com/barby"
-  s.platform = Gem::Platform::RUBY
-  s.summary = "The Ruby barcode generator"
-  s.description = "Barby creates barcodes."
-  s.rubyforge_project = "barby"
-  s.files = FileList["lib/**/*", "bin/*", "vendor/**/*"].to_a
-  s.require_path = "lib"
-  s.has_rdoc = true
-  s.extra_rdoc_files = ["README"]
-end
-
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = false
 end
