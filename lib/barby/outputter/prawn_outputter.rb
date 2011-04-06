@@ -7,7 +7,7 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :use_cursor
+    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :use_cursor, :align, :valign
 
 
     def to_pdf(opts={})
@@ -19,15 +19,35 @@ module Barby
 
     def annotate_pdf(pdf, opts={})
       with_options opts do
-        xpos = x
-        orig_xpos = xpos
-
-        if use_cursor
-          ypos = pdf.y - pdf.bounds.absolute_bottom - height - margin
+        # Horizontal alignment
+        case align
+        when :left
+          xpos = margin
+        when :center
+          xpos = (pdf.bounds.width - full_width)/2.0
+        when :right
+          xpos = pdf.bounds.width - width - margin
         else
-          ypos = y
+          xpos = x
         end
 
+        # Vertical alignment
+        case valign
+        when :top
+          ypos = pdf.bounds.height - height - margin
+        when :middle
+          ypos = (pdf.bounds.height - full_height)/2.0
+        when :bottom
+          ypos = margin
+        else
+          if use_cursor
+            ypos = pdf.y - pdf.bounds.absolute_bottom - height - margin
+          else
+            ypos = y
+          end
+        end
+
+        orig_xpos = xpos
         if barcode.two_dimensional?
           boolean_groups.reverse_each do |groups|
             groups.each do |bar,amount|
