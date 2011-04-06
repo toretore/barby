@@ -7,7 +7,7 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :use_cursor, :align, :valign
+    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :use_cursor, :align, :valign, :pdf, :text
 
 
     def to_pdf(opts={})
@@ -18,13 +18,13 @@ module Barby
 
 
     def annotate_pdf(pdf, opts={})
-      with_options opts do
+      with_options opts.merge(:pdf => pdf) do
         # Horizontal alignment
         case align
         when :left
           xpos = margin
         when :center
-          xpos = (pdf.bounds.width - full_width)/2.0
+          xpos = (pdf.bounds.width - width - margin*2)/2.0
         when :right
           xpos = pdf.bounds.width - width - margin
         else
@@ -38,7 +38,7 @@ module Barby
         when :middle
           ypos = (pdf.bounds.height - full_height)/2.0
         when :bottom
-          ypos = margin
+          ypos = margin + text_height
         else
           if use_cursor
             ypos = pdf.y - pdf.bounds.absolute_bottom - height - margin
@@ -76,6 +76,13 @@ module Barby
             end
             xpos += (xdim*amount)
           end
+          xpos = orig_xpos
+          ypos += height
+        end
+
+        if text
+          text_left = xpos + (width + margin - text_width) / 2.0
+          pdf.draw_text(text, :at => [text_left, ypos - height - text_height])
         end
 
         pdf.move_down(full_height) if use_cursor
@@ -98,12 +105,28 @@ module Barby
       two_dimensional? ? (ydim * encoding.length) : (@height || 50)
     end
 
+    def text_width
+      if pdf && text
+        pdf.width_of(text)
+      else
+        0
+      end
+    end
+
+    def text_height
+      if pdf && text
+        pdf.height_of(text)
+      else
+        0
+      end
+    end
+
     def full_width
-      width + (margin * 2)
+      [width, text_width].max + (margin * 2)
     end
 
     def full_height
-      height + (margin * 2)
+      height + ydim + text_height + (margin * 2)
     end
 
     #Margin is used for x and y if not given explicitly, effectively placing the barcode
@@ -134,6 +157,11 @@ module Barby
     #For 2D, both x and y dimensions are reduced.
     def unbleed
       @unbleed || 0
+    end
+
+    # If :text => true, then we return the barcode data.  Otherwise, return the specified text
+    def text
+      (@text == true) ? barcode.data : @text
     end
 
 
