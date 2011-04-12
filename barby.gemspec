@@ -13,9 +13,10 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "barby"
   
-  s.has_rdoc         = true
-  s.extra_rdoc_files = ["README"]
+  s.has_rdoc          = true
+  s.extra_rdoc_files  = ["README"]
 
-  s.files         = Dir['CHANGELOG', 'README', 'LICENSE', 'lib/**/*', 'vendor/**/*']
-  s.require_paths = ["lib"]
+  s.files             = Dir['CHANGELOG', 'README', 'LICENSE', 'lib/**/*', 'vendor/**/*', 'bin/*']
+  s.executables       = ['barby']
+  s.require_paths     = ["lib"]
 end
