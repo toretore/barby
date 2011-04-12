@@ -6,7 +6,7 @@ module Barby
   #the barcode directly to the terminal for testing.
   #
   #Registers to_ascii
-  class ASCIIOutputter < Outputter
+  class AsciiOutputter < Outputter
 
     register :to_ascii
 
