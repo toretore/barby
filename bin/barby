@@ -34,7 +34,7 @@ end
 require "barby/outputter/#{options[:outputter].gsub(/[A-Z]/){|c| '_'+c.downcase }[1..-1]}_outputter"
 
 barcode_class = Barby.const_get(options[:barcode])
-barcode = barcode_class.new($*.empty? ? STDIN.read.chomp : $*)
+barcode = barcode_class.new($*.empty? ? STDIN.read.chomp : $*[0])
 outputter_class = Barby.const_get("#{options[:outputter]}Outputter")
 outputter = outputter_class.new(barcode)
 
