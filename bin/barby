@@ -2,12 +2,12 @@
 require 'optparse'
 require 'rubygems'
 
-#$: << File.join(File.dirname(__FILE__), '..', 'lib')
+$: << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'barby'
 
 options = {
-  :outputter => 'Png',
-  :outputter_method => 'to_png',
+  :outputter => 'Ascii',
+  :outputter_method => 'to_ascii',
   :barcode => 'Code128B'
 }
 
