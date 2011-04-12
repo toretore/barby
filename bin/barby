@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
+#encoding: UTF-8
 require 'optparse'
 require 'rubygems'
 
-$: << File.join(File.dirname(__FILE__), '..', 'lib')
+#$: << File.join(File.dirname(__FILE__), '..', 'lib')
 require 'barby'
 
 options = {
@@ -20,8 +21,8 @@ ARGV.options do |o|
   o.separator ''
 
   o.on('-b', '--barcode=ClassName', String, 'Barcode type (Code128B)'){|v| options[:barcode] = v }
-  o.on('-o', '--outputter=ClassName', String, 'Outputter (Png)'){|v| options[:outputter] = v }
-  o.on('-m', '--method=method_name', String, 'Outputter method (to_png)'){|v| options[:outputter_method] = v }
+  o.on('-o', '--outputter=ClassName', String, 'Outputter (Ascii)'){|v| options[:outputter] = v }
+  o.on('-m', '--method=method_name', String, 'Outputter method (to_ascii)'){|v| options[:outputter_method] = v }
 
   o.on_tail("-h", "--help", "Show this help message.") { puts o; exit }
     
