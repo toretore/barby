@@ -13,11 +13,10 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "barby"
   
-  s.has_rdoc         = true
-  s.extra_rdoc_files = ["README"]
+  s.has_rdoc          = true
+  s.extra_rdoc_files  = ["README"]
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- spec/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  s.files             = Dir['CHANGELOG', 'README', 'LICENSE', 'lib/**/*', 'vendor/**/*', 'bin/*']
+  s.executables       = ['barby']
+  s.require_paths     = ["lib"]
 end
