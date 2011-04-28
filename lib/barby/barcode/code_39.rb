@@ -88,7 +88,8 @@ module Barby
 
     attr_accessor :data, :spacing, :narrow_width, :wide_width, :extended, :include_checksum
     
-
+    # Do not surround "data" with the mandatory "*" as is this is done automically for you.
+    # So instead of passing "*123456*" as "data", just pass "123456".
     def initialize(data, extended=false)
       self.data = data
       self.extended = extended
