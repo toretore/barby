@@ -1,8 +1,8 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
-require 'barby/barcode/pdf_417'
 include Barby
 
 if defined?(JRUBY_VERSION)
+require 'barby/barcode/pdf_417'
 describe Pdf417 do
   it "should produce a nice code" do
     enc = Pdf417.new('Ereshkigal').encoding
