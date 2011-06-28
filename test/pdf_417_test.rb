@@ -1,12 +1,12 @@
-require File.join(File.dirname(__FILE__), 'spec_helper')
-include Barby
+require 'test_helper'
 
-if defined?(JRUBY_VERSION)
-require 'barby/barcode/pdf_417'
-describe Pdf417 do
+class Pdf417 < Barby::TestCase
+
+  require 'barby/barcode/pdf_417'
+  
   it "should produce a nice code" do
     enc = Pdf417.new('Ereshkigal').encoding
-    enc.should == [
+    enc.must_equal [
       "111111111101010100101111010110011110100111010110001110100011101101011100100001111111101000110100100",
       "111111111101010100101111010110000100100110100101110000101011111110101001111001111111101000110100100", 
       "111111111101010100101101010111111000100100011100110011111010101100001111100001111111101000110100100",
@@ -23,21 +23,20 @@ describe Pdf417 do
       "111111111101010100101111010100100001100100010100111100101011110110001001100001111111101000110100100", 
       "111111111101010100101111010100011110110110011111101001100010100100001001111101111111101000110100100"
     ]
-
-    enc.length.should == 15
-    enc[0].length.should == 99
+    enc.length.must_equal 15
+    enc[0].length.must_equal 99
   end
 
   it "should produce a 19x135 code with default aspect_ratio" do
     enc = Pdf417.new('qwertyuiopasdfghjklzxcvbnm'*3).encoding
-    enc.length.should == 19
-    enc[0].length.should == 135
+    enc.length.must_equal 19
+    enc[0].length.must_equal 135
   end
 
   it "should produce a 29x117 code with 0.7 aspect_ratio" do
     enc = Pdf417.new('qwertyuiopasdfghjklzxcvbnm'*3, :aspect_ratio => 0.7).encoding
-    enc.length.should == 29
-    enc[0].length.should == 117
+    enc.length.must_equal 29
+    enc[0].length.must_equal 117
   end
-end
-end
+  
+end if defined?(JRUBY_VERSION)

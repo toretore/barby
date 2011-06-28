@@ -8,7 +8,7 @@ group :development do
 end
 
 group :test do
-  gem 'rspec', '2.5.0'
+  gem 'minitest', '2.3.1'
 end
 
 group :outputters do
@@ -17,4 +17,5 @@ group :outputters do
   gem 'pdf-writer', '1.1.8'
   gem 'prawn',      '0.11.1'
   gem 'rmagick',    '2.13.1'
+  gem 'chunky_png', '1.2.0'
 end
