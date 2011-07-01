@@ -71,7 +71,9 @@ class CairoOutputterTest < Barby::TestCase
   end
 
   it "should return PNG image by the to_png method" do
-    @barcode.to_png.must_match(/\A\x89PNG/)
+    png = @barcode.to_png
+    data = ruby_19_or_greater? ? png.force_encoding('BINARY') : png
+    data.must_match(/\A\x89PNG/n)
   end
 
   it "should return PS document by the to_ps method" do
@@ -88,7 +90,9 @@ class CairoOutputterTest < Barby::TestCase
 
   it "should return PDF document by the to_pdf method" do
     if pdf_available?
-      @barcode.to_pdf.must_match(/\A%PDF-[\d.]+/)
+      pdf = @barcode.to_pdf
+      data = ruby_19_or_greater? ? pdf.force_encoding('BINARY') : pdf
+      data.must_match(/\A%PDF-[\d.]+/n)
     end
   end
 

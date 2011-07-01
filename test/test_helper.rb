@@ -17,5 +17,9 @@ module Barby
       @loaded_outputter ||= load "barby/outputter/#{outputter}_outputter.rb" 
     end
     
+    def ruby_19_or_greater?
+      RUBY_VERSION >= '1.9'
+    end
+    
   end
 end

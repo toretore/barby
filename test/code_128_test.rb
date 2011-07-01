@@ -1,4 +1,4 @@
-#encoding: UTF-8
+# encoding: UTF-8
 require 'test_helper'
 
 class Code128Test < Barby::TestCase
@@ -66,7 +66,7 @@ class Code128Test < Barby::TestCase
   describe "multiple encodings" do
 
     before do
-      @data = "ABC123\306def\3074567"
+      @data = binary_encode("ABC123\306def\3074567")
       @code = Code128A.new(@data)
     end
 
@@ -80,19 +80,19 @@ class Code128Test < Barby::TestCase
 
     it "should not matter if extras were added separately" do
       code = Code128B.new("ABC")
-      code.extra = "\3071234"
+      code.extra = binary_encode("\3071234")
       code.full_data.must_equal "ABC1234"
-      code.full_data_with_change_codes.must_equal "ABC\3071234"
-      code.extra.extra = "\306abc"
+      code.full_data_with_change_codes.must_equal binary_encode("ABC\3071234")
+      code.extra.extra = binary_encode("\306abc")
       code.full_data.must_equal "ABC1234abc"
-      code.full_data_with_change_codes.must_equal "ABC\3071234\306abc"
-      code.extra.extra.data = "abc\305DEF"
+      code.full_data_with_change_codes.must_equal binary_encode("ABC\3071234\306abc")
+      code.extra.extra.data = binary_encode("abc\305DEF")
       code.full_data.must_equal "ABC1234abcDEF"
-      code.full_data_with_change_codes.must_equal "ABC\3071234\306abc\305DEF"
+      code.full_data_with_change_codes.must_equal binary_encode("ABC\3071234\306abc\305DEF")
       code.extra.extra.full_data.must_equal "abcDEF"
-      code.extra.extra.full_data_with_change_codes.must_equal "abc\305DEF"
+      code.extra.extra.full_data_with_change_codes.must_equal binary_encode("abc\305DEF")
       code.extra.full_data.must_equal "1234abcDEF"
-      code.extra.full_data_with_change_codes.must_equal "1234\306abc\305DEF"
+      code.extra.full_data_with_change_codes.must_equal binary_encode("1234\306abc\305DEF")
     end
 
     it "should have a Code B extra" do
@@ -116,20 +116,20 @@ class Code128Test < Barby::TestCase
     end
 
     it "should split extra data from string on data assignment" do
-      @code.data = "123\306abc"
+      @code.data = binary_encode("123\306abc")
       @code.data.must_equal '123'
       @code.extra.must_be_instance_of(Code128B)
       @code.extra.data.must_equal 'abc'
     end
 
     it "should be be able to change its extra" do
-      @code.extra = "\3071234"
+      @code.extra = binary_encode("\3071234")
       @code.extra.must_be_instance_of(Code128C)
       @code.extra.data.must_equal '1234'
     end
 
     it "should split extra data from string on extra assignment" do
-      @code.extra = "\306123\3074567"
+      @code.extra = binary_encode("\306123\3074567")
       @code.extra.must_be_instance_of(Code128B)
       @code.extra.data.must_equal '123'
       @code.extra.extra.must_be_instance_of(Code128C)
@@ -137,11 +137,11 @@ class Code128Test < Barby::TestCase
     end
 
     it "should not fail on newlines in extras" do
-      code = Code128B.new("ABC\305\n")
+      code = Code128B.new(binary_encode("ABC\305\n"))
       code.data.must_equal "ABC"
       code.extra.must_be_instance_of(Code128A)
       code.extra.data.must_equal "\n"
-      code.extra.extra = "\305\n\n\n\n\n\nVALID"
+      code.extra.extra = binary_encode("\305\n\n\n\n\n\nVALID")
       code.extra.extra.data.must_equal "\n\n\n\n\n\nVALID"
     end
 
@@ -220,7 +220,7 @@ class Code128Test < Barby::TestCase
     end
 
     it "should not be valid when given invalid data" do
-      @code.data = 'abc£123'
+      @code.data = binary_encode("abc£123")
       refute @code.valid?
     end
 
@@ -289,17 +289,17 @@ class Code128Test < Barby::TestCase
   describe "Function characters" do
 
     it "should retain the special symbols in the data accessor" do
-      Code128A.new("\301ABC\301DEF").data.must_equal "\301ABC\301DEF"
-      Code128B.new("\301ABC\302DEF").data.must_equal "\301ABC\302DEF"
-      Code128C.new("\301123456").data.must_equal "\301123456"
-      Code128C.new("12\30134\30156").data.must_equal "12\30134\30156"
+      Code128A.new(binary_encode("\301ABC\301DEF")).data.must_equal binary_encode("\301ABC\301DEF")
+      Code128B.new(binary_encode("\301ABC\302DEF")).data.must_equal binary_encode("\301ABC\302DEF")
+      Code128C.new(binary_encode("\301123456")).data.must_equal binary_encode("\301123456")
+      Code128C.new(binary_encode("12\30134\30156")).data.must_equal binary_encode("12\30134\30156")
     end
 
     it "should keep the special symbols as characters" do
-      Code128A.new("\301ABC\301DEF").characters.must_equal %W(\301 A B C \301 D E F)
-      Code128B.new("\301ABC\302DEF").characters.must_equal %W(\301 A B C \302 D E F)
-      Code128C.new("\301123456").characters.must_equal %W(\301 12 34 56)
-      Code128C.new("12\30134\30156").characters.must_equal %W(12 \301 34 \301 56)
+      Code128A.new(binary_encode("\301ABC\301DEF")).characters.must_equal binary_encode_array(%W(\301 A B C \301 D E F))
+      Code128B.new(binary_encode("\301ABC\302DEF")).characters.must_equal binary_encode_array(%W(\301 A B C \302 D E F))
+      Code128C.new(binary_encode("\301123456")).characters.must_equal binary_encode_array(%W(\301 12 34 56))
+      Code128C.new(binary_encode("12\30134\30156")).characters.must_equal binary_encode_array(%W(12 \301 34 \301 56))
     end
 
     it "should not allow FNC > 1 for Code C" do
@@ -309,7 +309,7 @@ class Code128Test < Barby::TestCase
     end
 
     it "should be included in the encoding" do
-      a = Code128A.new("\301AB")
+      a = Code128A.new(binary_encode("\301AB"))
       a.data_encoding.must_equal '111101011101010001100010001011000'
       a.encoding.must_equal '11010000100111101011101010001100010001011000101000011001100011101011'
     end
@@ -343,5 +343,16 @@ class Code128Test < Barby::TestCase
 
   end
 
+
+  private
+  
+  def binary_encode_array(datas)
+    datas.each { |data| binary_encode(data) }
+  end
+  
+  def binary_encode(data)
+    ruby_19_or_greater? ? data.force_encoding('BINARY') : data
+  end
+  
 end
 
