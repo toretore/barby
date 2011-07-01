@@ -12,6 +12,7 @@ group :test do
 end
 
 group :outputters do
+  gem 'rqrcode',    '~> 0.3.3'
   gem 'cairo',      '1.10.0'
   gem 'prawn',      '0.11.1'
   gem 'rmagick',    '2.13.1'

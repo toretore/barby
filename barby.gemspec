@@ -19,6 +19,4 @@ Gem::Specification.new do |s|
   s.files             = Dir['CHANGELOG', 'README', 'LICENSE', 'lib/**/*', 'vendor/**/*', 'bin/*']
   s.executables       = ['barby']
   s.require_paths     = ["lib"]
-  
-  s.add_dependency 'rqrcode', '~> 0.3.3'
 end
