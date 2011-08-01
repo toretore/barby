@@ -55,7 +55,7 @@ module Barby
 
     def line_to_elements_row(bools, options)
       elements = bools.map{ |b| b ? black_tag : white_tag }.join
-      %|<#{row_element} class="barby_row">#{elements}</#{row_element}>|.to_a
+      Array(%|<#{row_element} class="barby_row">#{elements}</#{row_element}>|)
     end
     
     def black_tag
