@@ -7,7 +7,7 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed
+    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :ean_guards
 
 
     def to_pdf(opts={})
@@ -41,11 +41,19 @@ module Barby
         else
           boolean_groups.each do |bar,amount|
             if bar
-              pdf.move_to(xpos+unbleed, ypos)
-              pdf.line_to(xpos+unbleed, ypos+height)
-              pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
-              pdf.line_to(xpos+(xdim*amount)-unbleed, ypos)
-              pdf.line_to(xpos+unbleed, ypos)
+              if ean_guards && [0,1,2,45,46,47,48,49,92,93,94].include?(xpos)
+	        pdf.move_to(xpos+unbleed, ypos - 2)
+                pdf.line_to(xpos+unbleed, ypos+height)
+                pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
+		pdf.line_to(xpos+(xdim*amount)-unbleed, ypos - 2)
+                pdf.line_to(xpos+unbleed, ypos - 2)
+              else
+	        pdf.move_to(xpos+unbleed, ypos)
+                pdf.line_to(xpos+unbleed, ypos+height)
+                pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
+		pdf.line_to(xpos+(xdim*amount)-unbleed, ypos)
+                pdf.line_to(xpos+unbleed, ypos)
+              end
               pdf.fill
             end
             xpos += (xdim*amount)
