@@ -1,3 +1,10 @@
+* 0.4.4
+
+* Use Gemfile for dependency management [Ken Collins]
+* Move to MiniTest [Ken Collins]
+* HTML outputter [Ken Collins]
+* Various 1.9 fixes [Ken Collins, Dominique Ribaut]
+
 * 0.4.3
 
 * 2- and 5-digit UPC supplements
