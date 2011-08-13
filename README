@@ -31,6 +31,7 @@ See Barby::Barcode and Barby::Outputter for more information.
  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
             B          A          R          B          Y
 
+
 Supported symbologies:
 
 * Code 25
@@ -49,3 +50,13 @@ Supported symbologies:
 * QR Code
 * DataMatrix (Semacode)
 * PDF417 (requires JRuby)
+
+
+Formats supported by outputters:
+
+* Text (mostly for testing)
+* PNG, JPEG, GIF
+* PS, EPS
+* SVG
+* PDF
+* HTML
