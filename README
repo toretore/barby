@@ -1,5 +1,4 @@
-Barby is a Ruby barcode generator. It does not depend on other libraries
-(for the core functionality) and is easily extentable.
+Barby is a Ruby barcode generator. It is easily extendable.
 
 The barcode objects are separated from the process of generating graphical
 (or other) representations. A barcode's only responsibility is to provide
