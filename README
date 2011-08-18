@@ -1,3 +1,11 @@
+*** NEW REQUIRE POLICY ***
+
+Barcode symbologies are no longer requires automatically, so you'll have to
+require the ones you need. If you need EAN-13, require 'barby/barcode/ean_13'.
+Full list of symbologies and filenames below.
+
+***
+
 Barby is a Ruby library that generates barcodes in a variety of symbologies.
 Its functionality is split into barcode and "outputter" objects. Barcode
 objects turn data into a binary representation for a given symbology.
@@ -13,6 +21,7 @@ yet, and it will work with all existing symbologies.
 See Barby::Barcode and Barby::Outputter for more information.
 
  require 'barby'
+ require 'barby/barcode/code_128'
  require 'barby/outputter/ascii_outputter'
 
  barcode = Barby::Code128B.new('BARBY')
@@ -34,22 +43,26 @@ See Barby::Barcode and Barby::Outputter for more information.
 
 Supported symbologies:
 
-* Code 25
-  * Interleaved
-  * IATA
-* Code 39
-* Code 93
-* Code 128
-  * GS1 128
-* EAN-13
-  * Bookland
-  * UPC-A
-* EAN-8
-* UPC/EAN supplemental, 2 & 5 digits
+Name - filename - dependencies
 
-* QR Code
-* DataMatrix (Semacode)
-* PDF417 (requires JRuby)
+require 'barby/barcode/<filename>'
+
+* Code 25 - code_25
+  * Interleaved - code_25_interleaved
+  * IATA - code_25_iata
+* Code 39 - code_39
+* Code 93 - code_93
+* Code 128 - code_128
+  * GS1 128 - gs1_128
+* EAN-13 - ean_13
+  * Bookland - bookland
+  * UPC-A - ean_13
+* EAN-8 - ean_8
+* UPC/EAN supplemental, 2 & 5 digits - upc_supplemental
+
+* QR Code - qr_code - rqrcode
+* DataMatrix (Semacode) - data_matrix - semacode
+* PDF417 - pdf_417 - java (JRuby)
 
 
 Formats supported by outputters:
@@ -60,3 +73,19 @@ Formats supported by outputters:
 * SVG
 * PDF
 * HTML
+
+
+Outputters:
+
+filename (dependencies)
+
+require 'barby/outputter/<filename>_outputter'
+
+* ascii
+* cairo (cairo)
+* html
+* pdfwriter
+* png (chunky_png)
+* prawn (prawn)
+* rmagick (RMagick)
+* svg

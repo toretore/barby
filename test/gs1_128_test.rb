@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'barby/barcode/gs1_128'
 
 class GS1128Test < Barby::TestCase
 

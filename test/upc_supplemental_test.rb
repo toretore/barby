@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'barby/barcode/upc_supplemental'
 
 class UpcSupplementalTest < Barby::TestCase
 

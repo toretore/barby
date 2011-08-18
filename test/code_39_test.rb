@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'barby/barcode/code_39'
 
 class Code39Test < Barby::TestCase
 
