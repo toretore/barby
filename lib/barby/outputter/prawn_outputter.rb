@@ -12,7 +12,8 @@ module Barby
 
     def to_pdf(opts={})
       doc_opts = opts.delete(:document) || {}
-      doc_opts[:page_size] ||= 'A4'
+      doc_opts[:page_size] ||= [full_width(opts), full_height(opts)]
+      doc_opts[:margin]    ||= 0
       annotate_pdf(Prawn::Document.new(doc_opts), opts).render
     end
 
@@ -74,23 +75,23 @@ module Barby
       length * xdim
     end
 
-    def height
-      two_dimensional? ? (ydim * encoding.length) : (@height || 50)
+    def height(options = {})
+      two_dimensional? ? (ydim * encoding.length) : (@height || options[:height] || 50)
     end
 
-    def full_width
-      width + (margin * 2)
+    def full_width(options = {})
+      width + (margin(options) * 2)
     end
 
-    def full_height
-      height + (margin * 2)
+    def full_height(options = {})
+      height(options) + (margin(options) * 2)
     end
 
     #Margin is used for x and y if not given explicitly, effectively placing the barcode
     #<margin> points from the [left,bottom] of the page.
     #If you define x and y, there will be no margin. And if you don't define margin, it's 0.
-    def margin
-      @margin || 0
+    def margin(options = {})
+      @margin || options[:margin] || 0
     end
 
     def x
