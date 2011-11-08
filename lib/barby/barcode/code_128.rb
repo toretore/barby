@@ -242,6 +242,8 @@ module Barby
         count = 0
         while count < chars.size
           if chars[count] =~ /^\d$/
+            #If encountering a digit, next char/byte *must* be second digit in pair. I.e. if chars[count] is 5,
+            #chars[count+1] must be /[0-9]/, otherwise it's not valid
             result << "#{chars[count]}#{chars[count+1]}"
             count += 2
           else
