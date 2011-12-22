@@ -3,21 +3,21 @@ require 'barby/outputter'
 module Barby
 
   # Outputs an HTML representation of the barcode.
-  # 
+  #
   # Registers to_html
-  # 
+  #
   # Allowed options include.
   #   :width        - Applied to parent element's style attribute. Default 100.
   #   :height       - Applied to parent element's style attribute. Default 100.
   #   :css          - Include Barby::HtmlOutputter.css in output's style tag. If you pass false
-  #                   you can include the output of Barby::HtmlOutputter.css in single place like 
+  #                   you can include the output of Barby::HtmlOutputter.css in single place like
   #                   your own stylesheet on once on the page. Default true.
-  #   :parent_style - Include inline style for things like width and height on parent element. 
+  #   :parent_style - Include inline style for things like width and height on parent element.
   #                   Useful if you want to style these attributes elsewhere globally. Default true.
   class HtmlOutputter < Outputter
 
     register :to_html
-    
+
     def self.css
       <<-CSS
         table.barby_code {
@@ -30,12 +30,15 @@ module Barby
           margin: 0 !important;
           padding: 0 !important;
         }
-        table.barby_code tr.barby_row td { border: 0 none transparent !important; }
-        table.barby_code tr.barby_row td.barby_black { background-color: black !important; }
-        table.barby_code tr.barby_row td.barby_white { background-color: white !important; }
+        table.barby_code tr.barby_row td {
+          border: 0 none transparent !important;
+          padding: 0 !important;
+        }
+        table.barby_code tr.barby_row td.barby_black { border-right: 1px black solid !important; }
+        table.barby_code tr.barby_row td.barby_white { border-right: 1px white solid !important; }
       CSS
     end
-    
+
     def to_html(options={})
       default_options = {:width => 100, :height => 100, :css => true, :parent_style => :true}
       options = default_options.merge(options)
@@ -57,23 +60,23 @@ module Barby
       elements = bools.map{ |b| b ? black_tag : white_tag }.join
       Array(%|<#{row_element} class="barby_row">#{elements}</#{row_element}>|)
     end
-    
+
     def black_tag
       '<td class="barby_black"></td>'
     end
-    
+
     def white_tag
       '<td class="barby_white"></td>'
     end
-    
+
     def row_element
       'tr'
     end
-    
+
     def parent_element
       'table'
     end
-    
+
     def parent_style_attribute(options)
       return unless options[:parent_style]
       s = ''
