@@ -30,7 +30,10 @@ module Barby
           margin: 0 !important;
           padding: 0 !important;
         }
-        table.barby_code tr.barby_row td { border: 0 none transparent !important; }
+        table.barby_code tr.barby_row td {
+          border: 0 none transparent !important;
+          padding: 0 !important;
+        }
         table.barby_code tr.barby_row td.barby_black { border-right: 1px black solid !important; }
         table.barby_code tr.barby_row td.barby_white { border-right: 1px white solid !important; }
       CSS
