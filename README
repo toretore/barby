@@ -89,3 +89,5 @@ require 'barby/outputter/<filename>_outputter'
 * prawn (prawn)
 * rmagick (RMagick)
 * svg
+
+There is a convenience wrapper/module you can use at https://www.github.com/dpickett/has_barcode
