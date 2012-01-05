@@ -6,6 +6,8 @@ Full list of symbologies and filenames below.
 
 ***
 
+For more information, check out the Barby wiki at https://github.com/toretore/barby/wiki
+
 Barby is a Ruby library that generates barcodes in a variety of symbologies.
 Its functionality is split into barcode and "outputter" objects. Barcode
 objects turn data into a binary representation for a given symbology.
