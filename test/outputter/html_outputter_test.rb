@@ -22,4 +22,14 @@ class HtmlOutputterTest < Barby::TestCase
     @barcode.to_html(:parent_style => false).must_include '<table class="barby_code" >'
   end
 
+  it "should include valid black and white tags"
+    @barcode.to_html.must_include '<td class="barby_black"></td>'
+    @barcode.to_html.must_include '<td class="barby_white"></td>'
+  end
+
+  it "should not output the rows as an array"
+    @barcode.to_html.wont_include '['
+    @barcode.to_html.wont_include ']'
+  end
+
 end
