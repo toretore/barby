@@ -42,7 +42,7 @@ module Barby
       elements = if barcode.two_dimensional?
                    booleans.map do |bools|
                      line_to_elements_row(bools, options)
-                   end.join("\n")
+                   end
                  else
                    line_to_elements_row(booleans, options)
                  end
@@ -55,7 +55,7 @@ module Barby
 
     def line_to_elements_row(bools, options)
       elements = bools.map{ |b| b ? black_tag : white_tag }.join
-      Array(%|<#{row_element} class="barby_row">#{elements}</#{row_element}>|)
+      Array(%|<#{row_element} class="barby_row">#{elements}</#{row_element}>|).join("\n")
     end
     
     def black_tag
