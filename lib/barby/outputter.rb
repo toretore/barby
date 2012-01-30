@@ -58,8 +58,6 @@ module Barby
     end
 
 
-  private
-
     def two_dimensional?
       barcode.respond_to?(:two_dimensional?) && barcode.two_dimensional?
     end
@@ -106,6 +104,8 @@ module Barby
       end
     end
 
+
+  private
 
     #Takes a hash and temporarily sets properties on self (the outputter object)
     #corresponding with the keys to their values. When the block exits, the
