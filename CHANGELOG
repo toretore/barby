@@ -1,3 +1,11 @@
+* master
+
+* Rewrite HtmlOutputter. Not entirely backwards compatible with the previous version.
+
+* 0.5.0
+
+* Require requirement of barcode symbologies in the same way outputters must be required before being used
+
 * 0.4.4
 
 * Use Gemfile for dependency management [Ken Collins]

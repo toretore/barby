@@ -2,86 +2,91 @@ require 'barby/outputter'
 
 module Barby
 
-  # Outputs an HTML representation of the barcode.
-  # 
-  # Registers to_html
-  # 
-  # Allowed options include.
-  #   :width        - Applied to parent element's style attribute. Default 100.
-  #   :height       - Applied to parent element's style attribute. Default 100.
-  #   :css          - Include Barby::HtmlOutputter.css in output's style tag. If you pass false
-  #                   you can include the output of Barby::HtmlOutputter.css in single place like 
-  #                   your own stylesheet on once on the page. Default true.
-  #   :parent_style - Include inline style for things like width and height on parent element. 
-  #                   Useful if you want to style these attributes elsewhere globally. Default true.
+  # Outputs an HTML <table> containing cells for each module in the barcode.
+  #
+  # This does NOT include any styling, you're expected to add the relevant
+  # CSS yourself. The markup is simple: One <table> with class 'barby-barcode',
+  # one or more <tr class="barby-row"> inside a <tbody> each containing
+  # <td class="barby-cell"> for each module with the additional class "on" or "off".
+  #
+  # Example, let's say the barcode.encoding == ['101', '010'] :
+  #
+  #   <table class="barby-barcode">
+  #     <tbody>
+  #        <tr class="barby-row">
+  #          <td class="barby-cell on"></td>
+  #          <td class="barby-cell off"></td>
+  #          <td class="barby-cell on"></td>
+  #        </tr>
+  #        <tr class="barby-row">
+  #          <td class="barby-cell off"></td>
+  #          <td class="barby-cell on"></td>
+  #          <td class="barby-cell off"></td>
+  #        </tr>
+  #     </tbody>
+  #   </table>
+  #
+  # You could then style this with:
+  #
+  #   table.barby-barcode { border-spacing: 0; }
+  #   tr.barby-row {}
+  #   td.barby-cell { width: 3px; height: 3px; }
+  #   td.barby-cell.on { background: #000; }
+  #
+  # Options:
+  #
+  #   :class_name - A class name that will be added to the <table> in addition to barby-barcode
   class HtmlOutputter < Outputter
 
     register :to_html
-    
-    def self.css
-      <<-CSS
-        table.barby_code {
-          border: 0 none transparent !important;
-          border-collapse: collapse !important;
-        }
-        table.barby_code tr.barby_row {
-          border: 0 none transparent !important;
-          border-collapse: collapse !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        table.barby_code tr.barby_row td { border: 0 none transparent !important; }
-        table.barby_code tr.barby_row td.barby_black { background-color: black !important; }
-        table.barby_code tr.barby_row td.barby_white { background-color: white !important; }
-      CSS
-    end
-    
-    def to_html(options={})
-      default_options = {:width => 100, :height => 100, :css => true, :parent_style => :true}
-      options = default_options.merge(options)
-      elements = if barcode.two_dimensional?
-                   booleans.map do |bools|
-                     line_to_elements_row(bools, options)
-                   end.join("\n")
-                 else
-                   line_to_elements_row(booleans, options)
-                 end
-      html = %|<#{parent_element} class="barby_code" #{parent_style_attribute(options)}>\n#{elements}\n</#{parent_element}>|
-      options[:css] ? "<style>#{self.class.css}</style>\n#{html}" : html
+
+    attr_accessor :class_name
+
+
+    def to_html(options = {})
+      with_options options do
+        start + rows.join + stop
+      end
     end
 
 
-  private
+    def rows
+      if barcode.two_dimensional?
+        rows_for(booleans)
+      else
+        rows_for([booleans])
+      end
+    end
 
-    def line_to_elements_row(bools, options)
-      elements = bools.map{ |b| b ? black_tag : white_tag }.join
-      Array(%|<#{row_element} class="barby_row">#{elements}</#{row_element}>|)
+
+    def rows_for(boolean_groups)
+      boolean_groups.map{|g| row_for(cells_for(g)) }
     end
-    
-    def black_tag
-      '<td class="barby_black"></td>'
+
+    def cells_for(booleans)
+      booleans.map{|b| b ? on_cell : off_cell }
     end
-    
-    def white_tag
-      '<td class="barby_white"></td>'
+
+    def row_for(cells)
+      cells.map{|c| "<tr class=\"barby-row\">#{c}</tr>" }.join
     end
-    
-    def row_element
-      'tr'
+
+    def on_cell
+      '<td class="barby-cell on"></td>'
     end
-    
-    def parent_element
-      'table'
+
+    def off_cell
+      '<td class="barby-cell off"></td>'
     end
-    
-    def parent_style_attribute(options)
-      return unless options[:parent_style]
-      s = ''
-      s << "width: #{options[:width]}px; " if options[:width]
-      s << "height: #{options[:height]}px; " if options[:height]
-      s.strip!
-      s.empty? ? nil : %|style="#{s}"|
+
+    def start
+      '<table class="barby-barcode'+(class_name ? " #{class_name}" : '')+'"><tbody>'
     end
+
+    def stop
+      '</tbody></table>'
+    end
+
 
   end
 
