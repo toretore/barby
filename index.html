@@ -1,40 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <title>Barby</title>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
-    <!--
-    <link href="syntax.css" media="screen" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="code_highlighter/all.js"></script>
-    -->
-  </head>
-  <body>
-  
-    <h1 id="header">Barby</h1>
-    <p id="header-copy">
-      <strong>Bar</strong>codes for Ru<strong>by</strong>
-    </p>
-    <img src="code128b_header.png" alt="Code 128 B" id="header-barcode" class="barcode" />
-
-    <ul id="menu">
-      <li class="current"><a href="index.html">Home</a></li>
-      <li><a href="howto.html">Howto</a></li>
-      <li><a href="http://barby.rubyforge.org/rdoc/">RDoc</a></li>
-      <li><a href="http://groups.google.com/group/ruby-barby">Google group</a></li>
-      <li><a href="barcodes.html">Barcodes</a></li>
-      <li><a href="outputters.html">Outputters</a></li>
-    </ul>
+---
+layout: default
+---
 
     <p>
-      Barby is a Ruby barcode generator that doesn't rely on 3rd party libraries - it's
-      all in Ruby. Of course, if you want it to do something useful - like generate images -
-      you'll probably <em>want</em> to use an external, non-Ruby library for that. But the
-      most central part (the barcode part) is pure Ruby.
+      Barby is a barcode generator for Ruby.
     </p>
 
     <p>
-      Barby is structured to make it highly extensible; it's easy to add or change the parts
+      It is highly flexible; it's easy to add or change the parts
       you need to make it work for you. There are two main components: there is the part
       responsible for generating the barcodes themselves, including all logic such as
       checksums and conversion of characters into "bars and spaces". The other main part is
@@ -86,10 +59,3 @@ File.open('code128B.gif', 'w'){|f|
 }</code></pre>
 
     <img src="code128b.gif" alt="Code 128B example" class="barcode" />
-
-    <p id="footer">
-      <a href="http://tore.darell.no/">I</a> made this.
-    </p>
-
-  </body>
-</html>

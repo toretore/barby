@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Barby - {{ title }}</title>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  
+    <h1 id="header">Barby</h1>
+    <p id="header-copy">
+      <strong>Bar</strong>codes for Ru<strong>by</strong>
+    </p>
+    <img src="code128b_header.png" alt="Code 128 B" id="header-barcode" class="barcode" />
+
+    <ul id="menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="howto.html">Howto</a></li>
+      <li><a href="http://rdoc.info/github/toretore/barby/frames">RDoc</a></li>
+      <li><a href="https://github.com/toretore/barby">Source</a></li>
+      <li><a href="http://groups.google.com/group/ruby-barby">Discussion</a></li>
+      <li><a href="https://github.com/toretore/barby/wiki">Wiki</a></li>
+    </ul>
+
+    {% if page.title %}
+      <h2>{{ page.title }}</h2>
+    {% endif %}
+
+    {{ content }}
+
+    <p id="footer">
+      <a href="http://tore.darell.no/">I</a> made this.
+    </p>
+
+  </body>
+</html>
