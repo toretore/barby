@@ -1,19 +1,6 @@
 require 'rake'
-require 'rake/gempackagetask'
 require 'rake/testtask'
-require 'fileutils'
-
-include FileUtils
-
-spec = eval(File.read('barby.gemspec'))
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_tar = false
-end
-
-task :default => "pkg/#{spec.name}-#{spec.version}.gem" do
-  puts "generated latest version"
-end
+require 'rdoc/task'
 
 Rake::TestTask.new do |t|
   t.libs = ['lib','test']
@@ -21,7 +8,8 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-desc "Build RDoc"
-task :doc do
-  system "rm -rf site/rdoc; rdoc -tBarby -xvendor -osite/rdoc -mREADME lib/**/* README"
+RDoc::Task.new do |rdoc|
+  rdoc.main = "README"
+  rdoc.rdoc_files.include("README", "lib")
+  rdoc.rdoc_dir = 'doc'
 end
