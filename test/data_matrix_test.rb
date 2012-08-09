@@ -1,6 +1,6 @@
 unless RUBY_VERSION >= '1.9'
 
-  require 'test_helper'
+  require './test/test_helper'
   require 'barby/barcode/data_matrix'
 
   class DataMatrixTest < Barby::TestCase

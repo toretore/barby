@@ -1,5 +1,5 @@
 # encoding: UTF-8
-require 'test_helper'
+require './test/test_helper'
 require 'barby/barcode/code_128'
 
 class Code128Test < Barby::TestCase

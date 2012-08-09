@@ -1,4 +1,4 @@
-require 'test_helper'
+require './test/test_helper'
 require 'barby/barcode/code_25_interleaved'
 
 class Code25InterleavedTest < Barby::TestCase

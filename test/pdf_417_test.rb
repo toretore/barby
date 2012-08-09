@@ -1,6 +1,6 @@
 if defined? JRUBY_VERSION
 
-  require 'test_helper'
+  require './test/test_helper'
   require 'barby/barcode/pdf_417'
 
   class Pdf417Test < Barby::TestCase

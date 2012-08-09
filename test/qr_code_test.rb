@@ -1,4 +1,4 @@
-require 'test_helper'
+require './test/test_helper'
 require 'barby/barcode/qr_code'
 
 class QrCodeTest < Barby::TestCase

@@ -1,4 +1,4 @@
-require 'test_helper'
+require './test/test_helper'
 require 'barby/barcode/ean_13'
 
 class EAN13Test < Barby::TestCase
