@@ -142,13 +142,13 @@ module Barby
       }.invert
     }
 
-    FNC1 = "\xc1"
-    FNC2 = "\xc2"
-    FNC3 = "\xc3"
-    FNC4 = "\xc4"
-    CODEA = "\xc5"
-    CODEB = "\xc6"
-    CODEC = "\xc7"
+    FNC1 = "\\xc1"
+    FNC2 = "\\xc2"
+    FNC3 = "\\xc3"
+    FNC4 = "\\xc4"
+    CODEA = "\\xc5"
+    CODEB = "\\xc6"
+    CODEC = "\\xc7"
 
     STOP = '11000111010'
     TERMINATE = '11'
