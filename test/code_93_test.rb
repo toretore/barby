@@ -1,3 +1,4 @@
+#encoding: ASCII
 require 'test_helper'
 require 'barby/barcode/code_93'
 

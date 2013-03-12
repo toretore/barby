@@ -1,4 +1,4 @@
-require 'semacode'
+require 'semacode' #Ruby 1.8: gem install semacode - Ruby 1.9: gem install semacode-ruby19
 require 'barby/barcode'
 
 module Barby

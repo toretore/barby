@@ -1,3 +1,4 @@
+#encoding: ASCII
 require 'barby/barcode'
 
 module Barby

@@ -1,6 +1,4 @@
 require 'rubygems'
-require 'bundler'
-Bundler.setup
 require 'barby'
 require 'minitest/spec'
 require 'minitest/autorun'
