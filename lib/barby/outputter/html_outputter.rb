@@ -68,7 +68,7 @@ module Barby
     end
 
     def row_for(cells)
-      cells.map{|c| "<tr class=\"barby-row\">#{c}</tr>" }.join
+      "<tr class=\"barby-row\">#{cells.join}</tr>"
     end
 
     def on_cell
