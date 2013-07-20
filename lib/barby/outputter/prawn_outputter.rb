@@ -7,12 +7,13 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed
+    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :ean_guards
 
 
     def to_pdf(opts={})
       doc_opts = opts.delete(:document) || {}
-      doc_opts[:page_size] ||= 'A4'
+      doc_opts[:page_size] ||= [full_width(opts), full_height(opts)]
+      doc_opts[:margin]    ||= 0
       annotate_pdf(Prawn::Document.new(doc_opts), opts).render
     end
 
@@ -41,11 +42,19 @@ module Barby
         else
           boolean_groups.each do |bar,amount|
             if bar
-              pdf.move_to(xpos+unbleed, ypos)
-              pdf.line_to(xpos+unbleed, ypos+height)
-              pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
-              pdf.line_to(xpos+(xdim*amount)-unbleed, ypos)
-              pdf.line_to(xpos+unbleed, ypos)
+              if ean_guards && [0,1,2,45,46,47,48,49,92,93,94].include?(xpos)
+	        pdf.move_to(xpos+unbleed, ypos - 2)
+                pdf.line_to(xpos+unbleed, ypos+height)
+                pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
+		pdf.line_to(xpos+(xdim*amount)-unbleed, ypos - 2)
+                pdf.line_to(xpos+unbleed, ypos - 2)
+              else
+	        pdf.move_to(xpos+unbleed, ypos)
+                pdf.line_to(xpos+unbleed, ypos+height)
+                pdf.line_to(xpos+(xdim*amount)-unbleed, ypos+height)
+		pdf.line_to(xpos+(xdim*amount)-unbleed, ypos)
+                pdf.line_to(xpos+unbleed, ypos)
+              end
               pdf.fill
             end
             xpos += (xdim*amount)
@@ -66,23 +75,23 @@ module Barby
       length * xdim
     end
 
-    def height
-      two_dimensional? ? (ydim * encoding.length) : (@height || 50)
+    def height(options = {})
+      two_dimensional? ? (ydim * encoding.length) : (@height || options[:height] || 50)
     end
 
-    def full_width
-      width + (margin * 2)
+    def full_width(options = {})
+      width + (margin(options) * 2)
     end
 
-    def full_height
-      height + (margin * 2)
+    def full_height(options = {})
+      height(options) + (margin(options) * 2)
     end
 
     #Margin is used for x and y if not given explicitly, effectively placing the barcode
     #<margin> points from the [left,bottom] of the page.
     #If you define x and y, there will be no margin. And if you don't define margin, it's 0.
-    def margin
-      @margin || 0
+    def margin(options = {})
+      @margin || options[:margin] || 0
     end
 
     def x
