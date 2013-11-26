@@ -1,12 +1,10 @@
-*** NEW REQUIRE POLICY ***
+= Barby
 
-Barcode symbologies are no longer requires automatically, so you'll have to
-require the ones you need. If you need EAN-13, require 'barby/barcode/ean_13'.
-Full list of symbologies and filenames below.
+home :: http://toretore.github.com/barby
+code :: https://github.com/keeguon/barby
 
-***
 
-For more information, check out the Barby wiki at https://github.com/toretore/barby/wiki
+== DESCRIPTION
 
 Barby is a Ruby library that generates barcodes in a variety of symbologies.
 Its functionality is split into barcode and "outputter" objects. Barcode
@@ -22,25 +20,25 @@ yet, and it will work with all existing symbologies.
 
 See Barby::Barcode and Barby::Outputter for more information.
 
- require 'barby'
- require 'barby/barcode/code_128'
- require 'barby/outputter/ascii_outputter'
+  require 'barby'
+  require 'barby/barcode/code_128'
+  require 'barby/outputter/ascii_outputter'
 
- barcode = Barby::Code128B.new('BARBY')
- 
- puts barcode.to_ascii #Implicitly uses the AsciiOutputter
+  barcode = Barby::Code128B.new('BARBY')
+  
+  puts barcode.to_ascii #Implicitly uses the AsciiOutputter
 
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
- ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
-            B          A          R          B          Y
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+  ## #    #  #   # ##   # #   ##   ##   # ### #   # ##   ### ## #   ## ### ### ##   ### # ##
+             B          A          R          B          Y
 
 
 Supported symbologies:
@@ -91,3 +89,5 @@ require 'barby/outputter/<filename>_outputter'
 * prawn (prawn)
 * rmagick (RMagick)
 * svg
+
+For more information, check out the Barby wiki at https://github.com/toretore/barby/wiki

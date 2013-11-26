@@ -1,67 +1,71 @@
-* 0.5.1
+== 0.5.2
+
+* Switching to Hoe
+
+== 0.5.1
 
 * Fix some encoding issues (ruby 2.0 & 1.9)
 * Rewrite HtmlOutputter. Not entirely backwards compatible with the previous version.
 
-* 0.5.0
+== 0.5.0
 
 * Require requirement of barcode symbologies in the same way outputters must be required before being used
 
-* 0.4.4
+== 0.4.4
 
 * Use Gemfile for dependency management [Ken Collins]
 * Move to MiniTest [Ken Collins]
 * HTML outputter [Ken Collins]
 * Various 1.9 fixes [Ken Collins, Dominique Ribaut]
 
-* 0.4.3
+== 0.4.3
 
 * 2- and 5-digit UPC supplements
 * Use ChunkyPNG for PngOutputter
 
-* 0.4.2
+== 0.4.2
 
 * ChunkyPngOutputter now renders 2D barcodes not upside down [Thanks Scient]
 
-* 0.4.1
+== 0.4.1
 
 * ChunkyPngOutputter - ChunkyPNG is a pure-Ruby PNG library
 
-* 0.4.0
+== 0.4.0
 
 * Can you tell I'm just making up version numbers as I go along?
 * DataMatrix (not required automatically, requires the 'semacode' gem)
 * Refactored PrawnOutputter a little. No more stupid options hashes + unbleed attribute
 
-* 0.3.2
+== 0.3.2
 
 * Fix bug where Code128 extras choke on newlines [Wayne Conrad]
 * Don't allow Code128 with empty data strings [Wayne Conrad]
 * Allow custom :size for QrCodes
 
-* 0.3.1
+== 0.3.1
 
 * Add support for PDF417, using Pdf417lib (JRuby only) [Aslak Hellesøy]
 
-* 0.3.0
+== 0.3.0
 
 * Make compatible with Ruby 1.9 [Chris Mowforth]
 * Add SvgOutputter for outputting SVGs without dependencies [Peter H. Li]
 
-* 0.2.1
+== 0.2.1
 
 * Allow QR Codes with sizes up to 40
 
-* 0.2.0
+== 0.2.0
 
 * Added support for 2D barcodes
 * Updated all outputters to support 2D barcodes
 * Added support for QR Code
 
-* 0.1.2
+== 0.1.2
 
 * Added CairoOutputter [Kouhei Sutou]
 
-* 0.1.1
+== 0.1.1
 
 * Added PngOutputter that uses "png" gem
