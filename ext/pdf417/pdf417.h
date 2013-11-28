@@ -1,18 +1,23 @@
-
 VALUE rb_cPdf417;
 VALUE rb_cPdf417_Lib;
-static VALUE rb_pdf417_lib_encode_text(VALUE self, VALUE text);
-static VALUE rb_pdf417_lib_codewords(VALUE self);
-static VALUE rb_pdf417_lib_to_blob(VALUE self);
-static VALUE rb_pdf417_lib_new(VALUE class, VALUE text);
+
 static void rb_pdf417_lib_cleanup(void *p);
-static VALUE rb_pdf417_lib_init(VALUE self, VALUE text);
-static VALUE rb_pdf417_lib_bitColumns(VALUE self);
-static VALUE rb_pdf417_lib_lenBits(VALUE self);
-static VALUE rb_pdf417_lib_codeRows(VALUE self);
-static VALUE rb_pdf417_lib_codeColumns(VALUE self);
-static VALUE rb_pdf417_lib_lenCodewords(VALUE self);
-static VALUE rb_pdf417_lib_errorLevel(VALUE self);
-static VALUE rb_pdf417_lib_aspectRatio(VALUE self);
-static VALUE rb_pdf417_lib_yHeight(VALUE self);
-static VALUE rb_pdf417_lib_error(VALUE self);
+static VALUE rb_pdf417_lib_new(VALUE klass);
+static VALUE rb_pdf417_lib_paintCode(VALUE self);
+static VALUE rb_pdf417_lib_getAspectRatio(VALUE self);
+static VALUE rb_pdf417_lib_setAspectRatio(VALUE self, VALUE aspectRatio);
+static VALUE rb_pdf417_lib_getBitColumns(VALUE self);
+static VALUE rb_pdf417_lib_getCodeColumns(VALUE self);
+static VALUE rb_pdf417_lib_setCodeColumns(VALUE self, VALUE codeColumns);
+static VALUE rb_pdf417_lib_getCodeRows(VALUE self);
+static VALUE rb_pdf417_lib_setCodeRows(VALUE self, VALUE codeRows);
+static VALUE rb_pdf417_lib_getErrorLevel(VALUE self);
+static VALUE rb_pdf417_lib_setErrorLevel(VALUE self, VALUE errorLevel);
+static VALUE rb_pdf417_lib_getLenCodewords(VALUE self);
+static VALUE rb_pdf417_lib_setLenCodewords(VALUE self, VALUE lenCodewords);
+static VALUE rb_pdf417_lib_getOutBits(VALUE self);
+static VALUE rb_pdf417_lib_getText(VALUE self);
+static VALUE rb_pdf417_lib_setText(VALUE self, VALUE text);
+static VALUE rb_pdf417_lib_getYHeight(VALUE self);
+static VALUE rb_pdf417_lib_setYHeight(VALUE self, VALUE yHeight);
+void Init_pdf417();

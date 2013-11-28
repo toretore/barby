@@ -50,6 +50,17 @@ HOE = Hoe.spec 'barby' do
 end
 HOE.spec.licenses = ['MIT']
 
+# ----------------------------------------
+
+def add_file_to_gem relative_path
+  target_path = File.join gem_build_path, relative_path
+  target_dir = File.dirname(target_path)
+  mkdir_p target_dir unless File.directory?(target_dir)
+  rm_f target_path
+  ln relative_path, target_path
+  HOE.spec.files += [relative_path]
+end
+
 def gem_build_path
   File.join 'pkg', HOE.spec.full_name
 end

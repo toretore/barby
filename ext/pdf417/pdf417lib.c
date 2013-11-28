@@ -42,18 +42,15 @@
  * you aren't using an obsolete version:
  * http://sourceforge.net/projects/pdf417lib
  */
- 
 
-// #ifndef __APPLE__
-// #include <malloc.h>
-// #endif
+#ifndef __APPLE__ 
+#include <malloc.h>
+#endif
 
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
-#include <ruby.h>
-
+#include <stdlib.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -71,8 +68,6 @@ extern "C" {
 #define NULL    ((void *)0)
 #endif
 #endif
-
-
 
 char* MIXED_SET = "0123456789&\r\t,:#-.$/+%*=^";
 char* PUNCTUATION_SET = ";<>@[\\]_`~!\r\t,:\n-.$/\"|*()?{}'";
@@ -99,7 +94,7 @@ typedef struct _pdf417class {
 static void listInit(pArrayList list) {
     list->capacity = 20;
     list->size = 0;
-    list->array = ALLOC_N(listElement, (list->capacity * sizeof(listElement))); //(pListElement)malloc(list->capacity * sizeof(listElement));
+    list->array = (pListElement)malloc(list->capacity * sizeof(listElement));
 }
 
 static void listFree(pArrayList list) {
@@ -111,7 +106,7 @@ static void listAdd(pArrayList list, char type, int start, int end) {
     if (list->size == list->capacity) {
         pListElement temp;
         list->capacity *= 2;
-        temp = ALLOC_N(listElement, (list->capacity * sizeof(listElement))); //(pListElement)malloc(list->capacity * sizeof(listElement));
+        temp = (pListElement)malloc(list->capacity * sizeof(listElement));
         memcpy(temp, list->array, list->size * sizeof(listElement));
         free(list->array);
         list->array = temp;
@@ -208,7 +203,7 @@ static void outPaintCode(pPdf417class p) {
     int column;
     p->param->bitColumns = START_CODE_SIZE * (p->param->codeColumns + 3) + STOP_SIZE;
     p->param->lenBits = ((p->param->bitColumns - 1) / 8 + 1) * p->param->codeRows;
-    p->param->outBits = ALLOC_N(char, p->param->lenBits); //(char*)malloc(p->param->lenBits);
+    p->param->outBits = (char*)malloc(p->param->lenBits);
     memset(p->param->outBits, 0, p->param->lenBits);
     for (row = 0; row < p->param->codeRows; ++row) {
         p->bitPtr = ((p->param->bitColumns - 1) / 8 + 1) * 8 * row;
@@ -699,7 +694,7 @@ static void dumpList(pPdf417class p, pArrayList list) {
         return;
     for (k = 0; k < list->size; ++k) {
         pListElement v = listGet(list, k);
-        printf("%c%.*s\n", v->type, v->end - v->start, p->param->text + v->start);
+        //printf("%c%.*s\n", v->type, v->end - v->start, p->param->text + v->start);
     }
 }
 
@@ -713,28 +708,6 @@ static int getMaxSquare(pPdf417param p) {
         p->codeRows = 58;
     }
     return MAX_DATA_CODEWORDS + 2;
-}
-
-void fetchCodewords(pPdf417param p) {
-  pdf417class pp;
-  arrayList list;
-  pp.param = p;
-  p->error = 0;
-  if (p->lenText < 0)
-      p->lenText = strlen(p->text);
-  if (p->lenText > ABSOLUTE_MAX_TEXT_SIZE) {
-      p->error = PDF417_ERROR_TEXT_TOO_BIG;
-      return;
-  }
-  listInit(&list);
-  breakString(&pp, &list);
-  //dumpList(&pp, &list);
-  assemble(&pp, &list);
-  listFree(&list);
-  if (p->error)
-      return;
-  p->codewords[0] = p->lenCodewords = pp.cwPtr;
-
 }
 
 void paintCode(pPdf417param p) {
@@ -758,7 +731,7 @@ void paintCode(pPdf417param p) {
         }
         listInit(&list);
         breakString(&pp, &list);
-        // dumpList(&pp, &list);
+        dumpList(&pp, &list);
         assemble(&pp, &list);
         listFree(&list);
         if (p->error)
@@ -854,7 +827,3 @@ void paintCode(pPdf417param p) {
 #ifdef __cplusplus
 }
 #endif
-
-
-
-

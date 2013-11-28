@@ -1,6 +1,10 @@
+== 0.5.3
+
+* Made Pdf417 available both in MRI and jRuby.
+
 == 0.5.2
 
-* Switching to Hoe
+* Switching to Hoe instead of a gemspec file.
 
 == 0.5.1
 

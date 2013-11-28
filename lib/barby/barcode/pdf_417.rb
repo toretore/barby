@@ -1,7 +1,12 @@
 require 'barby/barcode'
-require 'java'
-require 'Pdf417lib'
-import 'Pdf417lib'
+
+if defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
+  require 'java'
+  require 'Pdf417lib'
+  import 'Pdf417lib'
+else
+  require 'pdf417/pdf417'
+end
 
 module Barby
   class Pdf417 < Barcode2D
@@ -20,7 +25,12 @@ module Barby
     # the source code of Pdf417lib.java for details about values
     # that can be used.
     def initialize(data, options={})
-      @pdf417 = Java::Pdf417lib.new
+      if defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
+        @pdf417 = Java::Pdf417lib.new
+      else
+        @pdf417 = ::Pdf417::Lib.new
+      end
+      
       self.data = data
       DEFAULT_OPTIONS.merge(options).each{|k,v| send("#{k}=", v) }
     end
@@ -61,16 +71,10 @@ module Barby
       @pdf417.paintCode()
 
       cols = (@pdf417.getBitColumns() - 1) / 8 + 1
-      enc = []
-      row = nil
-      @pdf417.getOutBits.each_with_index do |byte, n|
-        if n%cols == 0
-          row = ""
-          enc << row
-        end
-        row << sprintf("%08b", (byte & 0xff) | 0x100)
+      enc = @pdf417.getOutBits.each_slice(cols).to_a[0..(@pdf417.getCodeRows-1)]
+      return enc.collect do |row_of_bytes|
+        row_of_bytes.collect { |x| sprintf("%08b", (x & 0xff) | 0x100) }.join[0..(@pdf417.getBitColumns-1)]
       end
-      enc
     end
   end
 end
