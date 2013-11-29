@@ -1415,7 +1415,7 @@ public class Pdf417lib {
     }
     
     protected class SegmentList {
-        protected ArrayList list = new ArrayList();
+        protected ArrayList<Segment> list = new ArrayList<Segment>();
         
         public void add(char type, int start, int end) {
             list.add(new Segment(type, start, end));

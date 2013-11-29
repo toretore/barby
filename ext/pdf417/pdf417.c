@@ -182,20 +182,21 @@ static VALUE rb_pdf417_lib_setLenCodewords(VALUE self, VALUE lenCodewords) {
  * Sets the text to convert into a barcode
  */
 static VALUE rb_pdf417_lib_getOutBits(VALUE self) {
-  VALUE list;
-  int lenOutBits, k;
+  //VALUE list;
+  //int lenOutBits, k;
   pdf417param *ptr;
 
   Data_Get_Struct(self, pdf417param, ptr);
-  lenOutBits = strlen(ptr->outBits);
+  //lenOutBits = strlen(ptr->outBits);
 
-  list = rb_ary_new2(lenOutBits);
+  //list = rb_ary_new2(lenOutBits);
 
-  for (k = 0; k < lenOutBits; k++) {
-    rb_ary_push(list, INT2NUM(ptr->outBits[k]));
-  }
+  //for (k = 0; k < lenOutBits; k++) {
+  //  rb_ary_push(list, INT2NUM(ptr->outBits[k]));
+  //}
 
-  return list;
+  //return list;
+  return rb_str_new2(ptr->outBits);
 }
 
 /*

@@ -5,7 +5,6 @@ LICENSE
 README.rdoc
 Rakefile
 bin/barby
-ext/java/pdf417/Pdf417lib.jar
 ext/java/pdf417/Pdf417lib.java
 ext/pdf417/Makefile
 ext/pdf417/extconf.rb
@@ -38,7 +37,6 @@ lib/barby/outputter/prawn_outputter.rb
 lib/barby/outputter/rmagick_outputter.rb
 lib/barby/outputter/svg_outputter.rb
 lib/barby/outputter.rb
-lib/barby/vendor.rb
 lib/barby/version.rb
 lib/barby.rb
 test/barcodes.rb

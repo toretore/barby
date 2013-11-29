@@ -2,10 +2,9 @@ require 'barby/barcode'
 
 if defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
   require 'java'
-  require 'Pdf417lib'
-  import 'Pdf417lib'
+  require "#{File.dirname(__FILE__)}/../barby"
 else
-  require 'pdf417/pdf417'
+  require 'pdf417'
 end
 
 module Barby
@@ -71,9 +70,18 @@ module Barby
       @pdf417.paintCode()
 
       cols = (@pdf417.getBitColumns() - 1) / 8 + 1
-      enc = @pdf417.getOutBits.each_slice(cols).to_a[0..(@pdf417.getCodeRows-1)]
+      enc  = nil
+
+      # Compute encoding
+      if defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
+        enc = String.from_java_bytes(@pdf417.getOutBits)
+      else
+        enc = @pdf417.getOutBits
+      end
+      enc = enc.bytes.to_a.each_slice(cols).to_a[0..(@pdf417.getCodeRows-1)]
+
       return enc.collect do |row_of_bytes|
-        row_of_bytes.collect { |x| sprintf("%08b", (x & 0xff) | 0x100) }.join[0..(@pdf417.getBitColumns-1)]
+        row_of_bytes.collect { |byte| sprintf("%08b", byte) }.join[0..@pdf417.getBitColumns-1]
       end
     end
   end
