@@ -33,7 +33,7 @@ HOE = Hoe.spec 'barby' do
 
   self.spec_extras = { :required_ruby_version => '>= 1.9.2' }
   
-  self.spec.licenses = ['MIT']
+  self.licenses = ['MIT']
 
   self.testlib = :minitest
 end
