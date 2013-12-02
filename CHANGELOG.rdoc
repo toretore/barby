@@ -1,3 +1,7 @@
+== 0.5.4
+
+* Removed Pdf417 since it has its own gem now (barby-pdf417).
+
 == 0.5.3
 
 * Made Pdf417 available both in MRI and jRuby.
