@@ -90,7 +90,7 @@ module Barby
     end
 
     def ydim
-      @ydim || xdim
+      @ydim || 3
     end
 
     def margin

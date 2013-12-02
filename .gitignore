@@ -1,2 +1,8 @@
 *.swp
 Gemfile.lock
+lib/barby/barby.bundle
+lib/barby/barby.jar
+lib/barby/barby.rb
+lib/barby/barby.so
+pkg
+tmp

@@ -1,15 +1,39 @@
-require 'rake'
-require 'rake/testtask'
-require 'rdoc/task'
+# -*- ruby -*-
+require 'rubygems'
 
-Rake::TestTask.new do |t|
-  t.libs = ['lib','test']
-  t.test_files = Dir.glob("test/**/*_test.rb").sort
-  t.verbose = true
-end
+gem 'hoe'
+require 'hoe'
+Hoe.plugin :debugging
+Hoe.plugin :git
+Hoe.plugin :gemspec
+Hoe.plugin :bundler
+Hoe.add_include_dirs '.'
 
-RDoc::Task.new do |rdoc|
-  rdoc.main = "README"
-  rdoc.rdoc_files.include("README", "lib")
-  rdoc.rdoc_dir = 'doc'
+HOE = Hoe.spec 'barby' do
+  developer 'Felix Bellanger', 'felix.bellanger@gmail.com'
+  developer 'Tore Darell', 'toredarell@gmail.com'
+
+  self.readme_file  = ['README',    ENV['HLANG'], 'rdoc'].compact.join('.')
+  self.history_file = ['CHANGELOG', ENV['HLANG'], 'rdoc'].compact.join('.')
+
+  self.clean_globs += [
+    'barby.gemspec',
+    'lib/barby/barby.{bundle,jar,rb,so}'
+  ]
+
+  self.extra_dev_deps += [
+    ["hoe-bundler",     ">= 1.1"],
+    ["hoe-debugging",   ">= 1.0.3"],
+    ["hoe-gemspec",     ">= 1.0"],
+    ["hoe-git",         ">= 1.4"],
+    ["minitest",        "~> 2.2.2"],
+    ["rake",            ">= 0.9"],
+    ["rake-compiler",   "~> 0.8.0"],
+  ]
+
+  self.spec_extras = { :required_ruby_version => '>= 1.9.2' }
+  
+  self.licenses = ['MIT']
+
+  self.testlib = :minitest
 end

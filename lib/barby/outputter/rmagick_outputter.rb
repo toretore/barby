@@ -99,7 +99,7 @@ module Barby
 
     #Y dimension. Only for 2D codes
     def ydim
-      @ydim || xdim
+      @ydim || 3
     end
 
     #The margin of each edge surrounding the barcode in pixels
