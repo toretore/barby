@@ -45,8 +45,8 @@ class HtmlOutputterTest < Barby::TestCase
   it 'should build the expected rows' do
     assert_equal(
       [
-        @outputter.cells_for([true, false]).map{|c| "<tr class=\"barby-row\">#{c}</tr>" }.join,
-        @outputter.cells_for([false, true]).map{|c| "<tr class=\"barby-row\">#{c}</tr>" }.join
+        "<tr class=\"barby-row\">#{@outputter.cells_for([true, false]).join}</tr>",
+        "<tr class=\"barby-row\">#{@outputter.cells_for([false, true]).join}</tr>",
       ],
       @outputter.rows_for([[true, false],[false, true]])
     )
