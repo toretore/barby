@@ -20,6 +20,21 @@ module Barby
   #  Code128A.new("ABC123\306def\3074567")
   class Code128 < Barcode1D
 
+    FNC1 = "\xc1"
+    FNC2 = "\xc2"
+    FNC3 = "\xc3"
+    FNC4 = "\xc4"
+    CODEA = "\xc5"
+    CODEB = "\xc6"
+    CODEC = "\xc7"
+    SHIFT = "\xc8"
+    STARTA = "\xc9"
+    STARTB = "\xca"
+    STARTC = "\xcb"
+
+    STOP = '11000111010'
+    TERMINATE = '11'
+
     ENCODINGS = {
       0 => "11011001100", 1 => "11001101100", 2 => "11001100110",
       3 => "10010011000", 4 => "10010001100", 5 => "10001001100",
@@ -93,10 +108,10 @@ module Barby
         87 => "\027",   88 => "\030",    89 => "\031",
         90 => "\032",   91 => "\e",      92 => "\034",
         93 => "\035",   94 => "\036",    95 => "\037",
-        96 => "\303",   97 => "\302",    98 => "SHIFT",
-        99 => "\307",   100 => "\306",   101 => "\304",
-        102 => "\301",  103 => "STARTA", 104 => "STARTB",
-        105 => "STARTC"
+        96 => FNC3,     97 => FNC2,      98 => SHIFT,
+        99 => CODEC,    100 => CODEB,    101 => FNC4,
+        102 => FNC1,    103 => STARTA,   104 => STARTB,
+        105 => STARTC
       }.invert,
 
       'B' => {
@@ -116,9 +131,9 @@ module Barby
         78 => "n", 79 => "o", 80 => "p", 81 => "q", 82 => "r", 83 => "s",
         84 => "t", 85 => "u", 86 => "v", 87 => "w", 88 => "x", 89 => "y",
         90 => "z", 91 => "{", 92 => "|", 93 => "}", 94 => "~", 95 => "\177",
-        96 => "\303", 97 => "\302", 98 => "SHIFT", 99 => "\307", 100 => "\304",
-        101 => "\305", 102 => "\301", 103 => "STARTA", 104 => "STARTB",
-        105 => "STARTC",
+        96 => FNC3, 97 => FNC2, 98 => SHIFT, 99 => CODEC, 100 => FNC4,
+        101 => CODEA, 102 => FNC1, 103 => STARTA, 104 => STARTB,
+        105 => STARTC,
       }.invert,
 
       'C' => {
@@ -138,28 +153,23 @@ module Barby
         78 => "78", 79 => "79", 80 => "80", 81 => "81", 82 => "82", 83 => "83",
         84 => "84", 85 => "85", 86 => "86", 87 => "87", 88 => "88", 89 => "89",
         90 => "90", 91 => "91", 92 => "92", 93 => "93", 94 => "94", 95 => "95",
-        96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => "\306", 101 => "\305",
-        102 => "\301", 103 => "STARTA", 104 => "STARTB", 105 => "STARTC"
+        96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => CODEB, 101 => CODEA,
+        102 => FNC1, 103 => STARTA, 104 => STARTB, 105 => STARTC
       }.invert
     }
 
-    FNC1 = "\xc1"
-    FNC2 = "\xc2"
-    FNC3 = "\xc3"
-    FNC4 = "\xc4"
-    CODEA = "\xc5"
-    CODEB = "\xc6"
-    CODEC = "\xc7"
-
-    STOP = '11000111010'
-    TERMINATE = '11'
+    CONTROL_CHARACTERS = VALUES['A'].invert.values_at(*(64..95).to_a)
 
     attr_reader :type
 
-    
-    def initialize(data, type)
-      self.type = type
-      self.data = "#{data}"
+
+    def initialize(data, type=nil)
+      if type
+        self.type = type
+        self.data = "#{data}"
+      else
+        self.type, self.data = self.class.determine_best_type_for_data("#{data}")
+      end
       raise ArgumentError, 'Data not valid' unless valid?
     end
 
@@ -350,14 +360,7 @@ module Barby
     end
 
     def class_for(character)
-      case character
-      when 'A' then Code128A
-      when 'B' then Code128B
-      when 'C' then Code128C
-      when CODEA then Code128A
-      when CODEB then Code128B
-      when CODEC then Code128C
-      end
+      self.class.class_for(character)
     end
 
     #Is the data in this barcode valid? Does a lookup of every character
@@ -371,8 +374,16 @@ module Barby
       VALUES[type]
     end
 
+    def start_character
+      case type
+      when 'A' then STARTA
+      when 'B' then STARTB
+      when 'C' then STARTC
+      end
+    end
+
     def start_num
-      values["START#{type}"]
+      values[start_character]
     end
 
     def start_encoding
@@ -380,7 +391,153 @@ module Barby
     end
 
 
-  end
+
+    CTRL_RE = /#{CONTROL_CHARACTERS.join('|')}/
+    LOWR_RE = /[a-z]/
+    DGTS_RE = /\d{4,}/
+
+    class << self
+
+
+      def class_for(character)
+        case character
+        when 'A' then Code128A
+        when 'B' then Code128B
+        when 'C' then Code128C
+        when CODEA then Code128A
+        when CODEB then Code128B
+        when CODEC then Code128C
+        end
+      end
+
+
+      #Insert code shift and switch characters where appropriate to get the
+      #shortest encoding possible
+      def apply_shortest_encoding_for_data(data)
+        extract_codec(data).map do |block|
+          if possible_codec_segment?(block)
+            "#{CODEC}#{block}"
+          else
+            if control_before_lowercase?(block)
+              handle_code_a(block)
+            else
+              handle_code_b(block)
+            end
+          end
+        end.join
+      end
+
+      def determine_best_type_for_data(data)
+        data = apply_shortest_encoding_for_data(data)
+        type = case data.slice!(0)
+               when CODEA then 'A'
+               when CODEB then 'B'
+               when CODEC then 'C'
+               end
+        [type, data]
+      end
+
+
+    private
+
+      #Extract all CODEC segments from the data. 4 or more evenly numbered contiguous digits.
+      #
+      #  #                                        C       A or B  C         A or B
+      #  extract_codec("12345abc678910DEF11") => ["1234", "5abc", "678910", "DEF11"]
+      def extract_codec(data)
+        segments = data.split(/(\d{4,})/).reject(&:empty?)
+        segments.each_with_index do |s,i|
+          if possible_codec_segment?(s) && s.size.odd?
+            if i == 0
+              if segments[1]
+                segments[1].insert(0, s.slice!(-1))
+              else
+                segments[1] = s.slice!(-1)
+              end
+            else
+              segments[i-1].insert(-1, s.slice!(0)) if segments[i-1]
+            end
+          end
+        end
+        segments
+      end
+
+      def possible_codec_segment?(data)
+        data =~ /\A\d{4,}\Z/
+      end
+
+      def control_character?(char)
+        char =~ CTRL_RE
+      end
+
+      def lowercase_character?(char)
+        char =~ LOWR_RE
+      end
+
+
+      #Handle a Code A segment which may contain Code B parts, but may not
+      #contain any Code C parts.
+      def handle_code_a(data)
+        indata = data.dup
+        outdata = CODEA.dup #We know it'll be A
+        while char = indata.slice!(0)
+          if lowercase_character?(char) #Found a lower case character (Code B)
+            if control_before_lowercase?(indata)
+              outdata << SHIFT << char #Control character appears before a new lowercase, use shift
+            else
+              outdata << handle_code_b(char+indata) #Switch to Code B
+              break
+            end
+          else
+            outdata << char
+          end
+        end#while
+
+        outdata
+      end
+
+
+      #Handle a Code B segment which may contain Code A parts, but may not
+      #contain any Code C parts.
+      def handle_code_b(data)
+        indata = data.dup
+        outdata = CODEB.dup #We know this is going to start with Code B
+        while char = indata.slice!(0)
+          if control_character?(char) #Found a control character (Code A)
+            if control_before_lowercase?(indata)    #There is another control character before any lowercase, so
+              outdata << handle_code_a(char+indata) #switch over to Code A.
+              break
+            else
+              outdata << SHIFT << char #Can use a shift to only encode this char as Code A
+            end
+          else
+            outdata << char
+          end
+        end#while
+
+        outdata
+      end
+
+
+      #Test str to see if a control character (Code A) appears
+      #before a lower case character (Code B).
+      #
+      #Returns true only if it contains a control character and a lower case
+      #character doesn't appear before it.
+      def control_before_lowercase?(str)
+        ctrl = str =~ CTRL_RE
+        char = str =~ LOWR_RE
+
+        ctrl && (!char || ctrl < char)
+      end
+
+
+
+    end#class << self
+
+
+
+  end#class Code128
 
 
   class Code128A < Code128

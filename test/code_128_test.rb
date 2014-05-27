@@ -4,6 +4,10 @@ require 'barby/barcode/code_128'
 
 class Code128Test < Barby::TestCase
 
+  %w[CODEA CODEB CODEC FNC1 FNC2 FNC3 FNC4 SHIFT].each do |const|
+    const_set const, Code128.const_get(const)
+  end
+
   before do
     @data = 'ABC123'
     @code = Code128A.new(@data)
@@ -28,7 +32,7 @@ class Code128Test < Barby::TestCase
   it "should not allow empty data" do
     lambda{ Code128B.new("") }.must_raise(ArgumentError)
   end
-  
+
   describe "single encoding" do
 
     before do
@@ -170,7 +174,7 @@ class Code128Test < Barby::TestCase
     end
 
   end
-  
+
   describe "128A" do
 
     before do
@@ -319,9 +323,9 @@ class Code128Test < Barby::TestCase
 
   describe "Code128 with type" do
 
-    it "should raise an exception when not given a type" do
-      lambda{ Code128.new('abc') }.must_raise(ArgumentError)
-    end
+    #it "should raise an exception when not given a type" do
+    #  lambda{ Code128.new('abc') }.must_raise(ArgumentError)
+    #end
 
     it "should raise an exception when given a non-existent type" do
       lambda{ Code128.new('abc', 'F') }.must_raise(ArgumentError)
@@ -345,15 +349,58 @@ class Code128Test < Barby::TestCase
   end
 
 
+
+  describe "Code128 automatic charset" do
+
+    it "should know how to extract CODEC segments properly from a data string" do
+      Code128.send(:extract_codec, "1234abcd5678\r\n\r\n").must_equal ["1234", "abcd", "5678", "\r\n\r\n"]
+      Code128.send(:extract_codec, "12345abc6").must_equal ["1234", "5abc6"]
+      Code128.send(:extract_codec, "abcdef").must_equal ["abcdef"]
+      Code128.send(:extract_codec, "123abcdef45678").must_equal ["123abcdef4", "5678"]
+      Code128.send(:extract_codec, "abcd12345").must_equal ["abcd1", "2345"]
+      Code128.send(:extract_codec, "abcd12345efg").must_equal ["abcd1", "2345", "efg"]
+      Code128.send(:extract_codec, "12345").must_equal ["1234", "5"]
+      Code128.send(:extract_codec, "12345abc").must_equal ["1234", "5abc"]
+      Code128.send(:extract_codec, "abcdef1234567").must_equal ["abcdef1", "234567"]
+    end
+
+    it "should know how to most efficiently apply different encodings to a data string" do
+      Code128.apply_shortest_encoding_for_data("123456").must_equal "#{CODEC}123456"
+      Code128.apply_shortest_encoding_for_data("abcdef").must_equal "#{CODEB}abcdef"
+      Code128.apply_shortest_encoding_for_data("ABCDEF").must_equal "#{CODEB}ABCDEF"
+      Code128.apply_shortest_encoding_for_data("\n\t\r").must_equal "#{CODEA}\n\t\r"
+      Code128.apply_shortest_encoding_for_data("123456abcdef").must_equal "#{CODEC}123456#{CODEB}abcdef"
+      Code128.apply_shortest_encoding_for_data("abcdef123456").must_equal "#{CODEB}abcdef#{CODEC}123456"
+      Code128.apply_shortest_encoding_for_data("1234567").must_equal "#{CODEC}123456#{CODEB}7"
+      Code128.apply_shortest_encoding_for_data("123b456").must_equal "#{CODEB}123b456"
+      Code128.apply_shortest_encoding_for_data("abc123def45678gh").must_equal "#{CODEB}abc123def4#{CODEC}5678#{CODEB}gh"
+      Code128.apply_shortest_encoding_for_data("12345AB\nEEasdgr12EE\r\n").must_equal "#{CODEC}1234#{CODEA}5AB\nEE#{CODEB}asdgr12EE#{CODEA}\r\n"
+      Code128.apply_shortest_encoding_for_data("123456QWERTY\r\n\tAAbbcc12XX34567").must_equal "#{CODEC}123456#{CODEA}QWERTY\r\n\tAA#{CODEB}bbcc12XX3#{CODEC}4567"
+
+      Code128.apply_shortest_encoding_for_data("ABCdef\rGHIjkl").must_equal "#{CODEB}ABCdef#{SHIFT}\rGHIjkl"
+      Code128.apply_shortest_encoding_for_data("ABC\rb\nDEF12gHI3456").must_equal "#{CODEA}ABC\r#{SHIFT}b\nDEF12#{CODEB}gHI#{CODEC}3456"
+      Code128.apply_shortest_encoding_for_data("ABCdef\rGHIjkl\tMNop\nqRs").must_equal "#{CODEB}ABCdef#{SHIFT}\rGHIjkl#{SHIFT}\tMNop#{SHIFT}\nqRs"
+    end
+
+    it "should apply automatic charset when no charset is given" do
+      b = Code128.new("123456QWERTY\r\n\tAAbbcc12XX34567")
+      b.type.must_equal 'C'
+      b.full_data_with_change_codes.must_equal "123456#{CODEA}QWERTY\r\n\tAA#{CODEB}bbcc12XX3#{CODEC}4567"
+    end
+
+  end
+
+
+
   private
-  
+
   def binary_encode_array(datas)
     datas.each { |data| binary_encode(data) }
   end
-  
+
   def binary_encode(data)
     ruby_19_or_greater? ? data.force_encoding('BINARY') : data
   end
-  
+
 end
 
