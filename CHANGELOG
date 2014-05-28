@@ -1,3 +1,8 @@
+* 0.6
+
+* Add automatic character set to Code128
+* Fix test for HtmlOutputter
+
 * 0.5.1
 
 * Fix some encoding issues (ruby 2.0 & 1.9)

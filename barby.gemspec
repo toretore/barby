@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Tore Darell']
 
   s.rubyforge_project = "barby"
-  
+
   s.has_rdoc          = true
   s.extra_rdoc_files  = ["README"]
 
