@@ -1,3 +1,7 @@
+* 0.6.1
+
+* Fix single-pixel error with RMagick [James Brink]
+
 * 0.6
 
 * Add automatic character set to Code128
