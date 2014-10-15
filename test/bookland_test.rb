@@ -2,18 +2,11 @@ require 'test_helper'
 require 'barby/barcode/bookland'
 
 class BooklandTest < Barby::TestCase
-  
+
   before do
-    @isbn = '968-26-1240-3'
+    #        Gr Publ Tit Checksum
+    @isbn = '96-8261-240-3'
     @code = Bookland.new(@isbn)
-  end
-
-  it "should not touch the ISBN" do
-    @code.isbn.must_equal @isbn
-  end
-
-  it "should have an isbn_only" do
-    @code.isbn_only.must_equal '968261240'
   end
 
   it "should have the expected data" do
@@ -31,19 +24,22 @@ class BooklandTest < Barby::TestCase
   it "should raise an error when data not valid" do
     lambda{ Bookland.new('1234') }.must_raise ArgumentError
   end
-  
+
   describe 'ISBN conversion' do
 
     it "should accept ISBN with number system and check digit" do
       code = Bookland.new('978-82-92526-14-9')
       assert code.valid?
       code.data.must_equal '978829252614'
+      code = Bookland.new('979-82-92526-14-9')
+      assert code.valid?
+      code.data.must_equal '979829252614'
     end
 
     it "should accept ISBN without number system but with check digit" do
       code = Bookland.new('82-92526-14-9')
       assert code.valid?
-      code.data.must_equal '978829252614'
+      code.data.must_equal '978829252614' #978 is the default prefix
     end
 
     it "should accept ISBN without number system or check digit" do
