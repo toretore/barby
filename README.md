@@ -84,7 +84,7 @@ require 'barby/outputter/<filename>_outputter'
 | `pdfwriter` | ─             |
 | `png`       | chunky_png    |
 | `prawn`     | prawn         |
-| `rmagick`   | RMagick       |
+| `rmagick`   | rmagick       |
 | `svg`       | ─             |
 
 ### Formats supported by outputters
