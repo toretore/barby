@@ -1,131 +1,131 @@
-require 'barby/barcode'
+require 'barby/outputter'
+require 'rmagick'
 
 module Barby
 
 
-  #An Outputter creates something from a barcode. That something can be
-  #anything, but is most likely a graphical representation of the barcode.
-  #Outputters can register methods on barcodes that will be associated with
-  #them.
+  #Renders images from barcodes using RMagick
   #
-  #The basic structure of an outputter class:
-  #
-  #  class FooOutputter < Barby::Outputter
-  #    register :to_foo
-  #    def to_too
-  #      do_something_with(barcode.encoding)
-  #    end
-  #  end
-  #
-  #Barcode#to_foo will now be available to all barcodes
-  class Outputter
-
-    attr_accessor :barcode
-
-
-    #An outputter instance will have access to a Barcode
-    def initialize(barcode)
-      self.barcode = barcode
-    end
-
+  #Registers the to_png, to_gif, to_jpg and to_image methods
+  class RmagickOutputter < Outputter
   
-    #Register one or more handler methods with this outputter
-    #Barcodes will then be able to use these methods to get the output
-    #from the outputter. For example, if you have an ImageOutputter,
-    #you could do:
-    #
-    #register :to_png, :to_gif
-    #
-    #You could then do aBarcode.to_png and get the result of that method.
-    #The class which registers the method will receive the barcode as the only
-    #argument, and the default implementation of initialize puts that into
-    #the +barcode+ accessor.
-    #
-    #You can also have different method names on the barcode and the outputter
-    #by providing a hash:
-    #
-    #register :to_png => :create_png, :to_gif => :create_gif
-    def self.register(*method_names)
-      if method_names.first.is_a? Hash
-        method_names.first.each do |name, method_name|
-          Barcode.register_outputter(name, self, method_name)
-        end
-      else
-        method_names.each do |name|
-          Barcode.register_outputter(name, self, name)
-        end
-      end
+    register :to_png, :to_gif, :to_jpg, :to_image
+
+    attr_accessor :height, :xdim, :ydim, :margin
+
+
+    #Returns a string containing a PNG image
+    def to_png(*a)
+      to_blob('png', *a)
     end
 
-
-    def two_dimensional?
-      barcode.respond_to?(:two_dimensional?) && barcode.two_dimensional?
+    #Returns a string containint a GIF image
+    def to_gif(*a)
+      to_blob('gif', *a)
     end
 
-
-    #Converts the barcode's encoding (a string containing 1s and 0s)
-    #to true and false values (1 == true == "black bar")
-    #
-    #If the barcode is 2D, each line will be converted to an array
-    #in the same way
-    def booleans(reload=false)#:doc:
-      if two_dimensional?
-        encoding(reload).map{|l| l.split(//).map{|c| c == '1' } }
-      else
-        encoding(reload).split(//).map{|c| c == '1' }
-      end
+    #Returns a string containing a JPEG image
+    def to_jpg(*a)
+      to_blob('jpg', *a)
+    end
+    
+    def to_blob(format, *a)
+      img = to_image(*a)
+      blob = img.to_blob{|i| i.format = format }
+      
+      #Release the memory used by RMagick explicitly. Ruby's GC
+      #isn't aware of it and can't clean it up automatically
+      img.destroy! if img.respond_to?(:destroy!)
+      
+      blob
     end
 
+    #Returns an instance of Magick::Image
+    def to_image(opts={})
+      with_options opts do
+        canvas = Magick::Image.new(full_width, full_height)
+        bars = Magick::Draw.new
 
-    #Returns the barcode's encoding. The encoding
-    #is cached and can be reloaded by passing true
-    def encoding(reload=false)#:doc:
-      @encoding = barcode.encoding if reload
-      @encoding ||= barcode.encoding
-    end
+        x1 = margin
+        y1 = margin
 
-
-    #Collects continuous groups of bars and spaces (1 and 0)
-    #into arrays where the first item is true or false (1 or 0)
-    #and the second is the size of the group
-    #
-    #For example, "1100111000" becomes [[true,2],[false,2],[true,3],[false,3]]
-    def boolean_groups(reload=false)
-      if two_dimensional?
-        encoding(reload).map do |line|
-          line.scan(/1+|0+/).map do |group|
-            [group[0,1] == '1', group.size]
+        if barcode.two_dimensional?
+          encoding.each do |line|
+            line.split(//).map{|c| c == '1' }.each do |bar|
+              if bar
+                x2 = x1+(xdim-1)
+                y2 = y1+(ydim-1)
+                # For single pixels use point
+                if x1 == x2 && y1 == y2
+                  bars.point(x1,y1)
+                else
+                  bars.rectangle(x1, y1, x2, y2)
+                end
+              end
+              x1 += xdim
+            end
+            x1 = margin
+            y1 += ydim
+          end
+        else
+          booleans.each do |bar|
+            if bar
+              x2 = x1+(xdim-1)
+              y2 = y1+(height-1)
+              bars.rectangle(x1, y1, x2, y2)
+            end
+            x1 += xdim
           end
         end
-      else
-        encoding(reload).scan(/1+|0+/).map do |group|
-          [group[0,1] == '1', group.size]
-        end
+
+        bars.draw(canvas)
+
+        canvas
       end
     end
 
 
-  private
+    #The height of the barcode in px
+    #For 2D barcodes this is the number of "lines" * ydim
+    def height
+      barcode.two_dimensional? ? (ydim * encoding.length) : (@height || 100)
+    end
 
-    #Takes a hash and temporarily sets properties on self (the outputter object)
-    #corresponding with the keys to their values. When the block exits, the
-    #properties are reset to their original values. Returns whatever the block returns.
-    def with_options(options={})
-      original_options = options.inject({}) do |origs,pair|
-        if respond_to?(pair.first) && respond_to?("#{pair.first}=")
-          origs[pair.first] = send(pair.first)
-          send("#{pair.first}=", pair.last)
-        end
-        origs
-      end
+    #The width of the barcode in px
+    def width
+      length * xdim
+    end
 
-      rv = yield
+    #Number of modules (xdims) on the x axis
+    def length
+      barcode.two_dimensional? ? encoding.first.length : encoding.length
+    end
 
-      original_options.each do |attribute,value|
-        send("#{attribute}=", value)
-      end
+    #X dimension. 1X == 1px
+    def xdim
+      @xdim || 1
+    end
 
-      rv
+    #Y dimension. Only for 2D codes
+    def ydim
+      @ydim || xdim
+    end
+
+    #The margin of each edge surrounding the barcode in pixels
+    def margin
+      @margin || 10
+    end
+
+    #The full width of the image. This is the width of the
+    #barcode + the left and right margin
+    def full_width
+      width + (margin * 2)
+    end
+
+    #The height of the image. This is the height of the
+    #barcode + the top and bottom margin
+    def full_height
+      height + (margin * 2)
     end
 
 
