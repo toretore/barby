@@ -10,6 +10,11 @@ module Barby
     attr_writer :xdim, :ydim, :x, :y, :height, :margin, :unbleed
 
 
+    def initialize(*)
+      super
+      @xdim, @ydim, @x, @y, @height, @margin, @unbleed = nil
+    end
+
     def to_pdf(opts={})
       doc_opts = opts.delete(:document) || {}
       doc_opts[:page_size] ||= 'A4'
