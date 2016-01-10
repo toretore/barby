@@ -230,7 +230,7 @@ module Barby
     #there are no more extras, the barcode ends with that object.
     #Most barcodes probably don't change charsets and don't have extras.
     def extra
-      @extra
+      @extra ||= nil
     end
 
     #Set the extra for this barcode. The argument is a string starting with the
