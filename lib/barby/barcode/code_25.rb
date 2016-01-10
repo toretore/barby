@@ -28,8 +28,9 @@ module Barby
       9 => [N,W,N,W,N]
     }
 
-    attr_accessor :data, :include_checksum
+    attr_accessor :include_checksum
     attr_writer :narrow_width, :wide_width, :space_width
+    attr_reader :data
 
   
     def initialize(data)
