@@ -11,7 +11,7 @@ module Barby
   
     register :to_png, :to_gif, :to_jpg, :to_image
 
-    attr_accessor :height, :xdim, :ydim, :margin
+    attr_writer :height, :xdim, :ydim, :margin
 
 
     #Returns a string containing a PNG image
