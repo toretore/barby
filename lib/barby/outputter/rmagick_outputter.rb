@@ -14,6 +14,11 @@ module Barby
     attr_writer :height, :xdim, :ydim, :margin
 
 
+    def initialize(*)
+      super
+      @height, @xdim, @ydim, @margin = nil
+    end
+
     #Returns a string containing a PNG image
     def to_png(*a)
       to_blob('png', *a)
