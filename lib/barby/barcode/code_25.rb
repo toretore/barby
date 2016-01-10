@@ -35,6 +35,7 @@ module Barby
   
     def initialize(data)
       self.data = data
+      @narrow_width, @wide_width, @space_width = nil
     end
 
 
