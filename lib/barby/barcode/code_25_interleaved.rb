@@ -14,9 +14,9 @@ module Barby
 
 
     def digit_pairs(d=nil)
-      (d || digits).inject [] do |ary,d|
+      (d || digits).inject [] do |ary,i|
         ary << [] if !ary.last || ary.last.size == 2
-        ary.last << d
+        ary.last << i
         ary
       end
     end
