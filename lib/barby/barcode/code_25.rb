@@ -105,7 +105,7 @@ module Barby
     #Mod10
     def checksum
       evens, odds = even_and_odd_digits
-      sum = odds.inject(0){|sum,d| sum + d } + evens.inject(0){|sum,d| sum + (d*3) }
+      sum = odds.inject(0){|s,d| s + d } + evens.inject(0){|s,d| s + (d*3) }
       sum %= 10
       sum.zero? ? 0 : 10-sum
     end
