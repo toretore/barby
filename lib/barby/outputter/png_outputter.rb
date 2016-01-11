@@ -10,7 +10,7 @@ module Barby
 
     register :to_png, :to_image, :to_datastream
 
-    attr_accessor :xdim, :ydim, :width, :height, :margin
+    attr_writer :xdim, :ydim, :width, :height, :margin
 
     def initialize(*)
       super
