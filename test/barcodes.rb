@@ -1,5 +1,4 @@
 require 'code_128_test'
-require 'gs1_128_test'
 
 require 'code_25_test'
 require 'code_25_interleaved_test'
