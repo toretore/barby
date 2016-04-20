@@ -18,6 +18,14 @@ module Barby
   #As an example, here's one that starts out as type A and then switches to B and then C:
   #
   #  Code128A.new("ABC123\306def\3074567")
+  #
+  #
+  #GS1-128/EAN-128/UCC-128
+  #
+  #To make a GS1-128 code, prefix the data with FNC1 and the Application Identifier:
+  #
+  #  #AI=00, data=12345
+  #  Code128.new("#{Code128::FNC1}0012345")
   class Code128 < Barcode1D
 
     FNC1 = "\xc1"
