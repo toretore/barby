@@ -11,8 +11,13 @@ module Barby
   
     register :to_png, :to_gif, :to_jpg, :to_image
 
-    attr_accessor :height, :xdim, :ydim, :margin
+    attr_writer :height, :xdim, :ydim, :margin
 
+
+    def initialize(*)
+      super
+      @height, @xdim, @ydim, @margin = nil
+    end
 
     #Returns a string containing a PNG image
     def to_png(*a)

@@ -10,8 +10,12 @@ module Barby
 
     register :to_png, :to_image, :to_datastream
 
-    attr_accessor :xdim, :ydim, :width, :height, :margin
+    attr_writer :xdim, :ydim, :width, :height, :margin
 
+    def initialize(*)
+      super
+      @xdim, @height, @margin = nil
+    end
 
     #Creates a PNG::Canvas object and renders the barcode on it
     def to_image(opts={})

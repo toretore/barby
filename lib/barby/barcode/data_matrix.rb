@@ -7,7 +7,7 @@ module Barby
   #Uses the semacode library (gem install semacode) to encode DataMatrix barcodes
   class DataMatrix < Barcode2D
 
-    attr_accessor :data
+    attr_reader :data
 
 
     def initialize(data)

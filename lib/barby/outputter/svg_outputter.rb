@@ -22,6 +22,11 @@ module Barby
     attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin
 
 
+    def initialize(*)
+      super
+      @title, @xdim, @ydim, @height, @rmargin, @lmargin, @tmargin, @bmargin, @xmargin, @ymargin, @margin = nil
+    end
+
     def to_svg(opts={})
       with_options opts do
         case opts[:use]
