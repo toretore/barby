@@ -331,6 +331,11 @@ class Code128Test < Barby::TestCase
       lambda{ Code128.new('abc', 'F') }.must_raise(ArgumentError)
     end
 
+    it "should not fail on frozen type" do
+      Code128.new('123456', 'C'.freeze) # not failing
+      Code128.new('123456', 'c'.freeze) # not failing even when upcasing
+    end
+
     it "should give the right encoding for type A" do
       code = Code128.new('ABC123', 'A')
       code.encoding.must_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100100100001101100011101011'

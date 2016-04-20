@@ -175,7 +175,7 @@ module Barby
 
 
     def type=(type)
-      type.upcase!
+      type = type.upcase
       raise ArgumentError, 'type must be A, B or C' unless type =~ /^[ABC]$/
       @type = type
     end
