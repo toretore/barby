@@ -87,7 +87,8 @@ module Barby
     START_ENCODING = [N,W,N,N,W,N,W,N,N] # *
     STOP_ENCODING  = [N,W,N,N,W,N,W,N,N] # *
 
-    attr_accessor :data, :spacing, :narrow_width, :wide_width, :extended, :include_checksum
+    attr_accessor :data, :extended, :include_checksum
+    attr_writer :spacing, :narrow_width, :wide_width
     
     # Do not surround "data" with the mandatory "*" as is this is done automically for you.
     # So instead of passing "*123456*" as "data", just pass "123456".

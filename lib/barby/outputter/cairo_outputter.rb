@@ -23,6 +23,11 @@ module Barby
     attr_writer :x, :y, :xdim, :height, :margin
 
 
+    def initialize(*)
+      super
+      @x, @y, @xdim, @height, @margin = nil
+    end
+
     #Render the barcode onto a Cairo context
     def render_to_cairo_context(context, options={})
       if context.respond_to?(:have_current_point?) and

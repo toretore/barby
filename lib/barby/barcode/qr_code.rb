@@ -41,6 +41,7 @@ module Barby
 
     def initialize(data, options={})
       self.data = data
+      @level, @size = nil
       options.each{|k,v| send("#{k}=", v) }
       raise(ArgumentError, "data too large") unless size
     end

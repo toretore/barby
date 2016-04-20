@@ -28,11 +28,14 @@ module Barby
       9 => [N,W,N,W,N]
     }
 
-    attr_accessor :data, :narrow_width, :wide_width, :space_width, :include_checksum
+    attr_accessor :include_checksum
+    attr_writer :narrow_width, :wide_width, :space_width
+    attr_reader :data
 
-  
+
     def initialize(data)
       self.data = data
+      @narrow_width, @wide_width, @space_width = nil
     end
 
 
@@ -105,7 +108,7 @@ module Barby
     #Mod10
     def checksum
       evens, odds = even_and_odd_digits
-      sum = odds.inject(0){|sum,d| sum + d } + evens.inject(0){|sum,d| sum + (d*3) }
+      sum = odds.inject(0){|s,d| s + d } + evens.inject(0){|s,d| s + (d*3) }
       sum %= 10
       sum.zero? ? 0 : 10-sum
     end

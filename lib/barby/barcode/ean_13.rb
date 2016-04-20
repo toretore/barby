@@ -129,7 +129,7 @@ module Barby
     def weighted_sum
       odds, evens = odd_and_even_numbers
       odds.map!{|n| n * 3 }
-      sum = (odds+evens).inject(0){|s,n| s+n }
+      (odds+evens).inject(0){|s,n| s+n }
     end
 
     #Mod10

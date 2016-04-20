@@ -7,8 +7,13 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_accessor :xdim, :ydim, :x, :y, :height, :margin, :unbleed
+    attr_writer :xdim, :ydim, :x, :y, :height, :margin, :unbleed
 
+
+    def initialize(*)
+      super
+      @xdim, @ydim, @x, @y, @height, @margin, @unbleed = nil
+    end
 
     def to_pdf(opts={})
       doc_opts = opts.delete(:document) || {}
