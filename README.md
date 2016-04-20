@@ -57,8 +57,9 @@ require 'barby/barcode/<filename>'
 | ├─ Interleaved                      | `code_25_interleaved` | ─             |
 | └─ IATA                             | `code_25_iata`        | ─             |
 | Code 39                             | `code_39`             | ─             |
+| └─ Extended                         | `code_39`             | ─             |
 | Code 93                             | `code_93`             | ─             |
-| Code 128                            | `code_128`            | ─             |
+| Code 128 (A, B, and C)              | `code_128`            | ─             |
 | └─ GS1 128                          | `gs1_128`             | ─             |
 | EAN-13                              | `ean_13`              | ─             |
 | ├─ Bookland                         | `bookland`            | ─             |
