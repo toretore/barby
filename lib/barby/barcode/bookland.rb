@@ -132,8 +132,7 @@ module Barby
       end
 
       def inspect
-        klass = (self.class.ancestors + [self.class.name]).join(':')
-        "#<#{klass}:0x#{'%014x' % object_id} #{formatted_isbn}>"
+        "#<#{self.class}:0x#{'%014x' % object_id} #{formatted_isbn}>"
       end
 
 
