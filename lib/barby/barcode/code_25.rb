@@ -32,7 +32,7 @@ module Barby
     attr_writer :narrow_width, :wide_width, :space_width
     attr_reader :data
 
-  
+
     def initialize(data)
       self.data = data
       @narrow_width, @wide_width, @space_width = nil
