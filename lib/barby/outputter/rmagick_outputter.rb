@@ -1,5 +1,5 @@
 require 'barby/outputter'
-require 'RMagick'
+require 'rmagick'
 
 module Barby
 
@@ -8,7 +8,7 @@ module Barby
   #
   #Registers the to_png, to_gif, to_jpg and to_image methods
   class RmagickOutputter < Outputter
-  
+
     register :to_png, :to_gif, :to_jpg, :to_image
 
     attr_writer :height, :xdim, :ydim, :margin
@@ -33,15 +33,15 @@ module Barby
     def to_jpg(*a)
       to_blob('jpg', *a)
     end
-    
+
     def to_blob(format, *a)
       img = to_image(*a)
       blob = img.to_blob{|i| i.format = format }
-      
+
       #Release the memory used by RMagick explicitly. Ruby's GC
       #isn't aware of it and can't clean it up automatically
       img.destroy! if img.respond_to?(:destroy!)
-      
+
       blob
     end
 
