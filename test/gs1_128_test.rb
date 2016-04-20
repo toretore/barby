@@ -65,4 +65,43 @@ class GS1128Test < Barby::TestCase
     @code.to_s.must_equal '(11) 071230'
   end
 
+  it "should work without explictly stating the type" do
+    code = GS1128.new('27638268+99000900251033', nil, '403')
+
+    ([code.start_num] + code.numbers + code.extra_numbers).must_equal(
+      [
+        value_for_code_b(GS1128::STARTB),
+        value_for_code_b(GS1128::FNC1),
+        value_for_code_b("4"),
+        value_for_code_b(GS1128::CODEC),
+        value_for_code_c("03"),
+        value_for_code_c("27"),
+        value_for_code_c("63"),
+        value_for_code_c("82"),
+        value_for_code_c("68"),
+        value_for_code_c(GS1128::CODEB),
+        value_for_code_b("+"),
+        value_for_code_b(GS1128::CODEC),
+        value_for_code_c("99"),
+        value_for_code_c("00"),
+        value_for_code_c("09"),
+        value_for_code_c("00"),
+        value_for_code_c("25"),
+        value_for_code_c("10"),
+        value_for_code_c("33"),
+      ]
+    )
+  end
+
+  def value_for_code_a(char)
+    GS1128::VALUES['A'][char]
+  end
+
+  def value_for_code_b(char)
+    GS1128::VALUES['B'][char]
+  end
+
+  def value_for_code_c(char)
+    GS1128::VALUES['C'][char]
+  end
 end

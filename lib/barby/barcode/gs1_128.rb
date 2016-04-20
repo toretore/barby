@@ -7,20 +7,12 @@ module Barby
   class GS1128 < Code128
 
     attr_accessor :application_identifier
+    attr_reader :partial_data
 
-    def initialize(data, type, ai)
+    def initialize(partial_data, type, ai)
+      @partial_data = partial_data
       self.application_identifier = ai
-      super(data, type)
-    end
-
-
-    #TODO: Not sure this is entirely right
-    def data
-      FNC1+application_identifier+super
-    end
-
-    def partial_data
-      @data
+      super("#{FNC1}#{application_identifier}#{partial_data}", type)
     end
 
     def application_identifier_number
