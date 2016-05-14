@@ -71,7 +71,7 @@ module Barby
       return @size if @size
 
       level_index = LEVELS[level]
-      length = data.length
+      length = data.bytesize
       found_size = nil
       SIZES.each do |size,max_values|
         if max_values[level_index] >= length
