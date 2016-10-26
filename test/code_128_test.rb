@@ -357,6 +357,35 @@ class Code128Test < Barby::TestCase
 
   describe "Code128 automatic charset" do
 
+    it "should minimize symbol length according to GS1-128 guidelines" do
+      # Determine the Start Character.
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10").must_equal "#{CODEC}#{FNC1}10"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}101234").must_equal "#{CODEC}#{FNC1}101234"
+      Code128.apply_shortest_encoding_for_data("10\001LOT").must_equal "#{CODEA}10\001LOT"
+      Code128.apply_shortest_encoding_for_data("lot1").must_equal "#{CODEB}lot1"
+
+      # Switching to codeset B from codeset C
+      Code128.apply_shortest_encoding_for_data("#{FNC1}101").must_equal "#{CODEC}#{FNC1}10#{CODEB}1"
+      # Switching to codeset A from codeset C
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001a").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}a"
+
+      # Switching to codeset C from codeset A
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001LOT1234").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001LOT#{CODEC}1234"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001LOT12345").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001LOT1#{CODEC}2345"
+
+      # Switching to codeset C from codeset B
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT1234").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}1234"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT12345").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT1#{CODEC}2345"
+
+      # Switching to codeset A from codeset B
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10lot\001a").must_equal "#{CODEC}#{FNC1}10#{CODEB}lot#{SHIFT}\001a"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10lot\001\001").must_equal "#{CODEC}#{FNC1}10#{CODEB}lot#{CODEA}\001\001"
+
+      # Switching to codeset B from codeset A
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001l\001").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{SHIFT}l\001"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001ll").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}ll"
+    end
+
     it "should know how to extract CODEC segments properly from a data string" do
       Code128.send(:extract_codec, "1234abcd5678\r\n\r\n").must_equal ["1234", "abcd", "5678", "\r\n\r\n"]
       Code128.send(:extract_codec, "12345abc6").must_equal ["1234", "5abc6"]
@@ -370,7 +399,7 @@ class Code128Test < Barby::TestCase
     end
 
     it "should know how to most efficiently apply different encodings to a data string" do
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT"
+      #Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT"
       Code128.apply_shortest_encoding_for_data("123456").must_equal "#{CODEC}123456"
       Code128.apply_shortest_encoding_for_data("abcdef").must_equal "#{CODEB}abcdef"
       Code128.apply_shortest_encoding_for_data("ABCDEF").must_equal "#{CODEB}ABCDEF"
