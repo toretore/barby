@@ -455,9 +455,9 @@ module Barby
       #  extract_codec("12345abc678910DEF11") => ["1234", "5abc", "678910", "DEF11"]
       def extract_codec(data)
         data.split(/
-          ((?:^(?:(?:\d{2}){2,})))
+          ((?:^(?:(?:\d{2}|#{FNC1}){2,}))) # matches digits that appear at the beginning of the barcode
           |
-          ((?:(?:(?:\d{2}){2,})(?!\d)))
+          ((?:(?:(?:\d{2}|#{FNC1}){2,})(?!\d))) # matches digits that appear later in the barcode
         /x).reject(&:empty?)
       end
 
