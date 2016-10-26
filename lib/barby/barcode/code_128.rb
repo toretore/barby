@@ -405,7 +405,7 @@ module Barby
     LOWR_RE = /[a-z]/
     DGTS_RE = /\d{4,}/
 
-    # pairs of digits and FNC characters
+    # pairs of digits and FNC1 characters
     CODEC_CHARS_RE = /(?:\d{2}|#{FNC1}){2,}/
 
     class << self
@@ -465,7 +465,7 @@ module Barby
       end
 
       def codec_segment?(data)
-        data =~ /\A(?:\d{2}|#{FNC1}){2,}\Z/
+        data =~ /\A#{CODEC_CHARS_RE}\Z/
       end
 
       def control_character?(char)
