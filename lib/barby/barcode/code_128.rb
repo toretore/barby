@@ -424,7 +424,7 @@ module Barby
       #shortest encoding possible
       def apply_shortest_encoding_for_data(data)
         extract_codec(data).map do |block|
-          if possible_codec_segment?(block)
+          if codec_segment?(block)
             "#{CODEC}#{block}"
           else
             if control_before_lowercase?(block)
@@ -454,25 +454,15 @@ module Barby
       #  #                                        C       A or B  C         A or B
       #  extract_codec("12345abc678910DEF11") => ["1234", "5abc", "678910", "DEF11"]
       def extract_codec(data)
-        segments = data.split(/(\d{4,})/).reject(&:empty?)
-        segments.each_with_index do |s,i|
-          if possible_codec_segment?(s) && s.size.odd?
-            if i == 0
-              if segments[1]
-                segments[1].insert(0, s.slice!(-1))
-              else
-                segments[1] = s.slice!(-1)
-              end
-            else
-              segments[i-1].insert(-1, s.slice!(0)) if segments[i-1]
-            end
-          end
-        end
-        segments
+        data.split(/
+          ((?:^(?:(?:\d{2}){2,})))
+          |
+          ((?:(?:(?:\d{2}){2,})(?!\d)))
+        /x).reject(&:empty?)
       end
 
-      def possible_codec_segment?(data)
-        data =~ /\A\d{4,}\Z/
+      def codec_segment?(data)
+        data =~ /\A(?:\d{2}|#{FNC1}){2,}\Z/
       end
 
       def control_character?(char)
