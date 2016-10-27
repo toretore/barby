@@ -430,7 +430,6 @@ class Code128Test < Barby::TestCase
     end
 
     it "should know how to most efficiently apply different encodings to a data string" do
-      #Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT"
       Code128.apply_shortest_encoding_for_data("123456").must_equal "#{CODEC}123456"
       Code128.apply_shortest_encoding_for_data("abcdef").must_equal "#{CODEB}abcdef"
       Code128.apply_shortest_encoding_for_data("ABCDEF").must_equal "#{CODEB}ABCDEF"
