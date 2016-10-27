@@ -356,7 +356,33 @@ class Code128Test < Barby::TestCase
 
 
   describe "Code128 automatic charset" do
-
+=begin
+	5.4.7.7. Use of Start, Code Set, and Shift Characters to Minimize Symbol Length (Informative)
+	
+	The same data may be represented by different GS1-128 barcodes through the use of different combinations of Start, code set, and shift characters.
+	
+	The following rules should normally be implemented in printer control software to minimise the number of symbol characters needed to represent a given data string (and, therefore, reduce the overall symbol length).
+	
+	* Determine the Start Character:
+	  - If the data consists of two digits, use Start Character C.
+	  - If the data begins with four or more numeric data characters, use Start Character C.
+	  - If an ASCII symbology element (e.g., NUL) occurs in the data before any lowercase character, use Start Character A.
+	  - Otherwise, use Start Character B.
+	* If Start Character C is used and the data begins with an odd number of numeric data characters, insert a code set A or code set B character before the last digit, following rules 1c and 1d to determine between code sets A and B.
+	* If four or more numeric data characters occur together when in code sets A or B and:
+	  - If there is an even number of numeric data characters, then insert a code set C character before the first numeric digit to change to code set C.
+	  - If there is an odd number of numeric data characters, then insert a code set C character immediately after the first numeric digit to change to code set C.
+	* When in code set B and an ASCII symbology element occurs in the data:
+	  - If following that character, a lowercase character occurs in the data before the occurrence of another symbology element, then insert a shift character before the symbology element.
+	  - Otherwise, insert a code set A character before the symbology element to change to code set A.
+	* When in code set A and a lowercase character occurs in the data:
+	  - If following that character, a symbology element occurs in the data before the occurrence of another lowercase character, then insert a shift character before the lowercase character.
+	  - Otherwise, insert a code set B character before the lowercase character to change to code set B.
+		When in code set C and a non-numeric character occurs in the data, insert a code set A or code set B character before that character, and follow rules 1c and 1d to determine between code sets A and B.
+	
+	Note: In these rules, the term “lowercase” is used for convenience to mean any code set B character with Code 128 Symbol character values 64 to 95 (ASCII values 96 to 127) (e.g., all lowercase alphanumeric characters plus `{|}~DEL). The term “symbology element” means any code set A character with Code 128 Symbol character values 64 to 95 (ASCII values 00 to 31).
+	Note 2: If the Function 1 Symbol Character (FNC1) occurs in the first position following the Start Character, or in an odd-numbered position in a numeric field, it should be treated as two digits for the purpose of determining the appropriate code set.
+=end
     it "should minimize symbol length according to GS1-128 guidelines" do
       # Determine the Start Character.
       Code128.apply_shortest_encoding_for_data("#{FNC1}10").must_equal "#{CODEC}#{FNC1}10"
@@ -384,6 +410,11 @@ class Code128Test < Barby::TestCase
       # Switching to codeset B from codeset A
       Code128.apply_shortest_encoding_for_data("#{FNC1}10\001l\001").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{SHIFT}l\001"
       Code128.apply_shortest_encoding_for_data("#{FNC1}10\001ll").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}ll"
+
+      # testing "Note 2" from the GS1 specification
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT#{FNC1}0101").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}#{FNC1}0101"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT#{FNC1}01010").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{FNC1}0#{CODEC}1010"
+      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT01#{FNC1}0101").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}01#{FNC1}0101"
     end
 
     it "should know how to extract CODEC segments properly from a data string" do
