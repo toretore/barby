@@ -159,14 +159,14 @@ class Code128Test < Barby::TestCase
     end
 
     it "should have the expected encoding" do
-                               #STARTA     A          B          C          1          2          3
+                                #STARTA     A          B          C          1          2          3
       @code.encoding.must_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100'+
-                               #CODEB      d          e          f
-                               '10111101110100001001101011001000010110000100'+
-                               #CODEC      45         67
-                               '101110111101011101100010000101100'+
-                               #CHECK=84   STOP
-                               '100111101001100011101011'
+                                #CODEB      d          e          f
+                                '10111101110100001001101011001000010110000100'+
+                                #CODEC      45         67
+                                '101110111101011101100010000101100'+
+                                #CHECK=84   STOP
+                                '100111101001100011101011'
     end
 
     it "should return all data including extras, except change codes for to_s" do
@@ -358,11 +358,11 @@ class Code128Test < Barby::TestCase
   describe "Code128 automatic charset" do
 =begin
 	5.4.7.7. Use of Start, Code Set, and Shift Characters to Minimize Symbol Length (Informative)
-	
+
 	The same data may be represented by different GS1-128 barcodes through the use of different combinations of Start, code set, and shift characters.
-	
+
 	The following rules should normally be implemented in printer control software to minimise the number of symbol characters needed to represent a given data string (and, therefore, reduce the overall symbol length).
-	
+
 	* Determine the Start Character:
 	  - If the data consists of two digits, use Start Character C.
 	  - If the data begins with four or more numeric data characters, use Start Character C.
@@ -379,7 +379,7 @@ class Code128Test < Barby::TestCase
 	  - If following that character, a symbology element occurs in the data before the occurrence of another lowercase character, then insert a shift character before the lowercase character.
 	  - Otherwise, insert a code set B character before the lowercase character to change to code set B.
 		When in code set C and a non-numeric character occurs in the data, insert a code set A or code set B character before that character, and follow rules 1c and 1d to determine between code sets A and B.
-	
+
 	Note: In these rules, the term “lowercase” is used for convenience to mean any code set B character with Code 128 Symbol character values 64 to 95 (ASCII values 96 to 127) (e.g., all lowercase alphanumeric characters plus `{|}~DEL). The term “symbology element” means any code set A character with Code 128 Symbol character values 64 to 95 (ASCII values 00 to 31).
 	Note 2: If the Function 1 Symbol Character (FNC1) occurs in the first position following the Start Character, or in an odd-numbered position in a numeric field, it should be treated as two digits for the purpose of determining the appropriate code set.
 =end
@@ -468,4 +468,3 @@ class Code128Test < Barby::TestCase
   end
 
 end
-
