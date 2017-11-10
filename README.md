@@ -52,24 +52,24 @@ puts barcode.to_ascii #Implicitly uses the AsciiOutputter
 require 'barby/barcode/<filename>'
 ```
 
-| Name                                | Filename              | Dependencies  |
-| ----------------------------------- | --------------------- | ------------- |
-| Code 25                             | `code_25`             | ─             |
-| ├─ Interleaved                      | `code_25_interleaved` | ─             |
-| └─ IATA                             | `code_25_iata`        | ─             |
-| Code 39                             | `code_39`             | ─             |
-| └─ Extended                         | `code_39`             | ─             |
-| Code 93                             | `code_93`             | ─             |
-| Code 128 (A, B, and C)              | `code_128`            | ─             |
-| └─ GS1 128                          | `gs1_128`             | ─             |
-| EAN-13                              | `ean_13`              | ─             |
-| ├─ Bookland                         | `bookland`            | ─             |
-| └─ UPC-A                            | `ean_13`              | ─             |
-| EAN-8                               | `ean_8`               | ─             |
-| UPC/EAN supplemental, 2 & 5 digits  | `upc_supplemental`    | ─             |
-| QR Code                             | `qr_code`             | `rqrcode`     |
-| DataMatrix (Semacode)               | `data_matrix`         | `semacode`    |
-| PDF417                              | `pdf_417`             | JRuby         |
+| Name                                | Filename              | Dependencies                       |
+| ----------------------------------- | --------------------- | ---------------------------------- |
+| Code 25                             | `code_25`             | ─                                  |
+| ├─ Interleaved                      | `code_25_interleaved` | ─                                  |
+| └─ IATA                             | `code_25_iata`        | ─                                  |
+| Code 39                             | `code_39`             | ─                                  |
+| └─ Extended                         | `code_39`             | ─                                  |
+| Code 93                             | `code_93`             | ─                                  |
+| Code 128 (A, B, and C)              | `code_128`            | ─                                  |
+| └─ GS1 128                          | `gs1_128`             | ─                                  |
+| EAN-13                              | `ean_13`              | ─                                  |
+| ├─ Bookland                         | `bookland`            | ─                                  |
+| └─ UPC-A                            | `ean_13`              | ─                                  |
+| EAN-8                               | `ean_8`               | ─                                  |
+| UPC/EAN supplemental, 2 & 5 digits  | `upc_supplemental`    | ─                                  |
+| QR Code                             | `qr_code`             | `rqrcode`                          |
+| DataMatrix (Semacode)               | `data_matrix`         | `semacode` or `semacode-ruby19`    |
+| PDF417                              | `pdf_417`             | JRuby                              |
 
 
 ## Outputters
