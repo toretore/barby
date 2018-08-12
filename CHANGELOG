@@ -1,3 +1,7 @@
+* 0.6.6
+
+* Add support for Codabar symbology [labocho]
+
 * 0.6.1
 
 * Fix single-pixel error with RMagick [James Brink]
