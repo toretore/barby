@@ -20,23 +20,25 @@ layout: default
     </p>
 
     <pre><code class="ruby">require 'barby'
+require 'barby/barcode/code_128'
 require 'barby/outputter/png_outputter'
 
-barcode = Barby::Code128B.new('The noise of mankind has become too much')
-File.open('code128b.png', 'w'){|f|
+barcode = Barby::Code128.new('The noise of mankind has become too much')
+File.open('code128.png', 'w'){|f|
   f.write barcode.to_png(:height =&gt; 20, :margin =&gt; 5)
 }</code></pre>
 
-    <img src="code128b.png" alt="Code 128 B example" class="barcode" />
+    <img src="code128b.png" alt="Code 128 example" class="barcode" />
 
     <p>
-      In this example, a Code128 barcode of type B is created. It then uses an "outputter"
+      In this example, a Code128 barcode is created. It then uses an "outputter"
       which uses the "png" gem to generate a PNG representation of the barcode and writes this
-      to a file, <code>code128b.png</code>. If you wanted to use a Code39 barcode instead, you'd
+      to a file, <code>code128.png</code>. If you wanted to use a Code39 barcode instead, you'd
       just replace the barcode part:
     </p>
 
     <pre><code class="ruby">require 'barby'
+require 'barby/barcode/code_39'
 require 'barby/outputter/png_outputter'
 
 barcode = Barby::Code39.new('I am losing sleep over their racket', true)
@@ -51,11 +53,12 @@ File.open('code39.png', 'w'){|f|
     </p>
 
     <pre><code class="ruby">require 'barby'
+require 'barby/barcode/code_128'
 require 'barby/outputter/rmagick_outputter'
 
-barcode = Barby::Code128B.new('Give the order that suruppu-disease shall break out')
-File.open('code128B.gif', 'w'){|f|
+barcode = Barby::Code128.new('Give the order that suruppu-disease shall break out')
+File.open('code128.gif', 'w'){|f|
   f.write barcode.to_gif
 }</code></pre>
 
-    <img src="code128b.gif" alt="Code 128B example" class="barcode" />
+    <img src="code128b.gif" alt="Code 128 example" class="barcode" />

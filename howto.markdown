@@ -43,4 +43,4 @@ Most outputters register one or more convenience proxy methods directly on the b
     >> File.open('barcode.png', 'w'){|f| f.write barcode.to_png } #Note: barcode, not outputter
     => 123
 
-For more information, refer to the [Wiki](https://github.com/toretore/barby/wiki) or [documentation](http://rdoc.info/github/toretore/barby/frames).
+For more information, refer to the [Wiki](https://github.com/toretore/barby/wiki) or [documentation](http://rubydoc.info/github/toretore/barby/frames).
