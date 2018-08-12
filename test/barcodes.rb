@@ -7,6 +7,8 @@ require 'code_25_iata_test'
 require 'code_39_test'
 require 'code_93_test'
 
+require 'codabar_test'
+
 require 'ean13_test'
 require 'ean8_test'
 require 'bookland_test'
