@@ -21,7 +21,6 @@ module Barby
 
     attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin
 
-
     def initialize(*)
       super
       @title, @xdim, @ydim, @height, @rmargin, @lmargin, @tmargin, @bmargin, @xmargin, @ymargin, @margin = nil
@@ -39,7 +38,7 @@ module Barby
 
         <<-"EOT"
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="#{svg_width(opts)}px" height="#{svg_height(opts)}px" viewBox="0 0 #{svg_width(opts)} #{svg_height(opts)}" version="1.1">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="#{svg_width(opts)}px" height="#{svg_height(opts)}px" viewBox="0 0 #{svg_width(opts)} #{svg_height(opts)}" version="1.1" preserveAspectRatio="none" >
 <title>#{escape title}</title>
 <g id="canvas" #{transform(opts)}>
 <rect x="0" y="0" width="#{full_width}px" height="#{full_height}px" fill="white" />
@@ -50,7 +49,6 @@ module Barby
 EOT
       end
     end
-
 
     def bars_to_rects(opts={})
       rects = ''
@@ -85,13 +83,11 @@ EOT
       rects
     end
 
-
     def bars_to_path(opts={})
       with_options opts do
         %Q|<path stroke="black" stroke-width="#{xdim}" d="#{bars_to_path_data(opts)}" />|
       end
     end
-
 
     def bars_to_path_data(opts={})
       path_data = ''
@@ -124,11 +120,9 @@ EOT
       path_data
     end
 
-
     def title
       @title || barcode.to_s
     end
-
 
     def width
       length * xdim
@@ -189,7 +183,6 @@ EOT
       barcode.two_dimensional? ? encoding.first.length : encoding.length
     end
 
-
     def svg_width(opts={})
       opts[:rot] ? full_height : full_width
     end
@@ -198,11 +191,9 @@ EOT
       opts[:rot] ? full_width : full_height
     end
 
-
     def transform(opts={})
       opts[:rot] ? %Q|transform="rotate(-90) translate(-#{full_width}, 0)"| : nil
     end
-
 
   private
 
@@ -223,8 +214,6 @@ EOT
       str.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
     end
 
-
   end
-
 
 end
