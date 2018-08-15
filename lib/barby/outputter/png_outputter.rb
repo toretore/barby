@@ -10,17 +10,17 @@ module Barby
 
     register :to_png, :to_image, :to_datastream
 
-    attr_writer :xdim, :ydim, :width, :height, :margin
+    attr_writer :xdim, :ydim, :width, :height, :margin, :bg_transparent
 
     def initialize(*)
       super
-      @xdim, @height, @margin = nil
+      @xdim, @height, @margin, @bg_transparent = nil
     end
 
     #Creates a PNG::Canvas object and renders the barcode on it
     def to_image(opts={})
       with_options opts do
-        canvas = ChunkyPNG::Image.new(full_width, full_height, ChunkyPNG::Color::WHITE)
+        canvas = ChunkyPNG::Image.new(full_width, full_height, bg_color)
 
         if barcode.two_dimensional?
           x, y = margin, margin
@@ -105,7 +105,12 @@ module Barby
       barcode.two_dimensional? ? encoding.first.length : encoding.length
     end
 
+    def bg_transparent
+      @bg_transparent || false
+    end
 
+    def bg_color
+      bg_transparent ? ChunkyPNG::Color::TRANSPARENT : ChunkyPNG::Color::WHITE
+    end
   end
-
 end
