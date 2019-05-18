@@ -64,7 +64,14 @@ module Barby
                 if x1 == x2 && y1 == y2
                   bars.point(x1,y1)
                 else
-                  bars.rectangle(x1, y1, x2, y2)
+                  # For single pixel lines, use line
+                  if x1 == x2
+                    bars.line(x1, y1, x1, y2)
+                  elsif y1 == y2
+                    bars.line(x1, y1, x2, y1)
+                  else
+                    bars.rectangle(x1, y1, x2, y2)
+                  end
                 end
               end
               x1 += xdim
@@ -77,7 +84,12 @@ module Barby
             if bar
               x2 = x1+(xdim-1)
               y2 = y1+(height-1)
-              bars.rectangle(x1, y1, x2, y2)
+              # For single pixel width, use line
+              if x1 == x2
+                bars.line(x1, y1, x1, y2)
+              else
+                bars.rectangle(x1, y1, x2, y2)
+              end
             end
             x1 += xdim
           end
