@@ -28,7 +28,7 @@ module Barby
       self.barcode = barcode
     end
 
-  
+
     #Register one or more handler methods with this outputter
     #Barcodes will then be able to use these methods to get the output
     #from the outputter. For example, if you have an ImageOutputter,

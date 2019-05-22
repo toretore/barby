@@ -3,24 +3,30 @@ require 'chunky_png'
 
 module Barby
 
-  #Renders the barcode to a PNG image using chunky_png (gem install chunky_png)
+  # Renders the barcode to a PNG image using chunky_png (gem install chunky_png)
   #
-  #Registers the to_png, to_datastream and to_canvas methods
+  # Registers the to_png, to_datastream and to_canvas methods
+  #
+  # Options:
+  #
+  #   * xdim:         X dimension - bar width                                           [1]
+  #   * ydim:         Y dimension - bar height (2D only)                                [1]
+  #   * height:       Height of bars (1D only)                                          [100]
+  #   * margin:       Size of margin around barcode                                     [0]
+  #   * foreground:   Foreground color (see ChunkyPNG::Color - can be HTML color name)  [black]
+  #   * background:   Background color (see ChunkyPNG::Color - can be HTML color name)  [white]
+  #
   class PngOutputter < Outputter
 
     register :to_png, :to_image, :to_datastream
 
-    attr_writer :xdim, :ydim, :width, :height, :margin
+    attr_writer :xdim, :ydim, :height, :margin
 
-    def initialize(*)
-      super
-      @xdim, @height, @margin = nil
-    end
 
-    #Creates a PNG::Canvas object and renders the barcode on it
+    #Creates a ChunkyPNG::Image object and renders the barcode on it
     def to_image(opts={})
       with_options opts do
-        canvas = ChunkyPNG::Image.new(full_width, full_height, ChunkyPNG::Color::WHITE)
+        canvas = ChunkyPNG::Image.new(full_width, full_height, background)
 
         if barcode.two_dimensional?
           x, y = margin, margin
@@ -29,7 +35,7 @@ module Barby
               if bar
                 x.upto(x+(xdim-1)) do |xx|
                   y.upto y+(ydim-1) do |yy|
-                    canvas[xx,yy] = ChunkyPNG::Color::BLACK
+                    canvas[xx,yy] = foreground
                   end
                 end
               end
@@ -44,7 +50,7 @@ module Barby
             if bar
               x.upto(x+(xdim-1)) do |xx|
                 y.upto y+(height-1) do |yy|
-                  canvas[xx,yy] = ChunkyPNG::Color::BLACK
+                  canvas[xx,yy] = foreground
                 end
               end
             end
@@ -100,6 +106,32 @@ module Barby
     def margin
       @margin || 10
     end
+
+
+    def background=(c)
+      @background = if c.is_a?(String) || c.is_a?(Symbol)
+                      ChunkyPNG::Color.html_color(c.to_sym)
+                    else
+                      c
+                    end
+    end
+
+    def background
+      @background || ChunkyPNG::Color::WHITE
+    end
+
+    def foreground=(c)
+      @foreground = if c.is_a?(String) || c.is_a?(Symbol)
+                      ChunkyPNG::Color.html_color(c.to_sym)
+                    else
+                      c
+                    end
+    end
+
+    def foreground
+      @foreground || ChunkyPNG::Color::BLACK
+    end
+
 
     def length
       barcode.two_dimensional? ? encoding.first.length : encoding.length

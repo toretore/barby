@@ -4,9 +4,17 @@ require 'stringio'
 
 module Barby
 
-  #Uses Cairo to render a barcode to a number of formats: PNG, PS, EPS, PDF and SVG
+  # Uses Cairo to render a barcode to a number of formats: PNG, PS, EPS, PDF and SVG
   #
-  #Registers methods render_to_cairo_context, to_png, to_ps, to_eps, to_pdf and to_svg
+  # Registers methods render_to_cairo_context, to_png, to_ps, to_eps, to_pdf and to_svg
+  #
+  # Options:
+  #
+  #   * xdim
+  #   * ydim             - (2D only)
+  #   * height           - (1D only)
+  #   * foreground       - Cairo::Color::Base or Cairo::Color.parse(value)
+  #   * background       - ^
   class CairoOutputter < Outputter
 
     register :render_to_cairo_context
@@ -42,7 +50,7 @@ module Barby
       _height = height(options)
       original_current_x = current_x
       context.save do
-        context.set_source_color(:black)
+        context.set_source_color(options[:foreground] || :black)
         context.fill do
           if barcode.two_dimensional?
             boolean_groups.each do |groups|

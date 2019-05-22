@@ -4,20 +4,24 @@ require 'rmagick'
 module Barby
 
 
-  #Renders images from barcodes using RMagick
+  # Renders images from barcodes using RMagick
   #
-  #Registers the to_png, to_gif, to_jpg and to_image methods
+  # Registers the to_png, to_gif, to_jpg and to_image methods
+  #
+  # Options:
+  #
+  #   * xdim          -
+  #   * ydim          - 2D only
+  #   * height        - 1D only
+  #   * margin        -
+  #   * foreground    - RMagick "colorspec"
+  #   * background    - ^
   class RmagickOutputter < Outputter
 
     register :to_png, :to_gif, :to_jpg, :to_image
 
-    attr_writer :height, :xdim, :ydim, :margin
+    attr_writer :height, :xdim, :ydim, :margin, :foreground, :background
 
-
-    def initialize(*)
-      super
-      @height, @xdim, @ydim, @margin = nil
-    end
 
     #Returns a string containing a PNG image
     def to_png(*a)
@@ -48,8 +52,10 @@ module Barby
     #Returns an instance of Magick::Image
     def to_image(opts={})
       with_options opts do
-        canvas = Magick::Image.new(full_width, full_height)
+        b = background #Capture locally because Magick::Image.new block uses instance_eval
+        canvas = Magick::Image.new(full_width, full_height){ self.background_color = b }
         bars = Magick::Draw.new
+        bars.fill = foreground
 
         x1 = margin
         y1 = margin
@@ -143,6 +149,15 @@ module Barby
     #barcode + the top and bottom margin
     def full_height
       height + (margin * 2)
+    end
+
+
+    def foreground
+      @foreground || 'black'
+    end
+
+    def background
+      @background || 'white'
     end
 
 

@@ -19,12 +19,8 @@ module Barby
 
     register :to_svg, :bars_to_rects, :bars_to_path
 
-    attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin
+    attr_writer :title, :xdim, :ydim, :height, :rmargin, :lmargin, :tmargin, :bmargin, :xmargin, :ymargin, :margin, :foreground, :background
 
-    def initialize(*)
-      super
-      @title, @xdim, @ydim, @height, @rmargin, @lmargin, @tmargin, @bmargin, @xmargin, @ymargin, @margin = nil
-    end
 
     def to_svg(opts={})
       with_options opts do
@@ -41,8 +37,8 @@ module Barby
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="#{svg_width(opts)}px" height="#{svg_height(opts)}px" viewBox="0 0 #{svg_width(opts)} #{svg_height(opts)}" version="1.1" preserveAspectRatio="none" >
 <title>#{escape title}</title>
 <g id="canvas" #{transform(opts)}>
-<rect x="0" y="0" width="#{full_width}px" height="#{full_height}px" fill="white" />
-<g id="barcode" fill="black">
+<rect x="0" y="0" width="#{full_width}px" height="#{full_height}px" fill="#{background}" />
+<g id="barcode" fill="#{foreground}">
 #{bars}
 </g></g>
 </svg>
@@ -181,6 +177,14 @@ EOT
 
     def length
       barcode.two_dimensional? ? encoding.first.length : encoding.length
+    end
+
+    def foreground
+      @foreground || '#000'
+    end
+
+    def background
+      @background || '#fff'
     end
 
     def svg_width(opts={})

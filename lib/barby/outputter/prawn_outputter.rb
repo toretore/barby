@@ -7,13 +7,7 @@ module Barby
 
     register :to_pdf, :annotate_pdf
 
-    attr_writer :xdim, :ydim, :x, :y, :height, :margin, :unbleed
-
-
-    def initialize(*)
-      super
-      @xdim, @ydim, @x, @y, @height, @margin, @unbleed = nil
-    end
+    attr_writer :xdim, :ydim, :x, :y, :height, :margin, :unbleed, :color
 
     def to_pdf(opts={})
       doc_opts = opts.delete(:document) || {}
@@ -26,6 +20,9 @@ module Barby
       with_options opts do
         xpos, ypos = x, y
         orig_xpos = xpos
+        orig_color = pdf.fill_color
+
+        pdf.fill_color = color if color
 
         if barcode.two_dimensional?
           boolean_groups.reverse_each do |groups|
@@ -55,9 +52,11 @@ module Barby
             end
             xpos += (xdim*amount)
           end
-        end
+        end#if
 
-      end
+        pdf.fill_color = orig_color
+
+      end#with_options
 
       pdf
     end
@@ -111,6 +110,10 @@ module Barby
     #For 2D, both x and y dimensions are reduced.
     def unbleed
       @unbleed || 0
+    end
+
+    def color
+      @color
     end
 
 

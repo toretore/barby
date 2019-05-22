@@ -17,7 +17,7 @@ module Barby
   #   '101100111000111100001'
   #  end
   # end
-  # 
+  #
   # require 'barby/outputter/ascii_outputter'
   # puts StaticBarcode.new.to_ascii(:height => 3)
   #
@@ -33,8 +33,8 @@ module Barby
   #   end
   # end
   class Barcode
-  
-    
+
+
     #Every barcode must have an encoding method. This method returns
     #a string containing a series of 1 and 0, representing bars and
     #spaces. One digit is the width of one "module" or X dimension.
