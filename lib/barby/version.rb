@@ -4,6 +4,6 @@ module Barby #:nodoc:
     MINOR = 6
     TINY  = 7
 
-    STRING = [MAJOR, MINOR, TINY].join('.')
+    STRING = [MAJOR, MINOR, TINY].join('.').freeze
   end
 end
