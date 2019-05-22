@@ -1,3 +1,7 @@
+* 0.6.7
+
+* RMagick outputter should use line command for lines [joshuaflanagan]
+
 * 0.6.6
 
 * Add support for Codabar symbology [labocho]
