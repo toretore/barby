@@ -16,7 +16,7 @@ class RmagickOutputterTest < Barby::TestCase
     @barcode = RmagickTestBarcode.new('10110011100011110000')
     @outputter = RmagickOutputter.new(@barcode)
   end
-  
+
   it "should register to_png, to_gif, to_jpg, to_image" do
     Barcode.outputters.must_include(:to_png)
     Barcode.outputters.must_include(:to_gif)
@@ -62,10 +62,10 @@ class RmagickOutputterTest < Barby::TestCase
   it "should have a full_height equal to the height + top and bottom margins" do
     @outputter.full_height.must_equal @outputter.height + (@outputter.margin * 2)
   end
-  
+
   describe "#to_image" do
 
-    before do 
+    before do
       @barcode = RmagickTestBarcode.new('10110011100011110000')
       @outputter = RmagickOutputter.new(@barcode)
       @image = @outputter.to_image
