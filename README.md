@@ -62,6 +62,7 @@ require 'barby/barcode/<filename>'
 | Code 93                             | `code_93`             | ─                                  |
 | Code 128 (A, B, and C)              | `code_128`            | ─                                  |
 | └─ GS1 128                          | `gs1_128`             | ─                                  |
+| Codabar                             | `codabar`             | ─                                  |
 | EAN-13                              | `ean_13`              | ─                                  |
 | ├─ Bookland                         | `bookland`            | ─                                  |
 | └─ UPC-A                            | `ean_13`              | ─                                  |
