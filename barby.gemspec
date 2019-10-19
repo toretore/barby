@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths     = ["lib"]
 
+  s.add_dependency "chunky_png"
   s.add_development_dependency "minitest",        "~> 5.11"
   s.add_development_dependency "bundler",         "~> 1.16"
   s.add_development_dependency "rake",            "~> 10.0"
