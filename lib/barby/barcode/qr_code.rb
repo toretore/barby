@@ -88,6 +88,10 @@ module Barby
     end
 
 
+    def valid?
+      !!data
+    end
+
   private
   
     #Generate an RQRCode object with the available values

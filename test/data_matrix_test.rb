@@ -27,4 +27,7 @@ class DataMatrixTest < Barby::TestCase
     @code.encoding.wont_equal prev_encoding
   end
 
+  it "should be valid" do
+    @code.valid?.must_equal true
+  end
 end

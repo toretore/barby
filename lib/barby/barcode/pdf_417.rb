@@ -5,6 +5,8 @@ import 'Pdf417lib'
 
 module Barby
   class Pdf417 < Barcode2D
+    attr_reader :data
+
     DEFAULT_OPTIONS = {
       :options       => 0,
       :y_height      => 3,
@@ -71,6 +73,10 @@ module Barby
         row << sprintf("%08b", (byte & 0xff) | 0x100)
       end
       enc
+    end
+
+    def valid?
+      !!data
     end
   end
 end
