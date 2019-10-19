@@ -18,6 +18,10 @@ module Barby
       encoding_for_bars_without_end_space(STOP_ENCODING)
     end
 
+    def valid?
+      !!data
+    end
+
   end
 
 end

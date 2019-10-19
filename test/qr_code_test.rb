@@ -68,7 +68,10 @@ class QrCodeTest < Barby::TestCase
     QrCode.new('123456789012345678901234567890').to_s.must_equal '12345678901234567890'
   end
 
-  
+  it "should be valid" do
+    @code.valid?.must_equal true
+  end
+
   private
   
   def rqrcode(code)

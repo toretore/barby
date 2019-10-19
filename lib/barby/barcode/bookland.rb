@@ -16,6 +16,7 @@ module Barby
   #
   # If a prefix is not given, a default of 978 is used.
   class Bookland < EAN13
+    attr_accessor :isbn
 
     # isbn should be an ISBN number string, with or without an EAN prefix and an ISBN checksum
     # non-number formatting like hyphens or spaces are ignored
@@ -61,12 +62,11 @@ module Barby
 
 
       def isbn=(isbn)
-        if match = PATTERN.match(isbn.gsub(/\D/, ''))
-          @number = match[:number]
-          @prefix = match[:prefix]
-        else
-          raise ArgumentError, "Not a valid ISBN: #{isbn}"
-        end
+        raise ArgumentError, "Not a valid ISBN: #{isbn}" if valid?
+
+        match = PATTERN.match(isbn.gsub(/\D/, ''))
+        @number = match[:number]
+        @prefix = match[:prefix]
       end
 
       def isbn
@@ -135,9 +135,15 @@ module Barby
         "#<#{self.class}:0x#{'%014x' % object_id} #{formatted_isbn}>"
       end
 
+      def valid?
+        !!PATTERN.match(isbn.gsub(/\D/, ''))
+      end
 
     end#class ISBN
 
+    def valid?
+      !!ISBN::PATTERN.match(isbn.gsub(/\D/, ''))
+    end
 
   end#class Bookland
 

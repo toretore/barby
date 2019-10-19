@@ -41,6 +41,9 @@ module Barby
     end
 
 
+    def valid?
+      !!data
+    end
   end
 
 end

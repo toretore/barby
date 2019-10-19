@@ -40,6 +40,10 @@ if defined? JRUBY_VERSION
       enc[0].length.must_equal 117
     end
     
+    it "should be valid" do
+      @code.valid?.must_equal true
+    end
+
   end
 
 end

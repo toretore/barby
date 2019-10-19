@@ -39,7 +39,6 @@ module Barby
       "(#{application_identifier}) #{partial_data}"
     end
 
-
   end
 
 

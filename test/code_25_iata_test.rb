@@ -16,4 +16,7 @@ class Code25IATATest < Barby::TestCase
     @code.stop_encoding.must_equal '11101'
   end
 
+  it "should be valid" do
+    @code.valid?.must_equal true
+  end
 end
