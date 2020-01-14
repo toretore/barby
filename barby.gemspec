@@ -11,8 +11,6 @@ Gem::Specification.new do |s|
   s.description = "Barby creates barcodes."
   s.authors     = ['Tore Darell']
 
-  s.rubyforge_project = "barby"
-
   s.extra_rdoc_files  = ["README.md"]
 
   s.files         = `git ls-files`.split("\n")
