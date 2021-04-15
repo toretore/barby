@@ -21,11 +21,12 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths     = ["lib"]
 
+  s.add_dependency             "rqrcode",         "~> 0.10"
+
   s.add_development_dependency "minitest",        "~> 5.11"
   s.add_development_dependency "bundler",         "~> 1.16"
   s.add_development_dependency "rake",            "~> 10.0"
   s.add_development_dependency "semacode-ruby19", "~> 0.7"
-  s.add_development_dependency "rqrcode",         "~> 0.10"
   s.add_development_dependency "prawn",           "~> 2.2"
   s.add_development_dependency "cairo",           "~> 1.15"
 end
