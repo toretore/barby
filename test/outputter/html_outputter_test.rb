@@ -37,6 +37,11 @@ class HtmlOutputterTest < Barby::TestCase
     assert_equal '</tbody></table>', @outputter.stop
   end
 
+  it 'should add the human readable below barcode' do
+    @outputter.human_readable = 'true'  # this test relies on data = 'BARBY' in before action above
+    assert_equal "<tr class='human_row' style='text-align:center;'><td colspan='18'>B</td><td colspan='18'>A</td><td colspan='18'>R</td><td colspan='18'>B</td><td colspan='18'>Y</td></tbody></table>", @outputter.stop
+  end
+
   it 'should build the expected cells' do
     assert_equal ['<td class="barby-cell on"></td>', '<td class="barby-cell off"></td>', '<td class="barby-cell off"></td>', '<td class="barby-cell on"></td>'],
       @outputter.cells_for([true, false, false, true])
