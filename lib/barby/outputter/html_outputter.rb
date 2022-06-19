@@ -38,6 +38,10 @@ module Barby
   #
   #   :class_name - A class name that will be added to the <table> in addition to barby-barcode
   #   :human_row - true or false, will add a human readable version below the barcode see above to style it
+  #   Should be used as @barcode.human_row = true NOT @barcode.human_row = 'true'
+  #   'true' will work since a string is true in Ruby, but to turn it off you have to be sure to use false without
+  #   any quotes around it. 
+  #
   class HtmlOutputter < Outputter
 
     register :to_html
