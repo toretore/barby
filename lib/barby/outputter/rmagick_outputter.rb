@@ -53,7 +53,7 @@ module Barby
     def to_image(opts={})
       with_options opts do
         b = background #Capture locally because Magick::Image.new block uses instance_eval
-        canvas = Magick::Image.new(full_width, full_height){ self.background_color = b }
+        canvas = Magick::Image.new(full_width, full_height){ |i|  i.background_color = b }
         bars = Magick::Draw.new
         bars.fill = foreground
 
