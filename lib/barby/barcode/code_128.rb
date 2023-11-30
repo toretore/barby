@@ -406,7 +406,7 @@ module Barby
     DGTS_RE = /\d{4,}/
 
     # pairs of digits and FNC1 characters
-    CODEC_CHARS_RE = /(?:\d{2}|#{FNC1}){2,}/
+    CODEC_CHARS_RE = /(?:\d{2}|\#{FNC1}){2,}/
 
     class << self
 
