@@ -32,15 +32,21 @@ module Barby
   #   tr.barby-row {}
   #   td.barby-cell { width: 3px; height: 3px; }
   #   td.barby-cell.on { background: #000; }
+  #   tr.human_row { text-align: center; font-family: "Arial Black"; }
   #
   # Options:
   #
   #   :class_name - A class name that will be added to the <table> in addition to barby-barcode
+  #   :human_readable - true or false, will add a human readable version below the barcode see above to style it
+  #   Should be used as @barcode.human_readable = true NOT @barcode.human_readable = 'true'
+  #   'true' will work since a string is true in Ruby, but to turn it off you have to be sure to use false without
+  #   any quotes around it.
+  #
   class HtmlOutputter < Outputter
 
     register :to_html
 
-    attr_accessor :class_name
+    attr_accessor :class_name, :human_readable
 
 
     def to_html(options = {})
@@ -84,7 +90,20 @@ module Barby
     end
 
     def stop
-      '</tbody></table>'
+      if barcode.two_dimensional?
+        '</tbody></table>'
+      else
+        # "<tr class='character_row'>#{human_row}</tr></tbody></table>"
+        (human_readable ? "#{human_row}" : '')+'</tbody></table>'
+      end
+    end
+
+    def human_row
+      last_row = "<tr class='human_row' style='text-align:center;'>"
+      barcode.to_s.split('').each do |c|
+        last_row << "<td colspan='#{(rows[0].scan('</td>').length/barcode.to_s.length)}'>#{c}</td>"
+      end
+      last_row
     end
 
 
