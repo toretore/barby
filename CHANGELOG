@@ -2,6 +2,11 @@
 
 * Swap semaocde for dmtx [ksylvest]
 
+* 0.6.9
+
+* Remove use of instance_eval in RMagick outputter [stlewis]
+* Codabar in README [nashirox]
+
 * 0.6.7
 
 * RMagick outputter should use line command for lines [joshuaflanagan]
