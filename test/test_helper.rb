@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'minitest/spec'
 
 module Barby
-  class TestCase < MiniTest::Spec
+  class TestCase < Minitest::Spec
 
     include Barby
 
