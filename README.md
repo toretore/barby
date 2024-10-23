@@ -69,7 +69,7 @@ require 'barby/barcode/<filename>'
 | EAN-8                               | `ean_8`               | ─                                  |
 | UPC/EAN supplemental, 2 & 5 digits  | `upc_supplemental`    | ─                                  |
 | QR Code                             | `qr_code`             | `rqrcode`                          |
-| DataMatrix (Semacode)               | `data_matrix`         | `semacode` or `semacode-ruby19`    |
+| DataMatrix (dmtx)                   | `data_matrix`         | `dmtx`                             |
 | PDF417                              | `pdf_417`             | JRuby                              |
 
 
