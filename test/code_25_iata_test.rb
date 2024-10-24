@@ -9,11 +9,11 @@ class Code25IATATest < Barby::TestCase
   end
 
   it "should have the expected start_encoding" do
-    @code.start_encoding.must_equal '1010'
+    _(@code.start_encoding).must_equal '1010'
   end
 
   it "should have the expected stop_encoding" do
-    @code.stop_encoding.must_equal '11101'
+    _(@code.stop_encoding).must_equal '11101'
   end
 
 end

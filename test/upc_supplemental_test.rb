@@ -29,31 +29,31 @@ class UpcSupplementalTest < Barby::TestCase
   describe 'checksum for 5 digits' do
     
     it 'should have the expected odd_digits' do
-      UPCSupplemental.new('51234').odd_digits.must_equal [4,2,5]
-      UPCSupplemental.new('54321').odd_digits.must_equal [1,3,5]
-      UPCSupplemental.new('99990').odd_digits.must_equal [0,9,9]
+      _(UPCSupplemental.new('51234').odd_digits).must_equal [4,2,5]
+      _(UPCSupplemental.new('54321').odd_digits).must_equal [1,3,5]
+      _(UPCSupplemental.new('99990').odd_digits).must_equal [0,9,9]
     end
 
     it 'should have the expected even_digits' do
-      UPCSupplemental.new('51234').even_digits.must_equal [3,1]
-      UPCSupplemental.new('54321').even_digits.must_equal [2,4]
-      UPCSupplemental.new('99990').even_digits.must_equal [9,9]
+      _(UPCSupplemental.new('51234').even_digits).must_equal [3,1]
+      _(UPCSupplemental.new('54321').even_digits).must_equal [2,4]
+      _(UPCSupplemental.new('99990').even_digits).must_equal [9,9]
     end
 
     it 'should have the expected odd and even sums' do
-      UPCSupplemental.new('51234').odd_sum.must_equal 33
-      UPCSupplemental.new('54321').odd_sum.must_equal 27
-      UPCSupplemental.new('99990').odd_sum.must_equal 54
+      _(UPCSupplemental.new('51234').odd_sum).must_equal 33
+      _(UPCSupplemental.new('54321').odd_sum).must_equal 27
+      _(UPCSupplemental.new('99990').odd_sum).must_equal 54
 
-      UPCSupplemental.new('51234').even_sum.must_equal 36
-      UPCSupplemental.new('54321').even_sum.must_equal 54
-      UPCSupplemental.new('99990').even_sum.must_equal 162
+      _(UPCSupplemental.new('51234').even_sum).must_equal 36
+      _(UPCSupplemental.new('54321').even_sum).must_equal 54
+      _(UPCSupplemental.new('99990').even_sum).must_equal 162
     end
 
     it 'should have the expected checksum' do
-      UPCSupplemental.new('51234').checksum.must_equal 9
-      UPCSupplemental.new('54321').checksum.must_equal 1
-      UPCSupplemental.new('99990').checksum.must_equal 6
+      _(UPCSupplemental.new('51234').checksum).must_equal 9
+      _(UPCSupplemental.new('54321').checksum).must_equal 1
+      _(UPCSupplemental.new('99990').checksum).must_equal 6
     end
     
   end
@@ -61,9 +61,9 @@ class UpcSupplementalTest < Barby::TestCase
   describe 'checksum for 2 digits' do
     
     it 'should have the expected checksum' do
-      UPCSupplemental.new('51').checksum.must_equal 3
-      UPCSupplemental.new('21').checksum.must_equal 1
-      UPCSupplemental.new('99').checksum.must_equal 3
+      _(UPCSupplemental.new('51').checksum).must_equal 3
+      _(UPCSupplemental.new('21').checksum).must_equal 1
+      _(UPCSupplemental.new('99').checksum).must_equal 3
     end
     
   end
@@ -77,26 +77,26 @@ class UpcSupplementalTest < Barby::TestCase
 
     it 'should have the expected encoding' do
       #                                                START 5          1          2          3          4
-      UPCSupplemental.new('51234').encoding.must_equal '1011 0110001 01 0011001 01 0011011 01 0111101 01 0011101'.tr(' ', '')
+      _(UPCSupplemental.new('51234').encoding).must_equal '1011 0110001 01 0011001 01 0011011 01 0111101 01 0011101'.tr(' ', '')
       #                                                      9          9          9          9          0
-      UPCSupplemental.new('99990').encoding.must_equal '1011 0001011 01 0001011 01 0001011 01 0010111 01 0100111'.tr(' ', '')
+      _(UPCSupplemental.new('99990').encoding).must_equal '1011 0001011 01 0001011 01 0001011 01 0010111 01 0100111'.tr(' ', '')
       #                                             START 5          1
-      UPCSupplemental.new('51').encoding.must_equal '1011 0111001 01 0110011'.tr(' ', '')
+      _(UPCSupplemental.new('51').encoding).must_equal '1011 0111001 01 0110011'.tr(' ', '')
       #                                                   2          2
-      UPCSupplemental.new('22').encoding.must_equal '1011 0011011 01 0010011'.tr(' ', '')
+      _(UPCSupplemental.new('22').encoding).must_equal '1011 0011011 01 0010011'.tr(' ', '')
     end
 
     it 'should be able to change its data' do
       prev_encoding = @code.encoding
       @code.data = '99990'
-      @code.encoding.wont_equal prev_encoding
+      _(@code.encoding).wont_equal prev_encoding
       #                               9          9          9          9          0
-      @code.encoding.must_equal '1011 0001011 01 0001011 01 0001011 01 0010111 01 0100111'.tr(' ', '')
+      _(@code.encoding).must_equal '1011 0001011 01 0001011 01 0001011 01 0010111 01 0100111'.tr(' ', '')
       prev_encoding = @code.encoding
       @code.data = '22'
-      @code.encoding.wont_equal prev_encoding
+      _(@code.encoding).wont_equal prev_encoding
       #                               2          2
-      @code.encoding.must_equal '1011 0011011 01 0010011'.tr(' ', '')
+      _(@code.encoding).must_equal '1011 0011011 01 0010011'.tr(' ', '')
     end
 
   end

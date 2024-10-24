@@ -9,7 +9,7 @@ class DataMatrixTest < Barby::TestCase
   end
 
   it "should have the expected encoding" do
-    @code.encoding.must_equal [
+    _(@code.encoding).must_equal [
       "10101010101010",
       "10111010000001",
       "11100101101100",
@@ -28,13 +28,13 @@ class DataMatrixTest < Barby::TestCase
   end
 
   it "should return data on to_s" do
-    @code.to_s.must_equal @data
+    _(@code.to_s).must_equal @data
   end
 
   it "should be able to change its data" do
     prev_encoding = @code.encoding
     @code.data = "after eight"
-    @code.encoding.wont_equal prev_encoding
+    _(@code.encoding).wont_equal prev_encoding
   end
 
 end

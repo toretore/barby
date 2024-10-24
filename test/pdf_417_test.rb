@@ -7,7 +7,7 @@ if defined? JRUBY_VERSION
     
     it "should produce a nice code" do
       enc = Pdf417.new('Ereshkigal').encoding
-      enc.must_equal [
+      _(enc).must_equal [
         "111111111101010100101111010110011110100111010110001110100011101101011100100001111111101000110100100",
         "111111111101010100101111010110000100100110100101110000101011111110101001111001111111101000110100100", 
         "111111111101010100101101010111111000100100011100110011111010101100001111100001111111101000110100100",
@@ -24,20 +24,20 @@ if defined? JRUBY_VERSION
         "111111111101010100101111010100100001100100010100111100101011110110001001100001111111101000110100100", 
         "111111111101010100101111010100011110110110011111101001100010100100001001111101111111101000110100100"
       ]
-      enc.length.must_equal 15
-      enc[0].length.must_equal 99
+      _(enc.length).must_equal 15
+      _(enc[0].length).must_equal 99
     end
 
     it "should produce a 19x135 code with default aspect_ratio" do
       enc = Pdf417.new('qwertyuiopasdfghjklzxcvbnm'*3).encoding
-      enc.length.must_equal 19
-      enc[0].length.must_equal 135
+      _(enc.length).must_equal 19
+      _(enc[0].length).must_equal 135
     end
 
     it "should produce a 29x117 code with 0.7 aspect_ratio" do
       enc = Pdf417.new('qwertyuiopasdfghjklzxcvbnm'*3, :aspect_ratio => 0.7).encoding
-      enc.length.must_equal 29
-      enc[0].length.must_equal 117
+      _(enc.length).must_equal 29
+      _(enc[0].length).must_equal 117
     end
     
   end

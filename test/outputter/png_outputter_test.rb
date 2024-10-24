@@ -18,32 +18,32 @@ class PngOutputterTest < Barby::TestCase
   end
   
   it "should register to_png and to_image" do
-    Barcode.outputters.must_include(:to_png)
-    Barcode.outputters.must_include(:to_image)
+    _(Barcode.outputters).must_include(:to_png)
+    _(Barcode.outputters).must_include(:to_image)
   end
 
   it "should return a ChunkyPNG::Datastream on to_datastream" do
-    @barcode.to_datastream.must_be_instance_of(ChunkyPNG::Datastream)
+    _(@barcode.to_datastream).must_be_instance_of(ChunkyPNG::Datastream)
   end
 
   it "should return a string on to_png" do
-    @barcode.to_png.must_be_instance_of(String)
+    _(@barcode.to_png).must_be_instance_of(String)
   end
 
   it "should return a ChunkyPNG::Image on to_canvas" do
-    @barcode.to_image.must_be_instance_of(ChunkyPNG::Image)
+    _(@barcode.to_image).must_be_instance_of(ChunkyPNG::Image)
   end
 
   it "should have a width equal to Xdim * barcode_string.length" do
-    @outputter.width.must_equal @outputter.barcode.encoding.length * @outputter.xdim
+    _(@outputter.width).must_equal @outputter.barcode.encoding.length * @outputter.xdim
   end
 
   it "should have a full_width which is the sum of width + (margin*2)" do
-    @outputter.full_width.must_equal @outputter.width + (@outputter.margin*2)
+    _(@outputter.full_width).must_equal @outputter.width + (@outputter.margin*2)
   end
 
   it "should have a full_height which is the sum of height + (margin*2)" do
-    @outputter.full_height.must_equal @outputter.height + (@outputter.margin*2)
+    _(@outputter.full_height).must_equal @outputter.height + (@outputter.margin*2)
   end
 
 end

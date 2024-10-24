@@ -21,7 +21,7 @@ class HtmlOutputterTest < Barby::TestCase
   end
 
   it "should register to_html" do
-    Barcode.outputters.must_include(:to_html)
+    _(Barcode.outputters).must_include(:to_html)
   end
 
   it 'should have the expected start HTML' do
