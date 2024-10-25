@@ -51,7 +51,7 @@ class SvgOutputterTest < Barby::TestCase
   end
   
   it 'should return default values for attributes' do
-    _(@outputter.margin).must_be_instance_of Fixnum
+    _(@outputter.margin).must_be_instance_of Integer
   end
   
   it 'should use defaults to populate higher level attributes' do
