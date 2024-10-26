@@ -9,75 +9,75 @@ class Code25Test < Barby::TestCase
   end
 
   it "should return the same data it was given" do
-    @code.data.must_equal @data
+    assert_equal @data, @code.data
   end
 
   it "should have the expected characters" do
-    @code.characters.must_equal %w(1 2 3 4 5 6 7)
+    assert_equal %w(1 2 3 4 5 6 7), @code.characters
   end
 
   it "should have the expected characters_with_checksum" do
-    @code.characters_with_checksum.must_equal %w(1 2 3 4 5 6 7 0)
+    assert_equal %w(1 2 3 4 5 6 7 0), @code.characters_with_checksum
   end
 
   it "should have the expected digits" do
-    @code.digits.must_equal [1,2,3,4,5,6,7]
+    assert_equal [1,2,3,4,5,6,7], @code.digits
   end
 
   it "should have the expected digits_with_checksum" do
-    @code.digits_with_checksum.must_equal [1,2,3,4,5,6,7,0]
+    assert_equal [1,2,3,4,5,6,7,0], @code.digits_with_checksum
   end
 
   it "should have the expected even_and_odd_digits" do
-    @code.even_and_odd_digits.must_equal [[7,5,3,1], [6,4,2]]
+    assert_equal [[7,5,3,1], [6,4,2]], @code.even_and_odd_digits
   end
 
   it "should have the expected start_encoding" do
-    @code.start_encoding.must_equal '1110111010'
+    assert_equal '1110111010', @code.start_encoding
   end
 
   it "should have the expected stop_encoding" do
-    @code.stop_encoding.must_equal '111010111'
+    assert_equal '111010111', @code.stop_encoding
   end
 
   it "should have a default narrow_width of 1" do
-    @code.narrow_width.must_equal 1
+    assert_equal 1, @code.narrow_width
   end
 
   it "should have a default wide_width equal to narrow_width * 3" do
-    @code.wide_width.must_equal @code.narrow_width * 3
+    assert_equal @code.narrow_width * 3, @code.wide_width
     @code.narrow_width = 2
-    @code.wide_width.must_equal 6
+    assert_equal 6, @code.wide_width
   end
 
   it "should have a default space_width equal to narrow_width" do
-    @code.space_width.must_equal @code.narrow_width
+    assert_equal @code.narrow_width, @code.space_width
     @code.narrow_width = 23
-    @code.space_width.must_equal 23
+    assert_equal 23, @code.space_width
   end
 
   it "should have the expected digit_encodings" do
-    @code.digit_encodings.must_equal %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110)
+    assert_equal %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110), @code.digit_encodings
   end
 
   it "should have the expected digit_encodings_with_checksum" do
-    @code.digit_encodings_with_checksum.must_equal %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110 10101110111010)
+    assert_equal %w(11101010101110 10111010101110 11101110101010 10101110101110 11101011101010 10111011101010 10101011101110 10101110111010), @code.digit_encodings_with_checksum
   end
 
   it "should have the expected data_encoding" do
-    @code.data_encoding.must_equal "11101010101110101110101011101110111010101010101110101110111010111010101011101110101010101011101110"
+    assert_equal "11101010101110101110101011101110111010101010101110101110111010111010101011101110101010101011101110", @code.data_encoding
   end
 
   it "should have the expected checksum" do
-    @code.checksum.must_equal 0
+    assert_equal 0, @code.checksum
   end
 
   it "should have the expected checksum_encoding" do
-    @code.checksum_encoding.must_equal '10101110111010'
+    assert_equal '10101110111010', @code.checksum_encoding
   end
 
   it "should have the expected encoding" do
-    @code.encoding.must_equal "111011101011101010101110101110101011101110111010101010101110101110111010111010101011101110101010101011101110111010111"
+    assert_equal "111011101011101010101110101110101011101110111010101010101110101110111010111010101011101110101010101011101110111010111", @code.encoding
   end
 
   it "should be valid" do
@@ -91,20 +91,30 @@ class Code25Test < Barby::TestCase
 
   it "should raise on encoding methods that include data encoding if not valid" do
     @code.data = 'abc'
-    lambda{ @code.encoding }.must_raise ArgumentError
-    lambda{ @code.data_encoding }.must_raise ArgumentError
-    lambda{ @code.data_encoding_with_checksum }.must_raise ArgumentError
-    lambda{ @code.digit_encodings }.must_raise ArgumentError
-    lambda{ @code.digit_encodings_with_checksum }.must_raise ArgumentError
+    assert_raises ArgumentError do
+      @code.encoding
+    end
+    assert_raises ArgumentError do
+      @code.data_encoding
+    end
+    assert_raises ArgumentError do
+      @code.data_encoding_with_checksum
+    end
+    assert_raises ArgumentError do
+      @code.digit_encodings
+    end
+    assert_raises ArgumentError do
+      @code.digit_encodings_with_checksum
+    end
   end
 
   it "should return all characters in sequence on to_s" do
-    @code.to_s.must_equal @code.characters.join
+    assert_equal @code.characters.join, @code.to_s
   end
 
   it "should include checksum in to_s when include_checksum is true" do
     @code.include_checksum = true
-    @code.to_s.must_equal @code.characters_with_checksum.join
+    assert_equal @code.characters_with_checksum.join, @code.to_s
   end
 
 end

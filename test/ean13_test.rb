@@ -29,7 +29,9 @@ class EAN13Test < Barby::TestCase
     end
 
     it "should raise an exception when data is invalid" do
-      lambda{ EAN13.new('123') }.must_raise(ArgumentError)
+      assert_raises ArgumentError do
+        EAN13.new('123')
+      end
     end
 
   end
@@ -42,40 +44,41 @@ class EAN13Test < Barby::TestCase
     end
 
     it "should have the same data as was passed to it" do
-      @code.data.must_equal @data
+      assert_equal @data, @code.data
     end
 
     it "should have the expected characters" do
-      @code.characters.must_equal @data.split(//)
+      assert_equal @data.split(//), @code.characters
     end
 
     it "should have the expected numbers" do
-      @code.numbers.must_equal @data.split(//).map{|s| s.to_i }
+      assert_equal @data.split(//).map{|s| s.to_i }, @code.numbers
     end
 
     it "should have the expected odd_and_even_numbers" do
-      @code.odd_and_even_numbers.must_equal [[2,4,1,7,5,0], [1,6,8,6,7,0]]
+      assert_equal [[2,4,1,7,5,0], [1,6,8,6,7,0]], @code.odd_and_even_numbers
     end
 
     it "should have the expected left_numbers" do
-                                   #0=second number in number system code
-      @code.left_numbers.must_equal [0,7,5,6,7,8]
+      #             0=second number in number system code
+      assert_equal [0,7,5,6,7,8], @code.left_numbers
     end
 
     it "should have the expected right_numbers" do
-      @code.right_numbers.must_equal [1,6,4,1,2,5]#5=checksum
+      #                       5=checksum
+      assert_equal [1,6,4,1,2,5], @code.right_numbers
     end
 
     it "should have the expected numbers_with_checksum" do
-      @code.numbers_with_checksum.must_equal @data.split(//).map{|s| s.to_i } + [5]
+      assert_equal @data.split(//).map{|s| s.to_i } + [5], @code.numbers_with_checksum
     end
 
     it "should have the expected data_with_checksum" do
-      @code.data_with_checksum.must_equal @data+'5'
+      assert_equal @data+'5', @code.data_with_checksum
     end
 
     it "should return all digits and the checksum on to_s" do
-      @code.to_s.must_equal '0075678164125'
+      assert_equal '0075678164125', @code.to_s
     end
 
   end
@@ -87,19 +90,19 @@ class EAN13Test < Barby::TestCase
     end
 
     it "should have the expected weighted_sum" do
-      @code.weighted_sum.must_equal 85
+      assert_equal 85, @code.weighted_sum
       @code.data = '007567816413'
-      @code.weighted_sum.must_equal 88
+      assert_equal 88, @code.weighted_sum
     end
 
     it "should have the correct checksum" do
-      @code.checksum.must_equal 5
+      assert_equal 5, @code.checksum
       @code.data = '007567816413'
-      @code.checksum.must_equal 2
+      assert_equal 2, @code.checksum
     end
 
     it "should have the correct checksum_encoding" do
-      @code.checksum_encoding.must_equal '1001110'
+      assert_equal '1001110', @code.checksum_encoding
     end
 
   end
@@ -111,36 +114,36 @@ class EAN13Test < Barby::TestCase
     end
 
     it "should have the expected checksum" do
-      @code.checksum.must_equal 9
+      assert_equal 9, @code.checksum
     end
 
     it "should have the expected checksum_encoding" do
-      @code.checksum_encoding.must_equal '1110100'
+      assert_equal '1110100', @code.checksum_encoding
     end
 
     it "should have the expected left_parity_map" do
-      @code.left_parity_map.must_equal [:odd, :even, :odd, :even, :odd, :even]
+      assert_equal [:odd, :even, :odd, :even, :odd, :even], @code.left_parity_map
     end
 
     it "should have the expected left_encodings" do
-      @code.left_encodings.must_equal %w(0110001 0100111 0011001 0100111 0111101 0110011)
+      assert_equal %w(0110001 0100111 0011001 0100111 0111101 0110011), @code.left_encodings
     end
 
     it "should have the expected right_encodings" do
-      @code.right_encodings.must_equal %w(1000010 1100110 1100110 1000010 1110010 1110100)
+      assert_equal %w(1000010 1100110 1100110 1000010 1110010 1110100), @code.right_encodings
     end
 
     it "should have the expected left_encoding" do
-      @code.left_encoding.must_equal '011000101001110011001010011101111010110011'
+      assert_equal '011000101001110011001010011101111010110011', @code.left_encoding
     end
 
     it "should have the expected right_encoding" do
-      @code.right_encoding.must_equal '100001011001101100110100001011100101110100'
+      assert_equal '100001011001101100110100001011100101110100', @code.right_encoding
     end
 
     it "should have the expected encoding" do
-                               #Start   Left                                           Center    Right                                          Stop
-      @code.encoding.must_equal '101' + '011000101001110011001010011101111010110011' + '01010' + '100001011001101100110100001011100101110100' + '101'
+      #            Start   Left                                           Center    Right                                          Stop
+      assert_equal '101' + '011000101001110011001010011101111010110011' + '01010' + '100001011001101100110100001011100101110100' + '101', @code.encoding
     end
 
   end
@@ -152,15 +155,15 @@ class EAN13Test < Barby::TestCase
     end
 
     it "should have the expected start_encoding" do
-      @code.start_encoding.must_equal '101'
+      assert_equal '101', @code.start_encoding
     end
 
     it "should have the expected stop_encoding" do
-      @code.stop_encoding.must_equal '101'
+      assert_equal '101', @code.stop_encoding
     end
 
     it "should have the expected center_encoding" do
-      @code.center_encoding.must_equal '01010'
+      assert_equal '01010', @code.center_encoding
     end
 
   end

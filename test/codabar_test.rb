@@ -19,7 +19,9 @@ class CodabarTest < Barby::TestCase
     end
 
     it "should raise an exception when data is invalid" do
-      lambda{ Codabar.new('A12345E') }.must_raise(ArgumentError)
+      assert_raises ArgumentError do
+        Codabar.new('A12345E')
+      end
     end
   end
 
@@ -31,7 +33,7 @@ class CodabarTest < Barby::TestCase
     end
 
     it "should have the same data as was passed to it" do
-      @code.data.must_equal @data
+      assert_equal @data, @code.data
     end
   end
 
@@ -46,12 +48,13 @@ class CodabarTest < Barby::TestCase
     end
 
     it "should have the expected encoding" do
-      @code.encoding.must_equal [
+      assert_equal [
         "1011001001", # A
         "101010011", # 0
         "101011001", # 1
         "1010011001", # D
-      ].join("00")
+      ].join("00"),
+      @code.encoding
     end
   end
 end

@@ -18,49 +18,49 @@ class RmagickOutputterTest < Barby::TestCase
   end
 
   it "should register to_png, to_gif, to_jpg, to_image" do
-    Barcode.outputters.must_include(:to_png)
-    Barcode.outputters.must_include(:to_gif)
-    Barcode.outputters.must_include(:to_jpg)
-    Barcode.outputters.must_include(:to_image)
+    assert Barcode.outputters.include?(:to_png)
+    assert Barcode.outputters.include?(:to_gif)
+    assert Barcode.outputters.include?(:to_jpg)
+    assert Barcode.outputters.include?(:to_image)
   end
 
   it "should have defined to_png, to_gif, to_jpg, to_image" do
-    @outputter.must_respond_to(:to_png)
-    @outputter.must_respond_to(:to_gif)
-    @outputter.must_respond_to(:to_jpg)
-    @outputter.must_respond_to(:to_image)
+    assert @outputter.respond_to?(:to_png)
+    assert @outputter.respond_to?(:to_gif)
+    assert @outputter.respond_to?(:to_jpg)
+    assert @outputter.respond_to?(:to_image)
   end
 
   it "should return a string on to_png and to_gif" do
-    @outputter.to_png.must_be_instance_of(String)
-    @outputter.to_gif.must_be_instance_of(String)
+    assert @outputter.to_png.is_a?(String)
+    assert @outputter.to_gif.is_a?(String)
   end
 
   it "should return a Magick::Image instance on to_image" do
-    @outputter.to_image.must_be_instance_of(Magick::Image)
+    assert @outputter.to_image.is_a?(Magick::Image)
   end
 
   it "should have a width equal to the length of the barcode encoding string * x dimension" do
-    @outputter.xdim.must_equal 1#Default
-    @outputter.width.must_equal @outputter.barcode.encoding.length
+    assert_equal 1, @outputter.xdim #Default
+    assert_equal @outputter.barcode.encoding.length, @outputter.width
     @outputter.xdim = 2
-    @outputter.width.must_equal @outputter.barcode.encoding.length * 2
+    assert_equal @outputter.barcode.encoding.length * 2, @outputter.width
   end
 
   it "should have a full_width equal to the width + left and right margins" do
-    @outputter.xdim.must_equal 1
-    @outputter.margin.must_equal 10
-    @outputter.full_width.must_equal (@outputter.width + 10 + 10)
+    assert_equal 1, @outputter.xdim
+    assert_equal 10, @outputter.margin
+    assert_equal((@outputter.width + 10 + 10), @outputter.full_width)
   end
 
   it "should have a default height of 100" do
-    @outputter.height.must_equal 100
+    assert_equal 100, @outputter.height
     @outputter.height = 200
-    @outputter.height.must_equal 200
+    assert_equal 200, @outputter.height
   end
 
   it "should have a full_height equal to the height + top and bottom margins" do
-    @outputter.full_height.must_equal @outputter.height + (@outputter.margin * 2)
+    assert_equal(@outputter.height + (@outputter.margin * 2), @outputter.full_height)
   end
 
   describe "#to_image" do
@@ -72,8 +72,8 @@ class RmagickOutputterTest < Barby::TestCase
     end
 
     it "should have a width and height equal to the outputter's full_width and full_height" do
-      @image.columns.must_equal @outputter.full_width
-      @image.rows.must_equal @outputter.full_height
+      assert_equal @outputter.full_width, @image.columns
+      assert_equal @outputter.full_height, @image.rows
     end
 
   end

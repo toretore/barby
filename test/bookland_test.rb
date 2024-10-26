@@ -10,19 +10,21 @@ class BooklandTest < Barby::TestCase
   end
 
   it "should have the expected data" do
-    @code.data.must_equal '978968261240'
+    assert_equal '978968261240', @code.data
   end
 
   it "should have the expected numbers" do
-    @code.numbers.must_equal [9,7,8,9,6,8,2,6,1,2,4,0]
+    assert_equal [9,7,8,9,6,8,2,6,1,2,4,0], @code.numbers
   end
 
   it "should have the expected checksum" do
-    @code.checksum.must_equal 4
+    assert_equal 4, @code.checksum
   end
 
   it "should raise an error when data not valid" do
-    lambda{ Bookland.new('1234') }.must_raise ArgumentError
+    assert_raises ArgumentError do
+      Bookland.new('1234')
+    end
   end
 
   describe 'ISBN conversion' do
@@ -30,22 +32,22 @@ class BooklandTest < Barby::TestCase
     it "should accept ISBN with number system and check digit" do
       code = Bookland.new('978-82-92526-14-9')
       assert code.valid?
-      code.data.must_equal '978829252614'
+      assert_equal '978829252614', code.data
       code = Bookland.new('979-82-92526-14-9')
       assert code.valid?
-      code.data.must_equal '979829252614'
+      assert_equal '979829252614', code.data
     end
 
     it "should accept ISBN without number system but with check digit" do
       code = Bookland.new('82-92526-14-9')
       assert code.valid?
-      code.data.must_equal '978829252614' #978 is the default prefix
+      assert_equal '978829252614', code.data #978 is the default prefix
     end
 
     it "should accept ISBN without number system or check digit" do
       code = Bookland.new('82-92526-14')
       assert code.valid?
-      code.data.must_equal '978829252614'
+      assert_equal '978829252614', code.data
     end
 
   end

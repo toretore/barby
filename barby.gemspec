@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.require_paths     = ["lib"]
 
   s.add_development_dependency "minitest",        "~> 5.11"
-  s.add_development_dependency "bundler",         "~> 1.16"
+  s.add_development_dependency "bundler"
   s.add_development_dependency "rake",            "~> 10.0"
   s.add_development_dependency "rqrcode",         "~> 0.10"
   s.add_development_dependency "prawn",           "~> 2.2"

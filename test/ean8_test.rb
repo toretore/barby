@@ -37,11 +37,11 @@ class EAN8Test < Barby::TestCase
     end
 
     it "should have the expected weighted_sum" do
-      @code.weighted_sum.must_equal 53
+      assert_equal 53, @code.weighted_sum
     end
 
     it "should have the expected checksum" do
-      @code.checksum.must_equal 7
+      assert_equal 7, @code.checksum
     end
 
   end
@@ -54,24 +54,24 @@ class EAN8Test < Barby::TestCase
     end
 
     it "should have the expected data" do
-      @code.data.must_equal @data
+      assert_equal @data, @code.data
     end
 
     it "should have the expected odd_and_even_numbers" do
-      @code.odd_and_even_numbers.must_equal [[5,3,1,5],[4,2,5]]
+      assert_equal [[5,3,1,5],[4,2,5]], @code.odd_and_even_numbers
     end
 
     it "should have the expected left_numbers" do
       #EAN-8 includes the first character in the left-hand encoding, unlike EAN-13
-      @code.left_numbers.must_equal [5,5,1,2]
+      assert_equal [5,5,1,2], @code.left_numbers
     end
 
     it "should have the expected right_numbers" do
-      @code.right_numbers.must_equal [3,4,5,7]
+      assert_equal [3,4,5,7], @code.right_numbers
     end
 
     it "should return the data with checksum on to_s" do
-      @code.to_s.must_equal '55123457'
+      assert_equal '55123457', @code.to_s
     end
 
   end
@@ -83,15 +83,15 @@ class EAN8Test < Barby::TestCase
     end
 
     it "should have the expected left_parity_map" do
-      @code.left_parity_map.must_equal [:odd, :odd, :odd, :odd]
+      assert_equal [:odd, :odd, :odd, :odd], @code.left_parity_map
     end
 
     it "should have the expected left_encoding" do
-      @code.left_encoding.must_equal '0110001011000100110010010011'
+      assert_equal '0110001011000100110010010011', @code.left_encoding
     end
 
     it "should have the expected right_encoding" do
-      @code.right_encoding.must_equal '1000010101110010011101000100'
+      assert_equal '1000010101110010011101000100', @code.right_encoding
     end
 
   end

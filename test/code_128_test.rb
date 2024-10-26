@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'test_helper'
 require 'barby/barcode/code_128'
 
@@ -14,23 +13,25 @@ class Code128Test < Barby::TestCase
   end
 
   it "should have the expected stop encoding (including termination bar 11)" do
-    @code.send(:stop_encoding).must_equal '1100011101011'
+    assert_equal '1100011101011', @code.send(:stop_encoding)
   end
 
   it "should find the right class for a character A, B or C" do
-    @code.send(:class_for, 'A').must_equal Code128A
-    @code.send(:class_for, 'B').must_equal Code128B
-    @code.send(:class_for, 'C').must_equal Code128C
+    assert_equal Code128A, @code.send(:class_for, 'A')
+    assert_equal Code128B, @code.send(:class_for, 'B')
+    assert_equal Code128C, @code.send(:class_for, 'C')
   end
 
   it "should find the right change code for a class" do
-    @code.send(:change_code_for_class, Code128A).must_equal Code128::CODEA
-    @code.send(:change_code_for_class, Code128B).must_equal Code128::CODEB
-    @code.send(:change_code_for_class, Code128C).must_equal Code128::CODEC
+    assert_equal Code128::CODEA, @code.send(:change_code_for_class, Code128A)
+    assert_equal Code128::CODEB, @code.send(:change_code_for_class, Code128B)
+    assert_equal Code128::CODEC, @code.send(:change_code_for_class, Code128C)
   end
 
   it "should not allow empty data" do
-    lambda{ Code128B.new("") }.must_raise(ArgumentError)
+    assert_raises ArgumentError do
+      Code128B.new("")
+    end
   end
 
   describe "single encoding" do
@@ -41,13 +42,13 @@ class Code128Test < Barby::TestCase
     end
 
     it "should have the same data as when initialized" do
-      @code.data.must_equal @data
+      assert_equal @data, @code.data
     end
 
     it "should be able to change its data" do
       @code.data = '123ABC'
-      @code.data.must_equal '123ABC'
-      @code.data.wont_equal @data
+      assert_equal '123ABC', @code.data
+      refute_equal @data, @code.data
     end
 
     it "should not have an extra" do
@@ -55,15 +56,15 @@ class Code128Test < Barby::TestCase
     end
 
     it "should have empty extra encoding" do
-      @code.extra_encoding.must_equal ''
+      assert_equal '', @code.extra_encoding
     end
 
     it "should have the correct checksum" do
-      @code.checksum.must_equal 66
+      assert_equal 66, @code.checksum
     end
 
     it "should return all data for to_s" do
-      @code.to_s.must_equal @data
+      assert_equal @data, @code.to_s
     end
 
   end
@@ -76,32 +77,32 @@ class Code128Test < Barby::TestCase
     end
 
     it "should be able to return full_data which includes the entire extra chain excluding charset change characters" do
-      @code.full_data.must_equal "ABC123def4567"
+      assert_equal "ABC123def4567", @code.full_data
     end
 
     it "should be able to return full_data_with_change_codes which includes the entire extra chain including charset change characters" do
-      @code.full_data_with_change_codes.must_equal @data
+      assert_equal @data, @code.full_data_with_change_codes
     end
 
     it "should not matter if extras were added separately" do
       code = Code128B.new("ABC")
       code.extra = binary_encode("\3071234")
-      code.full_data.must_equal "ABC1234"
-      code.full_data_with_change_codes.must_equal binary_encode("ABC\3071234")
+      assert_equal "ABC1234", code.full_data
+      assert_equal binary_encode("ABC\3071234"), code.full_data_with_change_codes
       code.extra.extra = binary_encode("\306abc")
-      code.full_data.must_equal "ABC1234abc"
-      code.full_data_with_change_codes.must_equal binary_encode("ABC\3071234\306abc")
+      assert_equal "ABC1234abc", code.full_data
+      assert_equal binary_encode("ABC\3071234\306abc"), code.full_data_with_change_codes
       code.extra.extra.data = binary_encode("abc\305DEF")
-      code.full_data.must_equal "ABC1234abcDEF"
-      code.full_data_with_change_codes.must_equal binary_encode("ABC\3071234\306abc\305DEF")
-      code.extra.extra.full_data.must_equal "abcDEF"
-      code.extra.extra.full_data_with_change_codes.must_equal binary_encode("abc\305DEF")
-      code.extra.full_data.must_equal "1234abcDEF"
-      code.extra.full_data_with_change_codes.must_equal binary_encode("1234\306abc\305DEF")
+      assert_equal "ABC1234abcDEF", code.full_data
+      assert_equal binary_encode("ABC\3071234\306abc\305DEF"), code.full_data_with_change_codes
+      assert_equal "abcDEF", code.extra.extra.full_data
+      assert_equal binary_encode("abc\305DEF"), code.extra.extra.full_data_with_change_codes
+      assert_equal "1234abcDEF", code.extra.full_data
+      assert_equal binary_encode("1234\306abc\305DEF"), code.extra.full_data_with_change_codes
     end
 
     it "should have a Code B extra" do
-      @code.extra.must_be_instance_of(Code128B)
+      assert @code.extra.is_a?(Code128B)
     end
 
     it "should have a valid extra" do
@@ -109,7 +110,7 @@ class Code128Test < Barby::TestCase
     end
 
     it "the extra should also have an extra of type C" do
-      @code.extra.extra.must_be_instance_of(Code128C)
+      assert @code.extra.extra.is_a?(Code128C)
     end
 
     it "the extra's extra should be valid" do
@@ -122,55 +123,58 @@ class Code128Test < Barby::TestCase
 
     it "should split extra data from string on data assignment" do
       @code.data = binary_encode("123\306abc")
-      @code.data.must_equal '123'
-      @code.extra.must_be_instance_of(Code128B)
-      @code.extra.data.must_equal 'abc'
+      assert_equal '123', @code.data
+      assert @code.extra.is_a?(Code128B)
+      assert_equal 'abc', @code.extra.data
     end
 
     it "should be be able to change its extra" do
       @code.extra = binary_encode("\3071234")
-      @code.extra.must_be_instance_of(Code128C)
-      @code.extra.data.must_equal '1234'
+      assert @code.extra.is_a?(Code128C)
+      assert_equal '1234', @code.extra.data
     end
 
     it "should split extra data from string on extra assignment" do
       @code.extra = binary_encode("\306123\3074567")
-      @code.extra.must_be_instance_of(Code128B)
-      @code.extra.data.must_equal '123'
-      @code.extra.extra.must_be_instance_of(Code128C)
-      @code.extra.extra.data.must_equal '4567'
+      assert @code.extra.is_a?(Code128B)
+      assert_equal '123', @code.extra.data
+      assert @code.extra.extra.is_a?(Code128C)
+      assert_equal '4567', @code.extra.extra.data
     end
 
     it "should not fail on newlines in extras" do
       code = Code128B.new(binary_encode("ABC\305\n"))
-      code.data.must_equal "ABC"
-      code.extra.must_be_instance_of(Code128A)
-      code.extra.data.must_equal "\n"
+      assert_equal "ABC", code.data
+      assert code.extra.is_a?(Code128A)
+      assert_equal "\n", code.extra.data
       code.extra.extra = binary_encode("\305\n\n\n\n\n\nVALID")
-      code.extra.extra.data.must_equal "\n\n\n\n\n\nVALID"
+      assert_equal "\n\n\n\n\n\nVALID", code.extra.extra.data
     end
 
     it "should raise an exception when extra string doesn't start with the special code character" do
-      lambda{ @code.extra = '123' }.must_raise ArgumentError
+      assert_raises ArgumentError do
+        @code.extra = '123'
+      end
     end
 
     it "should have the correct checksum" do
-      @code.checksum.must_equal 84
+      assert_equal 84, @code.checksum
     end
 
     it "should have the expected encoding" do
-                                #STARTA     A          B          C          1          2          3
-      @code.encoding.must_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100'+
-                                #CODEB      d          e          f
-                                '10111101110100001001101011001000010110000100'+
-                                #CODEC      45         67
-                                '101110111101011101100010000101100'+
-                                #CHECK=84   STOP
-                                '100111101001100011101011'
+                 #STARTA     A          B          C          1          2          3
+      expected = '11010000100101000110001000101100010001000110100111001101100111001011001011100'+
+                 #CODEB      d          e          f
+                 '10111101110100001001101011001000010110000100'+
+                 #CODEC      45         67
+                 '101110111101011101100010000101100'+
+                 #CHECK=84   STOP
+                 '100111101001100011101011'
+      assert_equal expected, @code.encoding
     end
 
     it "should return all data including extras, except change codes for to_s" do
-      @code.to_s.must_equal "ABC123def4567"
+      assert_equal "ABC123def4567", @code.to_s
     end
 
   end
@@ -192,23 +196,23 @@ class Code128Test < Barby::TestCase
     end
 
     it "should have the expected characters" do
-      @code.characters.must_equal %w(A B C 1 2 3)
+      assert_equal %w(A B C 1 2 3), @code.characters
     end
 
     it "should have the expected start encoding" do
-      @code.start_encoding.must_equal '11010000100'
+      assert_equal '11010000100', @code.start_encoding
     end
 
     it "should have the expected data encoding" do
-      @code.data_encoding.must_equal '101000110001000101100010001000110100111001101100111001011001011100'
+      assert_equal '101000110001000101100010001000110100111001101100111001011001011100', @code.data_encoding
     end
 
     it "should have the expected encoding" do
-      @code.encoding.must_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100100100001101100011101011'
+      assert_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100100100001101100011101011', @code.encoding
     end
 
     it "should have the expected checksum encoding" do
-      @code.checksum_encoding.must_equal '10010000110'
+      assert_equal '10010000110', @code.checksum_encoding
     end
 
   end
@@ -230,23 +234,23 @@ class Code128Test < Barby::TestCase
     end
 
     it "should have the expected characters" do
-      @code.characters.must_equal %w(a b c 1 2 3)
+      assert_equal %w(a b c 1 2 3), @code.characters
     end
 
     it "should have the expected start encoding" do
-      @code.start_encoding.must_equal '11010010000'
+      assert_equal '11010010000', @code.start_encoding
     end
 
     it "should have the expected data encoding" do
-      @code.data_encoding.must_equal '100101100001001000011010000101100100111001101100111001011001011100'
+      assert_equal '100101100001001000011010000101100100111001101100111001011001011100', @code.data_encoding
     end
 
     it "should have the expected encoding" do
-      @code.encoding.must_equal '11010010000100101100001001000011010000101100100111001101100111001011001011100110111011101100011101011'
+      assert_equal '11010010000100101100001001000011010000101100100111001101100111001011001011100110111011101100011101011', @code.encoding
     end
 
     it "should have the expected checksum encoding" do
-      @code.checksum_encoding.must_equal '11011101110'
+      assert_equal '11011101110', @code.checksum_encoding
     end
 
   end
@@ -270,23 +274,23 @@ class Code128Test < Barby::TestCase
     end
 
     it "should have the expected characters" do
-      @code.characters.must_equal %w(12 34 56)
+      assert_equal %w(12 34 56), @code.characters
     end
 
     it "should have the expected start encoding" do
-      @code.start_encoding.must_equal '11010011100'
+      assert_equal '11010011100', @code.start_encoding
     end
 
     it "should have the expected data encoding" do
-      @code.data_encoding.must_equal '101100111001000101100011100010110'
+      assert_equal '101100111001000101100011100010110', @code.data_encoding
     end
 
     it "should have the expected encoding" do
-      @code.encoding.must_equal '11010011100101100111001000101100011100010110100011011101100011101011'
+      assert_equal '11010011100101100111001000101100011100010110100011011101100011101011', @code.encoding
     end
 
     it "should have the expected checksum encoding" do
-      @code.checksum_encoding.must_equal '10001101110'
+      assert_equal '10001101110', @code.checksum_encoding
     end
 
   end
@@ -294,29 +298,29 @@ class Code128Test < Barby::TestCase
   describe "Function characters" do
 
     it "should retain the special symbols in the data accessor" do
-      Code128A.new(binary_encode("\301ABC\301DEF")).data.must_equal binary_encode("\301ABC\301DEF")
-      Code128B.new(binary_encode("\301ABC\302DEF")).data.must_equal binary_encode("\301ABC\302DEF")
-      Code128C.new(binary_encode("\301123456")).data.must_equal binary_encode("\301123456")
-      Code128C.new(binary_encode("12\30134\30156")).data.must_equal binary_encode("12\30134\30156")
+      assert_equal binary_encode("\301ABC\301DEF"), Code128A.new(binary_encode("\301ABC\301DEF")).data
+      assert_equal binary_encode("\301ABC\302DEF"), Code128B.new(binary_encode("\301ABC\302DEF")).data
+      assert_equal binary_encode("\301123456"), Code128C.new(binary_encode("\301123456")).data
+      assert_equal binary_encode("12\30134\30156"), Code128C.new(binary_encode("12\30134\30156")).data
     end
 
     it "should keep the special symbols as characters" do
-      Code128A.new(binary_encode("\301ABC\301DEF")).characters.must_equal binary_encode_array(%W(\301 A B C \301 D E F))
-      Code128B.new(binary_encode("\301ABC\302DEF")).characters.must_equal binary_encode_array(%W(\301 A B C \302 D E F))
-      Code128C.new(binary_encode("\301123456")).characters.must_equal binary_encode_array(%W(\301 12 34 56))
-      Code128C.new(binary_encode("12\30134\30156")).characters.must_equal binary_encode_array(%W(12 \301 34 \301 56))
+      assert_equal binary_encode_array(%W(\301 A B C \301 D E F)), Code128A.new(binary_encode("\301ABC\301DEF")).characters
+      assert_equal binary_encode_array(%W(\301 A B C \302 D E F)), Code128B.new(binary_encode("\301ABC\302DEF")).characters
+      assert_equal binary_encode_array(%W(\301 12 34 56)), Code128C.new(binary_encode("\301123456")).characters
+      assert_equal binary_encode_array(%W(12 \301 34 \301 56)), Code128C.new(binary_encode("12\30134\30156")).characters
     end
 
     it "should not allow FNC > 1 for Code C" do
-      lambda{ Code128C.new("12\302") }.must_raise ArgumentError
-      lambda{ Code128C.new("\30312") }.must_raise ArgumentError
-      lambda{ Code128C.new("12\304") }.must_raise ArgumentError
+      assert_raises(ArgumentError){ Code128C.new("12\302") }
+      assert_raises(ArgumentError){ Code128C.new("\30312") }
+      assert_raises(ArgumentError){ Code128C.new("12\304") }
     end
 
     it "should be included in the encoding" do
       a = Code128A.new(binary_encode("\301AB"))
-      a.data_encoding.must_equal '111101011101010001100010001011000'
-      a.encoding.must_equal '11010000100111101011101010001100010001011000101000011001100011101011'
+      assert_equal '111101011101010001100010001011000', a.data_encoding
+      assert_equal '11010000100111101011101010001100010001011000101000011001100011101011', a.encoding
     end
 
   end
@@ -328,7 +332,9 @@ class Code128Test < Barby::TestCase
     #end
 
     it "should raise an exception when given a non-existent type" do
-      lambda{ Code128.new('abc', 'F') }.must_raise(ArgumentError)
+      assert_raises ArgumentError do
+        Code128.new('abc', 'F')
+      end
     end
 
     it "should not fail on frozen type" do
@@ -338,17 +344,17 @@ class Code128Test < Barby::TestCase
 
     it "should give the right encoding for type A" do
       code = Code128.new('ABC123', 'A')
-      code.encoding.must_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100100100001101100011101011'
+      assert_equal '11010000100101000110001000101100010001000110100111001101100111001011001011100100100001101100011101011', code.encoding
     end
 
     it "should give the right encoding for type B" do
       code = Code128.new('abc123', 'B')
-      code.encoding.must_equal '11010010000100101100001001000011010000101100100111001101100111001011001011100110111011101100011101011'
+      assert_equal '11010010000100101100001001000011010000101100100111001101100111001011001011100110111011101100011101011', code.encoding
     end
 
     it "should give the right encoding for type B" do
       code = Code128.new('123456', 'C')
-      code.encoding.must_equal '11010011100101100111001000101100011100010110100011011101100011101011'
+      assert_equal '11010011100101100111001000101100011100010110100011011101100011101011', code.encoding
     end
 
   end
@@ -385,72 +391,72 @@ class Code128Test < Barby::TestCase
 =end
     it "should minimize symbol length according to GS1-128 guidelines" do
       # Determine the Start Character.
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10").must_equal "#{CODEC}#{FNC1}10"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}101234").must_equal "#{CODEC}#{FNC1}101234"
-      Code128.apply_shortest_encoding_for_data("10\001LOT").must_equal "#{CODEA}10\001LOT"
-      Code128.apply_shortest_encoding_for_data("lot1").must_equal "#{CODEB}lot1"
+      assert_equal "#{CODEC}#{FNC1}10", Code128.apply_shortest_encoding_for_data("#{FNC1}10")
+      assert_equal "#{CODEC}#{FNC1}101234", Code128.apply_shortest_encoding_for_data("#{FNC1}101234")
+      assert_equal "#{CODEA}10\001LOT", Code128.apply_shortest_encoding_for_data("10\001LOT")
+      assert_equal "#{CODEB}lot1", Code128.apply_shortest_encoding_for_data("lot1")
 
       # Switching to codeset B from codeset C
-      Code128.apply_shortest_encoding_for_data("#{FNC1}101").must_equal "#{CODEC}#{FNC1}10#{CODEB}1"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}1", Code128.apply_shortest_encoding_for_data("#{FNC1}101")
       # Switching to codeset A from codeset C
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001a").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}a"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}a", Code128.apply_shortest_encoding_for_data("#{FNC1}10\001a")
 
       # Switching to codeset C from codeset A
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001LOT1234").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001LOT#{CODEC}1234"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001LOT12345").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001LOT1#{CODEC}2345"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEA}\001LOT#{CODEC}1234", Code128.apply_shortest_encoding_for_data("#{FNC1}10\001LOT1234")
+      assert_equal "#{CODEC}#{FNC1}10#{CODEA}\001LOT1#{CODEC}2345", Code128.apply_shortest_encoding_for_data("#{FNC1}10\001LOT12345")
 
       # Switching to codeset C from codeset B
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT1234").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}1234"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT12345").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT1#{CODEC}2345"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}1234", Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT1234")
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}LOT1#{CODEC}2345", Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT12345")
 
       # Switching to codeset A from codeset B
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10lot\001a").must_equal "#{CODEC}#{FNC1}10#{CODEB}lot#{SHIFT}\001a"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10lot\001\001").must_equal "#{CODEC}#{FNC1}10#{CODEB}lot#{CODEA}\001\001"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}lot#{SHIFT}\001a", Code128.apply_shortest_encoding_for_data("#{FNC1}10lot\001a")
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}lot#{CODEA}\001\001", Code128.apply_shortest_encoding_for_data("#{FNC1}10lot\001\001")
 
       # Switching to codeset B from codeset A
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001l\001").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{SHIFT}l\001"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10\001ll").must_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}ll"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{SHIFT}l\001", Code128.apply_shortest_encoding_for_data("#{FNC1}10\001l\001")
+      assert_equal "#{CODEC}#{FNC1}10#{CODEA}\001#{CODEB}ll", Code128.apply_shortest_encoding_for_data("#{FNC1}10\001ll")
 
       # testing "Note 2" from the GS1 specification
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT#{FNC1}0101").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}#{FNC1}0101"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT#{FNC1}01010").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{FNC1}0#{CODEC}1010"
-      Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT01#{FNC1}0101").must_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}01#{FNC1}0101"
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}#{FNC1}0101", Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT#{FNC1}0101")
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{FNC1}0#{CODEC}1010", Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT#{FNC1}01010")
+      assert_equal "#{CODEC}#{FNC1}10#{CODEB}LOT#{CODEC}01#{FNC1}0101", Code128.apply_shortest_encoding_for_data("#{FNC1}10LOT01#{FNC1}0101")
     end
 
     it "should know how to extract CODEC segments properly from a data string" do
-      Code128.send(:extract_codec, "1234abcd5678\r\n\r\n").must_equal ["1234", "abcd", "5678", "\r\n\r\n"]
-      Code128.send(:extract_codec, "12345abc6").must_equal ["1234", "5abc6"]
-      Code128.send(:extract_codec, "abcdef").must_equal ["abcdef"]
-      Code128.send(:extract_codec, "123abcdef45678").must_equal ["123abcdef4", "5678"]
-      Code128.send(:extract_codec, "abcd12345").must_equal ["abcd1", "2345"]
-      Code128.send(:extract_codec, "abcd12345efg").must_equal ["abcd1", "2345", "efg"]
-      Code128.send(:extract_codec, "12345").must_equal ["1234", "5"]
-      Code128.send(:extract_codec, "12345abc").must_equal ["1234", "5abc"]
-      Code128.send(:extract_codec, "abcdef1234567").must_equal ["abcdef1", "234567"]
+      assert_equal ["1234", "abcd", "5678", "\r\n\r\n"], Code128.send(:extract_codec, "1234abcd5678\r\n\r\n")
+      assert_equal ["1234", "5abc6"], Code128.send(:extract_codec, "12345abc6")
+      assert_equal ["abcdef"], Code128.send(:extract_codec, "abcdef")
+      assert_equal ["123abcdef4", "5678"], Code128.send(:extract_codec, "123abcdef45678")
+      assert_equal ["abcd1", "2345"], Code128.send(:extract_codec, "abcd12345")
+      assert_equal ["abcd1", "2345", "efg"], Code128.send(:extract_codec, "abcd12345efg")
+      assert_equal ["1234", "5"], Code128.send(:extract_codec, "12345")
+      assert_equal ["1234", "5abc"], Code128.send(:extract_codec, "12345abc")
+      assert_equal ["abcdef1", "234567"], Code128.send(:extract_codec, "abcdef1234567")
     end
 
     it "should know how to most efficiently apply different encodings to a data string" do
-      Code128.apply_shortest_encoding_for_data("123456").must_equal "#{CODEC}123456"
-      Code128.apply_shortest_encoding_for_data("abcdef").must_equal "#{CODEB}abcdef"
-      Code128.apply_shortest_encoding_for_data("ABCDEF").must_equal "#{CODEB}ABCDEF"
-      Code128.apply_shortest_encoding_for_data("\n\t\r").must_equal "#{CODEA}\n\t\r"
-      Code128.apply_shortest_encoding_for_data("123456abcdef").must_equal "#{CODEC}123456#{CODEB}abcdef"
-      Code128.apply_shortest_encoding_for_data("abcdef123456").must_equal "#{CODEB}abcdef#{CODEC}123456"
-      Code128.apply_shortest_encoding_for_data("1234567").must_equal "#{CODEC}123456#{CODEB}7"
-      Code128.apply_shortest_encoding_for_data("123b456").must_equal "#{CODEB}123b456"
-      Code128.apply_shortest_encoding_for_data("abc123def45678gh").must_equal "#{CODEB}abc123def4#{CODEC}5678#{CODEB}gh"
-      Code128.apply_shortest_encoding_for_data("12345AB\nEEasdgr12EE\r\n").must_equal "#{CODEC}1234#{CODEA}5AB\nEE#{CODEB}asdgr12EE#{CODEA}\r\n"
-      Code128.apply_shortest_encoding_for_data("123456QWERTY\r\n\tAAbbcc12XX34567").must_equal "#{CODEC}123456#{CODEA}QWERTY\r\n\tAA#{CODEB}bbcc12XX3#{CODEC}4567"
+      assert_equal "#{CODEC}123456", Code128.apply_shortest_encoding_for_data("123456")
+      assert_equal "#{CODEB}abcdef", Code128.apply_shortest_encoding_for_data("abcdef")
+      assert_equal "#{CODEB}ABCDEF", Code128.apply_shortest_encoding_for_data("ABCDEF")
+      assert_equal "#{CODEA}\n\t\r", Code128.apply_shortest_encoding_for_data("\n\t\r")
+      assert_equal "#{CODEC}123456#{CODEB}abcdef", Code128.apply_shortest_encoding_for_data("123456abcdef")
+      assert_equal "#{CODEB}abcdef#{CODEC}123456", Code128.apply_shortest_encoding_for_data("abcdef123456")
+      assert_equal "#{CODEC}123456#{CODEB}7", Code128.apply_shortest_encoding_for_data("1234567")
+      assert_equal "#{CODEB}123b456", Code128.apply_shortest_encoding_for_data("123b456")
+      assert_equal "#{CODEB}abc123def4#{CODEC}5678#{CODEB}gh", Code128.apply_shortest_encoding_for_data("abc123def45678gh")
+      assert_equal "#{CODEC}1234#{CODEA}5AB\nEE#{CODEB}asdgr12EE#{CODEA}\r\n", Code128.apply_shortest_encoding_for_data("12345AB\nEEasdgr12EE\r\n")
+      assert_equal "#{CODEC}123456#{CODEA}QWERTY\r\n\tAA#{CODEB}bbcc12XX3#{CODEC}4567", Code128.apply_shortest_encoding_for_data("123456QWERTY\r\n\tAAbbcc12XX34567")
 
-      Code128.apply_shortest_encoding_for_data("ABCdef\rGHIjkl").must_equal "#{CODEB}ABCdef#{SHIFT}\rGHIjkl"
-      Code128.apply_shortest_encoding_for_data("ABC\rb\nDEF12gHI3456").must_equal "#{CODEA}ABC\r#{SHIFT}b\nDEF12#{CODEB}gHI#{CODEC}3456"
-      Code128.apply_shortest_encoding_for_data("ABCdef\rGHIjkl\tMNop\nqRs").must_equal "#{CODEB}ABCdef#{SHIFT}\rGHIjkl#{SHIFT}\tMNop#{SHIFT}\nqRs"
+      assert_equal "#{CODEB}ABCdef#{SHIFT}\rGHIjkl", Code128.apply_shortest_encoding_for_data("ABCdef\rGHIjkl")
+      assert_equal "#{CODEA}ABC\r#{SHIFT}b\nDEF12#{CODEB}gHI#{CODEC}3456", Code128.apply_shortest_encoding_for_data("ABC\rb\nDEF12gHI3456")
+      assert_equal "#{CODEB}ABCdef#{SHIFT}\rGHIjkl#{SHIFT}\tMNop#{SHIFT}\nqRs", Code128.apply_shortest_encoding_for_data("ABCdef\rGHIjkl\tMNop\nqRs")
     end
 
     it "should apply automatic charset when no charset is given" do
       b = Code128.new("123456QWERTY\r\n\tAAbbcc12XX34567")
-      b.type.must_equal 'C'
-      b.full_data_with_change_codes.must_equal "123456#{CODEA}QWERTY\r\n\tAA#{CODEB}bbcc12XX3#{CODEC}4567"
+      assert_equal 'C', b.type
+      assert_equal "123456#{CODEA}QWERTY\r\n\tAA#{CODEB}bbcc12XX3#{CODEC}4567", b.full_data_with_change_codes
     end
 
   end

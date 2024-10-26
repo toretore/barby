@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'barby/barcode/code_128'
-#require 'barby/outputter/html_outputter'
 
 class HtmlOutputterTest < Barby::TestCase
 
@@ -21,7 +20,7 @@ class HtmlOutputterTest < Barby::TestCase
   end
 
   it "should register to_html" do
-    Barcode.outputters.must_include(:to_html)
+    assert Barcode.outputters.include?(:to_html)
   end
 
   it 'should have the expected start HTML' do

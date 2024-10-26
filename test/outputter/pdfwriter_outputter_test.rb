@@ -14,22 +14,22 @@ unless RUBY_VERSION >= '1.9'
     end
 
     it "should have registered annotate_pdf" do
-      Barcode.outputters.must_include(:annotate_pdf)
+      assert Barcode.outputters.include?(:annotate_pdf)
     end
 
     it "should have defined the annotate_pdf method" do
-      @outputter.must_respond_to(:annotate_pdf)
+      assert @outputter.respond_to?(:annotate_pdf)
     end
 
     it "should return the pdf object it was given in annotate_pdf" do
-      @barcode.annotate_pdf(@pdf).object_id.must_equal @pdf.object_id
+      assert_equal @pdf.object_id, @barcode.annotate_pdf(@pdf).object_id
     end
 
     it "should have x, y, height and xdim attributes" do
-      @outputter.must_respond_to(:x)
-      @outputter.must_respond_to(:y)
-      @outputter.must_respond_to(:height)
-      @outputter.must_respond_to(:xdim)
+      assert @outputter.respond_to?(:x)
+      assert @outputter.respond_to?(:y)
+      assert @outputter.respond_to?(:height)
+      assert @outputter.respond_to?(:xdim)
     end
 
   end

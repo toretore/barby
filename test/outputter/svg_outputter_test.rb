@@ -16,8 +16,9 @@ class SvgBarcode < Barby::Barcode
   end
 end
 
+
 class SvgOutputterTest < Barby::TestCase
-  
+
   before do
     load_outputter('svg')
     @barcode = SvgBarcode.new('10110011100011110000')
@@ -25,65 +26,65 @@ class SvgOutputterTest < Barby::TestCase
   end
 
   it 'should register to_svg, bars_to_rects, and bars_to_path' do
-    Barcode.outputters.must_include :to_svg
-    Barcode.outputters.must_include :bars_to_rects
-    Barcode.outputters.must_include :bars_to_path
+    assert Barcode.outputters.include?(:to_svg)
+    assert Barcode.outputters.include?(:bars_to_rects)
+    assert Barcode.outputters.include?(:bars_to_path)
   end
 
   it 'should return a string on to_svg' do
-    @barcode.to_svg.must_be_instance_of String
+    assert @barcode.to_svg.is_a?(String)
   end
-  
+
   it 'should return a string on bars_to_rects' do
-    @barcode.bars_to_rects.must_be_instance_of String
+    assert @barcode.bars_to_rects.is_a?(String)
   end
-  
+
   it 'should return a string on bars_to_path' do
-    @barcode.bars_to_path.must_be_instance_of String
+    assert @barcode.bars_to_path.is_a?(String)
   end
-  
+
   it 'should produce one rect for each bar' do
-    @barcode.bars_to_rects.scan(/<rect/).size.must_equal @outputter.send(:boolean_groups).select{|bg|bg[0]}.size
+    assert_equal @outputter.send(:boolean_groups).select{|bg|bg[0]}.size, @barcode.bars_to_rects.scan(/<rect/).size
   end
-  
+
   it 'should produce one path stroke for each bar module' do
-    @barcode.bars_to_path.scan(/(M\d+\s+\d+)\s*(V\d+)/).size.must_equal @outputter.send(:booleans).select{|bg|bg}.size
+    assert_equal @outputter.send(:booleans).select{|bg|bg}.size, @barcode.bars_to_path.scan(/(M\d+\s+\d+)\s*(V\d+)/).size
   end
-  
+
   it 'should return default values for attributes' do
-    @outputter.margin.must_be_instance_of Fixnum
+    assert @outputter.margin.is_a?(Integer)
   end
-  
+
   it 'should use defaults to populate higher level attributes' do
-    @outputter.xmargin.must_equal @outputter.margin
+    assert_equal @outputter.margin, @outputter.xmargin
   end
-  
+
   it 'should return nil for overridden attributes' do
     @outputter.xmargin = 1
-    @outputter.margin.must_equal nil
+    assert_equal nil, @outputter.margin
   end
-  
+
   it 'should still use defaults for unspecified attributes' do
     @outputter.xmargin = 1
-    @outputter.ymargin.must_equal @outputter.send(:_margin)
+    assert_equal @outputter.send(:_margin), @outputter.ymargin
   end
-  
+
   it 'should have a width equal to Xdim * barcode_string.length' do
-    @outputter.width.must_equal @outputter.barcode.encoding.length * @outputter.xdim
+    assert_equal @outputter.barcode.encoding.length * @outputter.xdim, @outputter.width
   end
-  
+
   it 'should have a full_width which is by default the sum of width + (margin*2)' do
-    @outputter.full_width.must_equal @outputter.width + (@outputter.margin*2)
+    assert_equal(@outputter.width + (@outputter.margin*2), @outputter.full_width)
   end
-  
+
   it 'should have a full_width which is the sum of width + xmargin + ymargin' do
-    @outputter.full_width.must_equal @outputter.width + @outputter.xmargin + @outputter.ymargin
+    assert_equal @outputter.width + @outputter.xmargin + @outputter.ymargin, @outputter.full_width
   end
-  
+
   it 'should use Barcode#to_s for title' do
-    @outputter.title.must_equal @barcode.data
+    assert_equal @barcode.data, @outputter.title
     def @barcode.to_s; "the eastern star"; end
-    @outputter.title.must_equal "the eastern star"
+    assert_equal "the eastern star", @outputter.title
   end
-  
+
 end
