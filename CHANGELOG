@@ -1,3 +1,7 @@
+* 0.7.0
+
+* Swap semaocde for dmtx [ksylvest]
+
 * 0.6.7
 
 * RMagick outputter should use line command for lines [joshuaflanagan]
