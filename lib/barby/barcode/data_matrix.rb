@@ -7,13 +7,15 @@ module Barby
   #Uses the dmtx library (gem install dmtx) to encode DataMatrix barcodes
   class DataMatrix < Barcode2D
 
-    attr_reader :data
+    attr_reader :data, :encoding, :width, :height
 
 
-    def initialize(data)
+    def initialize(data, encoding: nil, width: nil, height: nil)
       self.data = data
+      @encoding = encoding
+      @width = width
+      @height = height
     end
-
 
     def data=(data)
       @data = data
@@ -21,7 +23,7 @@ module Barby
     end
 
     def encoder
-      @encoder ||= ::Dmtx::DataMatrix.new(data)
+      @encoder ||= ::Dmtx::DataMatrix.new(data, encoding: @encoding, width: @width, height: @height)
     end
 
 
