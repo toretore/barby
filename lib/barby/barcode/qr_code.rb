@@ -53,7 +53,7 @@ module Barby
 
 
     def encoding
-      rqrcode.modules.map{|r| r.inject(''){|s,m| s << (m ? '1' : '0') } }
+      rqrcode.modules.map{|r| r.inject(+''){|s,m| s << (m ? '1' : '0') } }
     end
 
 
