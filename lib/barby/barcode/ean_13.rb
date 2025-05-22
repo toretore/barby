@@ -13,21 +13,21 @@ module Barby
       3 => '0111101', 4 => '0100011', 5 => '0110001',
       6 => '0101111', 7 => '0111011', 8 => '0110111',
       9 => '0001011'
-    }
+    }.freeze
 
     LEFT_ENCODINGS_EVEN = {
       0 => '0100111', 1 => '0110011', 2 => '0011011',
       3 => '0100001', 4 => '0011101', 5 => '0111001',
       6 => '0000101', 7 => '0010001', 8 => '0001001',
       9 => '0010111'
-    }
+    }.freeze
 
     RIGHT_ENCODINGS = {
       0 => '1110010', 1 => '1100110', 2 => '1101100',
       3 => '1000010', 4 => '1011100', 5 => '1001110',
       6 => '1010000', 7 => '1000100', 8 => '1001000',
       9 => '1110100'
-    }
+    }.freeze
 
     #Describes whether the left-hand encoding should use
     #LEFT_ENCODINGS_ODD or LEFT_ENCODINGS_EVEN, based on the
@@ -43,12 +43,12 @@ module Barby
       7 => [:odd, :even, :odd, :even, :odd, :even],
       8 => [:odd, :even, :odd, :even, :even, :odd],
       9 => [:odd, :even, :even, :odd, :even, :odd]
-    }
+    }.freeze
 
     #These are the lines that "stick down" in the graphical representation
-    START = '101'
-    CENTER = '01010'
-    STOP = '101'
+    START = '101'.freeze
+    CENTER = '01010'.freeze
+    STOP = '101'.freeze
 
     #EAN-13 barcodes have 12 digits + check digit
     FORMAT = /^\d{12}$/

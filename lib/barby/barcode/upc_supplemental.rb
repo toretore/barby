@@ -10,8 +10,8 @@ module Barby
 
     FORMAT = /^\d\d\d\d\d$|^\d\d$/
 
-    START = '1011'
-    SEPARATOR = '01'
+    START = '1011'.freeze
+    SEPARATOR = '01'.freeze
 
     ODD = :odd
     EVEN = :even
@@ -35,12 +35,12 @@ module Barby
         8 => [ODD, EVEN, ODD, ODD, EVEN],
         9 => [ODD, ODD, EVEN, ODD, EVEN]
       }
-    }
+    }.freeze
 
     ENCODINGS = {
       ODD => EAN13::LEFT_ENCODINGS_ODD,
       EVEN => EAN13::LEFT_ENCODINGS_EVEN
-    }
+    }.freeze
 
 
     def initialize(data)

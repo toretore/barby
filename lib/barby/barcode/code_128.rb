@@ -28,20 +28,20 @@ module Barby
   #  Code128.new("#{Code128::FNC1}0012345")
   class Code128 < Barcode1D
 
-    FNC1 = "\xc1"
-    FNC2 = "\xc2"
-    FNC3 = "\xc3"
-    FNC4 = "\xc4"
-    CODEA = "\xc5"
-    CODEB = "\xc6"
-    CODEC = "\xc7"
-    SHIFT = "\xc8"
-    STARTA = "\xc9"
-    STARTB = "\xca"
-    STARTC = "\xcb"
+    FNC1 = "\xc1".freeze
+    FNC2 = "\xc2".freeze
+    FNC3 = "\xc3".freeze
+    FNC4 = "\xc4".freeze
+    CODEA = "\xc5".freeze
+    CODEB = "\xc6".freeze
+    CODEC = "\xc7".freeze
+    SHIFT = "\xc8".freeze
+    STARTA = "\xc9".freeze
+    STARTB = "\xca".freeze
+    STARTC = "\xcb".freeze
 
-    STOP = '11000111010'
-    TERMINATE = '11'
+    STOP = '11000111010'.freeze
+    TERMINATE = '11'.freeze
 
     ENCODINGS = {
       0 => "11011001100", 1 => "11001101100", 2 => "11001100110",
@@ -80,7 +80,7 @@ module Barby
       99 => "10111011110", 100 => "10111101110", 101 => "11101011110",
       102 => "11110101110", 103 => "11010000100", 104 => "11010010000",
       105 => "11010011100"
-    }
+    }.freeze
 
     VALUES = {
       'A' => {
@@ -164,7 +164,7 @@ module Barby
         96 => "96", 97 => "97", 98 => "98", 99 => "99", 100 => CODEB, 101 => CODEA,
         102 => FNC1, 103 => STARTA, 104 => STARTB, 105 => STARTC
       }.invert
-    }
+    }.freeze
 
     CONTROL_CHARACTERS = VALUES['A'].invert.values_at(*(64..95).to_a)
 

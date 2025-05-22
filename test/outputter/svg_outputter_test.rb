@@ -61,7 +61,7 @@ class SvgOutputterTest < Barby::TestCase
 
   it 'should return nil for overridden attributes' do
     @outputter.xmargin = 1
-    assert_equal nil, @outputter.margin
+    assert_nil @outputter.margin
   end
 
   it 'should still use defaults for unspecified attributes' do

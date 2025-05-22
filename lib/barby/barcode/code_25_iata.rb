@@ -7,8 +7,8 @@ module Barby
   #luggage when you check it in at the airport.
   class Code25IATA < Code25
 
-    START_ENCODING = [N,N]
-    STOP_ENCODING  = [W,N]
+    START_ENCODING = [N,N].freeze
+    STOP_ENCODING  = [W,N].freeze
 
     def start_encoding
       encoding_for_bars(START_ENCODING)

@@ -9,8 +9,8 @@ module Barby
   #number of digits.
   class Code25Interleaved < Code25
 
-    START_ENCODING = [N,N,N,N]
-    STOP_ENCODING =  [W,N,N]
+    START_ENCODING = [N,N,N,N].freeze
+    STOP_ENCODING =  [W,N,N].freeze
 
 
     def digit_pairs(d=nil)
@@ -46,7 +46,7 @@ module Barby
     #ex: [W,N,W,W,N,N] => "111011100010"
     def encoding_for_interleaved(*bars_and_spaces)
       bar = false#starts with bar
-      bars_and_spaces.flatten.inject '' do |enc,bar_or_space|
+      bars_and_spaces.flatten.inject(+'') do |enc,bar_or_space|
         bar = !bar
         enc << (bar ? '1' : '0') * (bar_or_space == WIDE ? wide_width : narrow_width)
       end

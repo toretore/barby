@@ -73,18 +73,18 @@ class CairoOutputterTest < Barby::TestCase
   it "should return PNG image by the to_png method" do
     png = @barcode.to_png
     data = ruby_19_or_greater? ? png.force_encoding('BINARY') : png
-    assert_match /\A\x89PNG/n, data
+    assert_match(/\A\x89PNG/n, data)
   end
 
   it "should return PS document by the to_ps method" do
     if ps_available?
-      assert_match /\A%!PS-Adobe-[\d.]/, @barcode.to_ps
+      assert_match(/\A%!PS-Adobe-[\d.]/, @barcode.to_ps)
     end
   end
 
   it "should return EPS document by the to_eps method" do
     if eps_available?
-      assert_match /\A%!PS-Adobe-[\d.]+ EPSF-[\d.]+/, @barcode.to_eps
+      assert_match(/\A%!PS-Adobe-[\d.]+ EPSF-[\d.]+/, @barcode.to_eps)
     end
   end
 
@@ -92,13 +92,13 @@ class CairoOutputterTest < Barby::TestCase
     if pdf_available?
       pdf = @barcode.to_pdf
       data = ruby_19_or_greater? ? pdf.force_encoding('BINARY') : pdf
-      assert_match /\A%PDF-[\d.]+/n, data
+      assert_match(/\A%PDF-[\d.]+/n, data)
     end
   end
 
   it "should return SVG document by the to_svg method" do
     if svg_available?
-      assert_match /<\/svg>\s*\Z/m, @barcode.to_svg
+      assert_match(/<\/svg>\s*\Z/m, @barcode.to_svg)
     end
   end
 
