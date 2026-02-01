@@ -15,9 +15,7 @@ Gem::Specification.new do |s|
 
   s.extra_rdoc_files  = ["README.md"]
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.test_files.delete("test/outputter/rmagick_outputter_test.rb")
+  s.files         = `git ls-files bin lib vendor`.split($/) + ["CHANGELOG", "LICENSE", "README.md"]
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths     = ["lib"]
 
