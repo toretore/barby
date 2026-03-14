@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description           = "Barby creates barcodes."
   s.authors               = ['Tore Darell']
   s.required_ruby_version = '>= 3.1'
-  s.licenses              = []
+  s.license               = 'MIT'
 
   s.extra_rdoc_files  = ["README.md"]
 
