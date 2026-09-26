@@ -82,7 +82,7 @@ module Barby
       end
 
       def isbn_10_with_checksum
-        "#{number}#{checksum}"
+        "#{number}#{isbn_10_checksum}"
       end
 
       def formatted_isbn
@@ -90,7 +90,7 @@ module Barby
       end
 
       def formatted_isbn_10
-        "#{number}-#{checksum}"
+        "#{number}-#{isbn_10_checksum}"
       end
 
 
@@ -121,9 +121,11 @@ module Barby
       # Calculates the ISBN 10-digit checksum following the algorithm from:
       # http://en.wikipedia.org/wiki/International_Standard_Book_Number#ISBN-10_check_digit_calculation
       def isbn_10_checksum
-        isbn_10_digits.zip(ISBN_10_CHECKSUM_MULTIPLIERS).inject(0) do |sum, (digit, multiplier)|
-          sum + (digit * multiplier)
+        sum = isbn_10_digits.zip(ISBN_10_CHECKSUM_MULTIPLIERS).inject(0) do |total, (digit, multiplier)|
+          total + (digit * multiplier)
         end
+        check = (11 - (sum % 11)) % 11
+        check == 10 ? 'X' : check.to_s
       end
 
 

@@ -50,6 +50,12 @@ class BooklandTest < Barby::TestCase
       assert_equal '978829252614', code.data
     end
 
+    it "should keep the ISBN-10 check digit" do
+      assert_equal '0306406152', Barby::Bookland::ISBN.new('0-306-40615').isbn_10_with_checksum
+      assert_equal '0000000000', Barby::Bookland::ISBN.new('000000000').isbn_10_with_checksum
+      assert_equal '000000006X', Barby::Bookland::ISBN.new('000000006').isbn_10_with_checksum
+    end
+
   end
 
 end
