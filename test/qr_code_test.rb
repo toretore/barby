@@ -15,7 +15,7 @@ class QrCodeTest < Barby::TestCase
   it "should have the expected encoding" do
     # Should be an array of strings, where each string represents a "line"
     expected = rqrcode(@code).modules.map do |line|
-      line.inject(''){|s,m| s << (m ? '1' : '0') }
+      line.inject(+''){|s,m| s << (m ? '1' : '0') }
     end
     assert_equal expected, @code.encoding
 
@@ -25,7 +25,7 @@ class QrCodeTest < Barby::TestCase
     @code.data = 'hades'
     assert_equal 'hades', @code.data
     expected = rqrcode(@code).modules.map do |line|
-      line.inject(''){|s,m| s << (m ? '1' : '0') }
+      line.inject(+''){|s,m| s << (m ? '1' : '0') }
     end
     assert_equal expected, @code.encoding
   end
@@ -53,7 +53,7 @@ class QrCodeTest < Barby::TestCase
     code = QrCode.new('1'*15, level: :l, size: 2)
     assert_equal 2, code.size
     expected = rqrcode(code).modules.map do |line|
-      line.inject(''){|s,m| s << (m ? '1' : '0') }
+      line.inject(+''){|s,m| s << (m ? '1' : '0') }
     end
     assert_equal expected, code.encoding
   end

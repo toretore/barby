@@ -32,7 +32,7 @@ module Barby
       'V' => [N,W,W,N,N,N,N,N,W], 'W' => [W,W,W,N,N,N,N,N,N],
       'X' => [N,W,N,N,W,N,N,N,W], 'Y' => [W,W,N,N,W,N,N,N,N],
       'Z' => [N,W,W,N,W,N,N,N,N]
-    }
+    }.freeze
 
     #In extended mode, each character is replaced with two characters from the "normal" encoding
     EXTENDED_ENCODINGS = {
@@ -68,7 +68,7 @@ module Barby
       "\035" => '%C',    "=" => "%H",    "]"  => "%M",    "}" =>    "%R",
       "\036" => '%D',    ">" => "%I",    "^"  => "%N",    "~" =>    "%S",
       "\037" => '%E',    "?" => "%J",    "_"  => "%O",    "\177" => "%T"
-    }
+    }.freeze
 
     CHECKSUM_VALUES = {
       '0' => 0,   '1' => 1,   '2' => 2,   '3' => 3,
@@ -82,10 +82,10 @@ module Barby
       'W' => 32,  'X' => 33,  'Y' => 34,  'Z' => 35,
       '-' => 36,  '.' => 37,  ' ' => 38,  '$' => 39,
       '/' => 40,  '+' => 41,  '%' => 42
-    }
+    }.freeze
 
-    START_ENCODING = [N,W,N,N,W,N,W,N,N] # *
-    STOP_ENCODING  = [N,W,N,N,W,N,W,N,N] # *
+    START_ENCODING = [N,W,N,N,W,N,W,N,N].freeze # *
+    STOP_ENCODING  = [N,W,N,N,W,N,W,N,N].freeze # *
 
     attr_accessor :data, :extended, :include_checksum
     attr_writer :spacing, :narrow_width, :wide_width

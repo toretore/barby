@@ -13,7 +13,7 @@ module Barby
       :len_codewords => 0,
       :code_rows     => 0,
       :code_columns  => 0
-    }
+    }.freeze
 
     # Creates a new Pdf417 barcode. The +options+ argument
     # can use the same keys as DEFAULT_OPTIONS. Please consult

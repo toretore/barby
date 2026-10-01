@@ -9,11 +9,11 @@ module Barby
   #set include_checksum = true
   class Code25 < Barcode1D
 
-    WIDE   = W = true
-    NARROW = N = false
+    WIDE   = W = true.freeze
+    NARROW = N = false.freeze
 
-    START_ENCODING = [W,W,N]
-    STOP_ENCODING  = [W,N,W]
+    START_ENCODING = [W,W,N].freeze
+    STOP_ENCODING  = [W,N,W].freeze
 
     ENCODINGS = {
       0 => [N,N,W,W,N],
@@ -26,7 +26,7 @@ module Barby
       7 => [N,N,N,W,W],
       8 => [W,N,N,W,N],
       9 => [N,W,N,W,N]
-    }
+    }.freeze
 
     attr_accessor :include_checksum
     attr_writer :narrow_width, :wide_width, :space_width

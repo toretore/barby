@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require 'test_helper'
 require 'barby/barcode/code_128'
 

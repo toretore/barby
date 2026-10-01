@@ -45,7 +45,7 @@ module Barby
     # isbn = ISBN.new('978-0-306-40615')
     class ISBN
 
-      DEFAULT_PREFIX = '978'
+      DEFAULT_PREFIX = '978'.freeze
       PATTERN = /\A(?<prefix>\d\d\d)?(?<number>\d{9})(?<checksum>\d)?\Z/
 
       attr_reader :number
@@ -116,7 +116,7 @@ module Barby
       end
 
 
-      ISBN_10_CHECKSUM_MULTIPLIERS = [10,9,8,7,6,5,4,3,2]
+      ISBN_10_CHECKSUM_MULTIPLIERS = [10,9,8,7,6,5,4,3,2].freeze
 
       # Calculates the ISBN 10-digit checksum following the algorithm from:
       # http://en.wikipedia.org/wiki/International_Standard_Book_Number#ISBN-10_check_digit_calculation

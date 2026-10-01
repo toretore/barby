@@ -33,7 +33,7 @@ module Barby
       39 => [2809, 2213, 1579, 1219], 40 => [2953, 2331, 1663, 1273]
     }.sort
 
-    LEVELS = { :l => 0, :m => 1, :q => 2, :h => 3 }
+    LEVELS = { :l => 0, :m => 1, :q => 2, :h => 3 }.freeze
 
     attr_reader :data
     attr_writer :level, :size
@@ -53,7 +53,7 @@ module Barby
 
 
     def encoding
-      rqrcode.modules.map{|r| r.inject(''){|s,m| s << (m ? '1' : '0') } }
+      rqrcode.modules.map{|r| r.inject(+''){|s,m| s << (m ? '1' : '0') } }
     end
 
 
@@ -89,7 +89,7 @@ module Barby
 
 
   private
-  
+
     #Generate an RQRCode object with the available values
     def rqrcode
       RQRCode::QRCode.new(data, :level => level, :size => size)

@@ -5,12 +5,12 @@ module Barby
 
   class Code93 < Barcode1D
 
-    SHIFT_DOLLAR  = "\301" # ($)
-    SHIFT_PERCENT = "\302" # (%)
-    SHIFT_SLASH   = "\303" # (/)
-    SHIFT_PLUS    = "\304" # (+)
+    SHIFT_DOLLAR  = "\301".freeze # ($)
+    SHIFT_PERCENT = "\302".freeze # (%)
+    SHIFT_SLASH   = "\303".freeze # (/)
+    SHIFT_PLUS    = "\304".freeze # (+)
 
-    SHIFT_CHARACTERS = [SHIFT_DOLLAR, SHIFT_PERCENT, SHIFT_SLASH, SHIFT_PLUS]
+    SHIFT_CHARACTERS = [SHIFT_DOLLAR, SHIFT_PERCENT, SHIFT_SLASH, SHIFT_PLUS].freeze
 
     ENCODINGS = {
       "0" => "100010100", "1" => "101001000",
@@ -39,7 +39,7 @@ module Barby
       SHIFT_PERCENT => "111011010",
       SHIFT_SLASH   => "111010110",
       SHIFT_PLUS    => "100110010"
-    }
+    }.freeze
 
     EXTENDED_MAPPING = {
       "\000" => "\302U",    " "    => " ",        "@"  => "\302V", "`"    =>    "\302W",
@@ -74,7 +74,7 @@ module Barby
       "\035" => "\302C",    "="    => "\302H",    "]"  => "\302M", "}"    =>    "\302R",
       "\036" => "\302D",    ">"    => "\302I",    "^"  => "\302N", "~"    =>    "\302S",
       "\037" => "\302E",    "?"    => "\302J",    "_"  => "\302O", "\177" =>    "\302T"
-    }
+    }.freeze
 
     EXTENDED_CHARACTERS = EXTENDED_MAPPING.keys - ENCODINGS.keys
 
@@ -92,13 +92,13 @@ module Barby
       40 => "/", 41 => "+", 42 => "%",
       43 => SHIFT_DOLLAR, 44 => SHIFT_PERCENT,
       45 => SHIFT_SLASH,  46 => SHIFT_PLUS
-    }
+    }.freeze
     
     VALUES = CHARACTERS.invert
 
-    START_ENCODING     = '101011110' # *
-    STOP_ENCODING      = '101011110'
-    TERMINATE_ENCODING = '1'
+    START_ENCODING     = '101011110'.freeze # *
+    STOP_ENCODING      = '101011110'.freeze
+    TERMINATE_ENCODING = '1'.freeze
 
     attr_accessor :data
 
